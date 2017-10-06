@@ -41,6 +41,7 @@ Ale jeżeli linia komend jest dla Ciebie przerażająca przygotowaliśmy specjal
 
 ## Lekcja 1 - Szablon projektu
 
+### Co robimy
 Najpierw tytułem wstępu wyjaśnimy Ci co chcemy osiągnąć naszym kursem.
 Będziemy ćwiczyć programowanie, poprzez implementacje klasyki gier komputerowych: Space Invaders.
 
@@ -51,15 +52,22 @@ Reguły jakie chcemy spełnić:
 4. Statek może strzelać do kosmitów (przez dotknięcie powyżej 1/3 ekranu)
 5. Kosmici strzelają w stronę ziemi
 
-Struktura projektu:
+### Struktura projektu:
 
 ```
 |_ core
-|_ android-luncher
-|_ platform-luncher
+|_ android
+|_ desktop
 ```
 
-## Leckja 2 - Animacja postaci
+android - moduł zawiera małą aplikacje, która uruchamia naszą grę napisaną w libGDX
+
+desktop - moduł zawiera równie małą aplikację, która uruchamia naszą gre napisaną w libGDX
+
+core - to jest najważniejszy moduł wszystkie zmiany będziemy wprowadzać w tym module, jest to serce naszej implementacji
+
+
+## Lekcja 2 - Animacja postaci
 
 Przez postać rozumiemy rakiety, obcych ale także pociski.
 
@@ -69,7 +77,13 @@ W naszym przykładzie wykorzystamy technike stosowaną przez naszych dziadków ;
 
 //todo wczytywanie sprite, przyklad
 
-## Lekcja 3 -
+## Lekcja 3 - Poruszanie postacią
+
+## Lekcja 4 - Strzelanie
+
+## Lekcja 5 - Wykrywanie kolizji
+
+## Lekcja 6 -
 
 # Słownik
 * Repozytorium - odnosi się do systemów kontroli wersji, w tym wypadku GIT. Repozytorium przypomina bibliotekę z wszystkimi wersjami napisanego programu.
