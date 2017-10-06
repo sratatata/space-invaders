@@ -35,13 +35,41 @@ W celu ustawienia stanu zerowego dla danej lekcji wprowadź w linii komend:
 #> git clean -xf
 '''
 
-Ale jeżeli linia komend jest dla Ciebie przerażająca przygotowaliśmy specjalnie skrypty, które pomogą Ci w przechodzeniu pomiędzy lekcjami:
+Ale jeżeli linia komend jest dla Ciebie przerażająca przygotowaliśmy specjalnie skrypty w katalogu '''githelp''', które pomogą Ci w przechodzeniu pomiędzy lekcjami:
 
-''' lekcja.sh Lekcja-1 '''
-''' lekcja.bat Lekcja-1 '''
+''' .githelp/lekcja.bat Lekcja-1 '''
 
 ## Lekcja 1 - Szablon projektu
 
+Najpierw tytułem wstępu wyjaśnimy Ci co chcemy osiągnąć naszym kursem.
+Będziemy ćwiczyć programowanie, poprzez implementacje klasyki gier komputerowych: Space Invaders.
+
+Reguły jakie chcemy spełnić:
+1. Wrogowie znajdują się w trzech rzędach na środku ekranu
+2. Statek znajduje się na dole ekranu
+3. Statek porusza się w lewo i prawo w płaszyźnie ziemi ( pojawia się w miejscu dotknięcia, lub można go przeciągać)
+4. Statek może strzelać do kosmitów (przez dotknięcie powyżej 1/3 ekranu)
+5. Kosmici strzelają w stronę ziemi
+
+Struktura projektu:
+
+```
+|_ core
+|_ android-luncher
+|_ platform-luncher
+```
+
+## Leckja 2 - Animacja postaci
+
+Przez postać rozumiemy rakiety, obcych ale także pociski.
+
+W naszym przykładzie wykorzystamy technike stosowaną przez naszych dziadków ;) zwaną Sprite animation. Podejście to polega na przechowywaniu grafiki w plikach typy mapa bitowa, w tym wypadku png. Kolejne klatki są zapisane w tym samym pliku w postaci kolumn i wierszy. Technika ta polega na indeksowaniu i wybieraniu kolejnych sekwencji z pliku.
+
+![Sprite z Rakieta](/space-invaders/graphics/rakieta.png)
+
+//todo wczytywanie sprite, przyklad
+
+## Lekcja 3 -
 
 # Słownik
 * Repozytorium - odnosi się do systemów kontroli wersji, w tym wypadku GIT. Repozytorium przypomina bibliotekę z wszystkimi wersjami napisanego programu.
