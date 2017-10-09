@@ -36,69 +36,46 @@ public class SpaceInvaders extends ApplicationAdapter {
 	private static final int WYSOKOSC = 480;
 	private static final int SZEROKOSC = 800;
 	private static final int ILE_LINII_WROGOW = 3;
-	private static final int ILU_WROGOW_W_LINII = 14;
+	private static final int ILU_WROGOW_W_LINII = 10;
 	private static final int WYSOKOSC_WROGA = 40;
 	private static final int SZEROKOSC_WROGA = 40;
 	private static final int ODSTEP_POZIOMY_MIEDZY_WROGAMI = 12;
 	private static final int ODSTEP_PIONOWY_MIEDZY_WROGAMI = 8;
 
-	private Texture dropImage;
-	private Texture bucketImage;
-
-	private Texture rakietaImage;
-	private Texture pociskImage;
-	private Texture pociskObcyImage;
-
-	private Texture wrogImage;
-	//	private Sound dropSound;
-//	private Music rainMusic;
 	private SpriteBatch batch;
 	private OrthographicCamera camera;
-	private Rectangle rakieta;
+	private Rectangle rakietaRectangle;
 	List<Wrog> wrogowie = new ArrayList<Wrog>();
 
 	private List<Rectangle> naszeStrzaly = new ArrayList<Rectangle>();
 	private List<Rectangle> wrogieStrzaly = new ArrayList<Rectangle>();
 	private long czasOstatniegoStrzalu;
 	private boolean koniecGry = false;
-	private Animation<TextureRegion> rakietaAnimacja;
-	private Animation<TextureRegion> wrogAnimacja;
-	private Animation<TextureRegion> pociskAnimacja;
-	private Animation<TextureRegion> pociskWrogAnimacja;
 	float czasAnimacji;
+
+	ZarzadcaBytow.Byt rakieta;
+	ZarzadcaBytow.Byt wrog;
+	ZarzadcaBytow.Byt pocisk;
+	ZarzadcaBytow.Byt obcyPocisk;
 
 	@Override
 	public void create() {
-		// load the images for the droplet and the bucket, 64x64 pixels each
-		dropImage = new Texture(Gdx.files.internal("droplet.png"));
-		bucketImage = new Texture(Gdx.files.internal("bucket.png"));
-		wrogImage = new Texture(Gdx.files.internal("obcy.png"));
-		rakietaImage = new Texture(Gdx.files.internal("rakieta.png"));
-		pociskImage = new Texture(Gdx.files.internal("pocisk-rakieta.png"));
-		pociskObcyImage = new Texture(Gdx.files.internal("obcy-plazma.png"));
-
-		rakietaAnimacja = przygotujAnimacje(rakietaImage, 4, 2);
-		wrogAnimacja = przygotujAnimacje(wrogImage, 4, 2);
-		pociskAnimacja = przygotujAnimacje(pociskImage, 5, 1);
-		pociskWrogAnimacja = przygotujAnimacje(pociskObcyImage, 3, 3);
-		// load the drop sound effect and the rain background "music"
-		//dropSound = Gdx.audio.newSound(Gdx.files.internal("drop.wav"));
-		//rainMusic = Gdx.audio.newMusic(Gdx.files.internal("rain.mp3"));
-
-		// start the playback of the background music immediately
-		//rainMusic.setLooping(true);
-		//rainMusic.play();
+		rakieta = ZarzadcaBytow.Byt.wczytajZPliku(Gdx.files.internal("rakieta.png"),4,2);
+		wrog = ZarzadcaBytow.Byt.wczytajZPliku(Gdx.files.internal("obcy.png"),4,2);
+		pocisk = ZarzadcaBytow.Byt.wczytajZPliku(Gdx.files.internal("pocisk-rakieta.png"),5,1);
+		obcyPocisk = ZarzadcaBytow.Byt.wczytajZPliku(Gdx.files.internal("obcy-plazma.png"),3,3);
 
 		// create the camera and the SpriteBatch
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 800, 480);
 		batch = new SpriteBatch();
-		// create a Rectangle to logically represent the bucket
-		rakieta = new Rectangle();
-		rakieta.x = 800 / 2 - 64 / 2; // center the bucket horizontally
-		rakieta.y = 20; // bottom left corner of the bucket is 20 pixels above the bottom screen edge
-		rakieta.width = 64;
-		rakieta.height = 64;
+
+		// create a Rectangle to logically represent the rocket
+		rakietaRectangle = new Rectangle();
+		rakietaRectangle.x = 800 / 2 - 64 / 2; // center the bucket horizontally
+		rakietaRectangle.y = 20; // bottom left corner of the bucket is 20 pixels above the bottom screen edge
+		rakietaRectangle.width = 40;
+		rakietaRectangle.height = 40;
 
 		int wcieciePoziome = (SZEROKOSC - ILU_WROGOW_W_LINII * (SZEROKOSC_WROGA + ODSTEP_POZIOMY_MIEDZY_WROGAMI))/2;
 		for (int y = 0; y < ILE_LINII_WROGOW; y++) {
@@ -121,19 +98,7 @@ public class SpaceInvaders extends ApplicationAdapter {
 		czasAnimacji = 0f;
 	}
 
-	private Animation<TextureRegion> przygotujAnimacje(Texture tekstura, int klatkiKolumny, int klatkiWiersze){
-		TextureRegion[][] tmp = TextureRegion.split(tekstura,
-				tekstura.getWidth()/klatkiKolumny,
-				tekstura.getHeight()/klatkiWiersze);
-		TextureRegion[] teksturaKlatki = new TextureRegion[klatkiWiersze * klatkiKolumny];
-		int indeks = 0;
-		for (int i = 0; i < klatkiWiersze; i++){
-			for (int j = 0; j < klatkiKolumny; j++){
-				teksturaKlatki[indeks++] = tmp[i][j];
-			}
-		}
-		return new Animation<TextureRegion>(0.025f, teksturaKlatki);
-	}
+
 
 
 	private void naszStrzal() {
@@ -141,8 +106,8 @@ public class SpaceInvaders extends ApplicationAdapter {
 			return;
 		}
 		Rectangle nowyStrzal = new Rectangle();
-		nowyStrzal.x = rakieta.getX();
-		nowyStrzal.y = rakieta.getY();
+		nowyStrzal.x = rakietaRectangle.getX();
+		nowyStrzal.y = rakietaRectangle.getY();
 		;
 		nowyStrzal.width = 10;
 		nowyStrzal.height = 10;
@@ -175,17 +140,17 @@ public class SpaceInvaders extends ApplicationAdapter {
 		// all drops
 
 		czasAnimacji += Gdx.graphics.getDeltaTime();
-		TextureRegion klatkaRakiety = rakietaAnimacja.getKeyFrame(czasAnimacji, true);
-		TextureRegion klatkaPocisk = pociskAnimacja.getKeyFrame(czasAnimacji, true);
-		TextureRegion klatkaPociskWrog = pociskWrogAnimacja.getKeyFrame(czasAnimacji, true);
-		TextureRegion klatkaWrog = wrogAnimacja.getKeyFrame(czasAnimacji, true);
+		TextureRegion klatkaRakiety = rakieta.klatkaDoWyrenderowania(czasAnimacji);
+		TextureRegion klatkaPocisk = pocisk.klatkaDoWyrenderowania(czasAnimacji);
+		TextureRegion klatkaPociskWrog = obcyPocisk.klatkaDoWyrenderowania(czasAnimacji);
+		TextureRegion klatkaWrog = wrog.klatkaDoWyrenderowania(czasAnimacji);
 
 		batch.begin();
 		if (koniecGry){
 			BitmapFont font = new BitmapFont();
 			font.draw(batch, "GAME OVER", 10, 10);
 		} else {
-			batch.draw(klatkaRakiety, rakieta.x, rakieta.y);
+			batch.draw(klatkaRakiety, rakietaRectangle.x, rakietaRectangle.y);
 			for (Rectangle wrogiStrzal : wrogieStrzaly) {
 				batch.draw(klatkaPociskWrog, wrogiStrzal.x, wrogiStrzal.y);
 			}
@@ -204,18 +169,18 @@ public class SpaceInvaders extends ApplicationAdapter {
 				Vector3 touchPos = new Vector3();
 				touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 				camera.unproject(touchPos);
-				rakieta.x = touchPos.x - 40 / 2;
+				rakietaRectangle.x = touchPos.x - 40 / 2;
 			} else {
 				naszStrzal();
 			}
 		}
-		if (Gdx.input.isKeyPressed(Keys.LEFT)) rakieta.x -= 200 * Gdx.graphics.getDeltaTime();
-		if (Gdx.input.isKeyPressed(Keys.RIGHT)) rakieta.x += 200 * Gdx.graphics.getDeltaTime();
+		if (Gdx.input.isKeyPressed(Keys.LEFT)) rakietaRectangle.x -= 200 * Gdx.graphics.getDeltaTime();
+		if (Gdx.input.isKeyPressed(Keys.RIGHT)) rakietaRectangle.x += 200 * Gdx.graphics.getDeltaTime();
 
 
 		// make sure the bucket stays within the screen bounds
-		if (rakieta.x < 0) rakieta.x = 0;
-		if (rakieta.x > 800 - 40) rakieta.x = 800 - 40;
+		if (rakietaRectangle.x < 0) rakietaRectangle.x = 0;
+		if (rakietaRectangle.x > 800 - 20) rakietaRectangle.x = 800 - 20;
 
 		for (Wrog wrog : wrogowie) {
 			if (wrog.mozeStrzelac &&
@@ -282,7 +247,7 @@ public class SpaceInvaders extends ApplicationAdapter {
 			wrogiStrzal.y -= 200 * Gdx.graphics.getDeltaTime();
 			if (wrogiStrzal.y + 10 < 0) iter.remove();
 
-			if (wrogiStrzal.overlaps(rakieta)) {
+			if (wrogiStrzal.overlaps(rakietaRectangle)) {
 				koniecGry = true;
 			}
 		}
@@ -290,11 +255,6 @@ public class SpaceInvaders extends ApplicationAdapter {
 
 	@Override
 	public void dispose() {
-		// dispose of all the native resources
-		dropImage.dispose();
-		bucketImage.dispose();
-		//dropSound.dispose();
-		//	rainMusic.dispose();
 		batch.dispose();
 	}
 }
