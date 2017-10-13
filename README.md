@@ -28,6 +28,8 @@ Android w odróżnieniu od konkurencji w postaci iOS(Apple), Windows Phone (Micr
 
 (Tu opis plus screeny space invaders)
 
+![Space Invaders](./static/space-invaders.png)
+
 ## Organizacja Tutoriala
 
 Niniejszy kurs podzielony został na lekcje. Każda z lekcji pomoże Ci zrozumieć kolejne aspekty programowania.
