@@ -111,6 +111,28 @@ public class SpaceInvaders extends ApplicationAdapter {
             font.draw(batch, "YOU WON!", 10, 10);
         });
 
+        nadzorcaGry.setGraSieToczy(batch -> {
+            czasAnimacji += Gdx.graphics.getDeltaTime();
+
+            TextureRegion klatkaRakiety = rakieta.klatkaDoWyrenderowania(czasAnimacji);
+            batch.draw(klatkaRakiety, rakietaRectangle.x, rakietaRectangle.y);
+
+            TextureRegion klatkaPociskWrog = obcyPocisk.klatkaDoWyrenderowania(czasAnimacji);
+            for (Rectangle wrogiStrzal : wrogieStrzaly) {
+                batch.draw(klatkaPociskWrog, wrogiStrzal.x, wrogiStrzal.y);
+            }
+
+            TextureRegion klatkaPocisk = pocisk.klatkaDoWyrenderowania(czasAnimacji);
+            for (Rectangle naszStrzal : naszeStrzaly) {
+                batch.draw(klatkaPocisk, naszStrzal.x, naszStrzal.y);
+            }
+
+            TextureRegion klatkaWrog = wrog.klatkaDoWyrenderowania(czasAnimacji);
+            for (Wrog wrog : wrogowie) {
+                batch.draw(klatkaWrog, wrog.pole.x, wrog.pole.y);
+            }
+
+        });
 
     }
 
@@ -152,29 +174,6 @@ public class SpaceInvaders extends ApplicationAdapter {
 
         // begin a new batch and draw the bucket and
         // all drops
-
-        czasAnimacji += Gdx.graphics.getDeltaTime();
-        TextureRegion klatkaRakiety = rakieta.klatkaDoWyrenderowania(czasAnimacji);
-        TextureRegion klatkaPocisk = pocisk.klatkaDoWyrenderowania(czasAnimacji);
-        TextureRegion klatkaPociskWrog = obcyPocisk.klatkaDoWyrenderowania(czasAnimacji);
-        TextureRegion klatkaWrog = wrog.klatkaDoWyrenderowania(czasAnimacji);
-
-
-        //todo move when dependencies would be loose
-        nadzorcaGry.setGraSieToczy(batch -> {
-            batch.draw(klatkaRakiety, rakietaRectangle.x, rakietaRectangle.y);
-            for (Rectangle wrogiStrzal : wrogieStrzaly) {
-                batch.draw(klatkaPociskWrog, wrogiStrzal.x, wrogiStrzal.y);
-            }
-            for (Rectangle naszStrzal : naszeStrzaly) {
-                batch.draw(klatkaPocisk, naszStrzal.x, naszStrzal.y);
-            }
-            for (Wrog wrog : wrogowie) {
-                batch.draw(klatkaWrog, wrog.pole.x, wrog.pole.y);
-            }
-
-        });
-
         batch.begin();
             nadzorcaGry.render(batch);
         batch.end();
