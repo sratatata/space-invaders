@@ -74,33 +74,15 @@ public class SpaceInvaders extends ApplicationAdapter {
         batch = new SpriteBatch();
 
         // create a Rectangle to logically represent the rocket
-        rakietaRectangle = new Rectangle();
-        rakietaRectangle.x = 800 / 2 - 64 / 2; // center the bucket horizontally
-        rakietaRectangle.y = 20; // bottom left corner of the bucket is 20 pixels above the bottom screen edge
-        rakietaRectangle.width = 40;
-        rakietaRectangle.height = 40;
+        dodajRakiete();
 
-        int wcieciePoziome = (SZEROKOSC - ILU_WROGOW_W_LINII * (SZEROKOSC_WROGA + ODSTEP_POZIOMY_MIEDZY_WROGAMI)) / 2;
-        for (int y = 0; y < ILE_LINII_WROGOW; y++) {
-            for (int x = 0; x < ILU_WROGOW_W_LINII; x++) {
-                Rectangle poleWroga = new Rectangle();
-                poleWroga.x = wcieciePoziome + x * (SZEROKOSC_WROGA + ODSTEP_POZIOMY_MIEDZY_WROGAMI);
-                poleWroga.y = WYSOKOSC - WYSOKOSC_WROGA - y * (WYSOKOSC_WROGA + ODSTEP_PIONOWY_MIEDZY_WROGAMI);
-                poleWroga.height = WYSOKOSC_WROGA;
-                poleWroga.width = SZEROKOSC_WROGA;
-
-                boolean mozeStrzelac = y == ILE_LINII_WROGOW - 1;
-
-                long czasOstatniegoStrzalu = TimeUtils.nanoTime();
-
-                wrogowie.add(new Wrog(poleWroga, mozeStrzelac, czasOstatniegoStrzalu));
-            }
-        }
+        dodajWrogow();
 
         // create the raindrops array and spawn the first raindrop
         czasAnimacji = 0f;
 
         nadzorcaGry = new NadzorcaGry();
+
         nadzorcaGry.setObserwatorGdyKoniecGry(batch -> {
             BitmapFont font = new BitmapFont();
             font.draw(batch, "GAME OVER", 10, 10);
@@ -134,6 +116,33 @@ public class SpaceInvaders extends ApplicationAdapter {
 
         });
 
+    }
+
+    private void dodajRakiete() {
+        rakietaRectangle = new Rectangle();
+        rakietaRectangle.x = 800 / 2 - 64 / 2; // center the bucket horizontally
+        rakietaRectangle.y = 20; // bottom left corner of the bucket is 20 pixels above the bottom screen edge
+        rakietaRectangle.width = 40;
+        rakietaRectangle.height = 40;
+    }
+
+    private void dodajWrogow() {
+        int wcieciePoziome = (SZEROKOSC - ILU_WROGOW_W_LINII * (SZEROKOSC_WROGA + ODSTEP_POZIOMY_MIEDZY_WROGAMI)) / 2;
+        for (int y = 0; y < ILE_LINII_WROGOW; y++) {
+            for (int x = 0; x < ILU_WROGOW_W_LINII; x++) {
+                Rectangle poleWroga = new Rectangle();
+                poleWroga.x = wcieciePoziome + x * (SZEROKOSC_WROGA + ODSTEP_POZIOMY_MIEDZY_WROGAMI);
+                poleWroga.y = WYSOKOSC - WYSOKOSC_WROGA - y * (WYSOKOSC_WROGA + ODSTEP_PIONOWY_MIEDZY_WROGAMI);
+                poleWroga.height = WYSOKOSC_WROGA;
+                poleWroga.width = SZEROKOSC_WROGA;
+
+                boolean mozeStrzelac = y == ILE_LINII_WROGOW - 1;
+
+                long czasOstatniegoStrzalu = TimeUtils.nanoTime();
+
+                wrogowie.add(new Wrog(poleWroga, mozeStrzelac, czasOstatniegoStrzalu));
+            }
+        }
     }
 
 
