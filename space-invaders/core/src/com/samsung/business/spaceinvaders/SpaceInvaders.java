@@ -46,18 +46,16 @@ public class SpaceInvaders extends ApplicationAdapter {
 
     private SpriteBatch batch;
     private OrthographicCamera camera;
-    private Rectangle rakietaRectangle;
     List<Wrog> wrogowie = new ArrayList<Wrog>();
 
-    private List<Rectangle> naszeStrzaly = new ArrayList<Rectangle>();
+
     private List<Rectangle> wrogieStrzaly = new ArrayList<Rectangle>();
-    private long czasOstatniegoStrzalu;
     float czasAnimacji;
 
     NadzorcaGry nadzorcaGry;
 	ZarzadcaBytow zarzadcaBytow;
 
-	ZarzadcaBytow.Byt rakieta;
+    Rakieta player;
     ZarzadcaBytow.Byt wrog;
     ZarzadcaBytow.Byt pocisk;
     ZarzadcaBytow.Byt obcyPocisk;
@@ -66,7 +64,8 @@ public class SpaceInvaders extends ApplicationAdapter {
     public void create() {
 		zarzadcaBytow = ZarzadcaBytow.zaladujByty();
 
-        rakieta = zarzadcaBytow.znajdzByt("rakieta");
+        player = new Rakieta(zarzadcaBytow.znajdzByt("rakieta"));
+
         wrog = zarzadcaBytow.znajdzByt("wrog");
         pocisk = zarzadcaBytow.znajdzByt("pocisk");
         obcyPocisk = zarzadcaBytow.znajdzByt("obcyPocisk");
@@ -75,9 +74,6 @@ public class SpaceInvaders extends ApplicationAdapter {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
         batch = new SpriteBatch();
-
-        // create a Rectangle to logically represent the rocket
-        dodajRakiete();
 
         dodajWrogow();
 
@@ -99,8 +95,7 @@ public class SpaceInvaders extends ApplicationAdapter {
         nadzorcaGry.setGraSieToczy(batch -> {
             czasAnimacji += Gdx.graphics.getDeltaTime();
 
-            TextureRegion klatkaRakiety = rakieta.klatkaDoWyrenderowania(czasAnimacji);
-            batch.draw(klatkaRakiety, rakietaRectangle.x, rakietaRectangle.y);
+            player.render(batch, czasAnimacji);
 
             TextureRegion klatkaPociskWrog = obcyPocisk.klatkaDoWyrenderowania(czasAnimacji);
             for (Rectangle wrogiStrzal : wrogieStrzaly) {
@@ -108,7 +103,7 @@ public class SpaceInvaders extends ApplicationAdapter {
             }
 
             TextureRegion klatkaPocisk = pocisk.klatkaDoWyrenderowania(czasAnimacji);
-            for (Rectangle naszStrzal : naszeStrzaly) {
+            for (Rectangle naszStrzal : player.naszeStrzaly) {
                 batch.draw(klatkaPocisk, naszStrzal.x, naszStrzal.y);
             }
 
@@ -121,13 +116,7 @@ public class SpaceInvaders extends ApplicationAdapter {
 
     }
 
-    private void dodajRakiete() {
-        rakietaRectangle = new Rectangle();
-        rakietaRectangle.x = 800 / 2 - 64 / 2; // center the bucket horizontally
-        rakietaRectangle.y = 20; // bottom left corner of the bucket is 20 pixels above the bottom screen edge
-        rakietaRectangle.width = 40;
-        rakietaRectangle.height = 40;
-    }
+
 
     private void dodajWrogow() {
         int wcieciePoziome = (SZEROKOSC - ILU_WROGOW_W_LINII * (SZEROKOSC_WROGA + ODSTEP_POZIOMY_MIEDZY_WROGAMI)) / 2;
@@ -149,23 +138,6 @@ public class SpaceInvaders extends ApplicationAdapter {
     }
 
 
-    private void naszStrzal() {
-        if (!mozemyStrzelic()) {
-            return;
-        }
-        Rectangle nowyStrzal = new Rectangle();
-        nowyStrzal.x = rakietaRectangle.getX();
-        nowyStrzal.y = rakietaRectangle.getY();
-        ;
-        nowyStrzal.width = 10;
-        nowyStrzal.height = 10;
-        naszeStrzaly.add(nowyStrzal);
-        czasOstatniegoStrzalu = TimeUtils.nanoTime();
-    }
-
-    private boolean mozemyStrzelic() {
-        return TimeUtils.nanoTime() - czasOstatniegoStrzalu > 600 * 1000 * 1000;
-    }
 
 
     @Override
@@ -194,26 +166,7 @@ public class SpaceInvaders extends ApplicationAdapter {
     }
 
     private void updateState() {
-        // process user input
-        if (Gdx.input.isTouched()) {
-            if (Gdx.input.getY() > 360) {
-                Vector3 touchPos = new Vector3();
-                touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-                camera.unproject(touchPos);
-                rakietaRectangle.x = touchPos.x - 40 / 2;
-            } else {
-                naszStrzal();
-            }
-        }
-        if (Gdx.input.isKeyPressed(Keys.LEFT))
-            rakietaRectangle.x -= 200 * Gdx.graphics.getDeltaTime();
-        if (Gdx.input.isKeyPressed(Keys.RIGHT))
-            rakietaRectangle.x += 200 * Gdx.graphics.getDeltaTime();
-
-
-        // make sure the bucket stays within the screen bounds
-        if (rakietaRectangle.x < 0) rakietaRectangle.x = 0;
-        if (rakietaRectangle.x > 800 - 20) rakietaRectangle.x = 800 - 20;
+        player.updateState(camera);
 
         for (Wrog wrog : wrogowie) {
             if (wrog.mozeStrzelac &&
@@ -241,7 +194,7 @@ public class SpaceInvaders extends ApplicationAdapter {
     }
 
     private void obsluzNaszeStrzaly() {
-        Iterator<Rectangle> iter = naszeStrzaly.iterator();
+        Iterator<Rectangle> iter = player.naszeStrzaly.iterator();
         while (iter.hasNext()) {
             Rectangle naszStrzal = iter.next();
             naszStrzal.y += 200 * Gdx.graphics.getDeltaTime();
@@ -280,7 +233,7 @@ public class SpaceInvaders extends ApplicationAdapter {
             wrogiStrzal.y -= 200 * Gdx.graphics.getDeltaTime();
             if (wrogiStrzal.y + 10 < 0) iter.remove();
 
-            if (wrogiStrzal.overlaps(rakietaRectangle)) {
+            if (wrogiStrzal.overlaps(player.rakietaRectangle)) {
                 nadzorcaGry.koniecGry();
             }
         }
