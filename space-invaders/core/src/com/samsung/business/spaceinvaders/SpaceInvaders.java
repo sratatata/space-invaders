@@ -55,18 +55,21 @@ public class SpaceInvaders extends ApplicationAdapter {
     float czasAnimacji;
 
     NadzorcaGry nadzorcaGry;
+	ZarzadcaBytow zarzadcaBytow;
 
-    ZarzadcaBytow.Byt rakieta;
+	ZarzadcaBytow.Byt rakieta;
     ZarzadcaBytow.Byt wrog;
     ZarzadcaBytow.Byt pocisk;
     ZarzadcaBytow.Byt obcyPocisk;
 
     @Override
     public void create() {
-        rakieta = ZarzadcaBytow.Byt.wczytajZPliku(Gdx.files.internal("rakieta.png"), 4, 2);
-        wrog = ZarzadcaBytow.Byt.wczytajZPliku(Gdx.files.internal("obcy.png"), 4, 2);
-        pocisk = ZarzadcaBytow.Byt.wczytajZPliku(Gdx.files.internal("pocisk-rakieta.png"), 5, 1);
-        obcyPocisk = ZarzadcaBytow.Byt.wczytajZPliku(Gdx.files.internal("obcy-plazma.png"), 3, 3);
+		zarzadcaBytow = ZarzadcaBytow.zaladujByty();
+
+        rakieta = zarzadcaBytow.znajdzByt("rakieta");
+        wrog = zarzadcaBytow.znajdzByt("wrog");
+        pocisk = zarzadcaBytow.znajdzByt("pocisk");
+        obcyPocisk = zarzadcaBytow.znajdzByt("obcyPocisk");
 
         // create the camera and the SpriteBatch
         camera = new OrthographicCamera();
