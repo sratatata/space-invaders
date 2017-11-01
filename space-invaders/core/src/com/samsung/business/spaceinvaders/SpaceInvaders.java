@@ -2,19 +2,13 @@ package com.samsung.business.spaceinvaders;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
 
 import java.util.ArrayList;
@@ -24,20 +18,14 @@ import java.util.List;
 public class SpaceInvaders extends ApplicationAdapter {
 
     private static final int WYSOKOSC = 480;
-    private static final int SZEROKOSC = 800;
-    private static final int ILE_LINII_WROGOW = 3;
-    private static final int ILU_WROGOW_W_LINII = 10;
-    private static final int WYSOKOSC_WROGA = 40;
-    private static final int SZEROKOSC_WROGA = 40;
-    private static final int ODSTEP_POZIOMY_MIEDZY_WROGAMI = 12;
-    private static final int ODSTEP_PIONOWY_MIEDZY_WROGAMI = 8;
+
 
     private SpriteBatch batch;
     private OrthographicCamera camera;
-    List<Wrog> wrogowie = new ArrayList<Wrog>();
+    List<Wrog> wrogowie;
 
 
-    private List<Rectangle> wrogieStrzaly = new ArrayList<Rectangle>();
+    private List<WrogiPocisk> wrogieStrzaly = new ArrayList<>();
     float czasAnimacji;
 
     NadzorcaGry nadzorcaGry;
@@ -61,7 +49,7 @@ public class SpaceInvaders extends ApplicationAdapter {
         camera.setToOrtho(false, 800, 480);
         batch = new SpriteBatch();
 
-        dodajWrogow();
+        wrogowie = Wrog.dodajWrogow(zarzadcaBytow, wrogieStrzaly);
 
         // create the raindrops array and spawn the first raindrop
         czasAnimacji = 0f;
@@ -84,8 +72,9 @@ public class SpaceInvaders extends ApplicationAdapter {
             player.render(batch, czasAnimacji);
 
             TextureRegion klatkaPociskWrog = obcyPocisk.klatkaDoWyrenderowania(czasAnimacji);
-            for (Rectangle wrogiStrzal : wrogieStrzaly) {
-                batch.draw(klatkaPociskWrog, wrogiStrzal.x, wrogiStrzal.y);
+
+            for (WrogiPocisk wrogiPocisk : wrogieStrzaly) {
+                batch.draw(klatkaPociskWrog, wrogiPocisk.rectangle.x, wrogiPocisk.rectangle.y);
             }
 
             TextureRegion klatkaPocisk = pocisk.klatkaDoWyrenderowania(czasAnimacji);
@@ -100,30 +89,6 @@ public class SpaceInvaders extends ApplicationAdapter {
         });
 
     }
-
-
-
-    private void dodajWrogow() {
-        int wcieciePoziome = (SZEROKOSC - ILU_WROGOW_W_LINII * (SZEROKOSC_WROGA + ODSTEP_POZIOMY_MIEDZY_WROGAMI)) / 2;
-        for (int y = 0; y < ILE_LINII_WROGOW; y++) {
-            for (int x = 0; x < ILU_WROGOW_W_LINII; x++) {
-                Rectangle poleWroga = new Rectangle();
-                poleWroga.x = wcieciePoziome + x * (SZEROKOSC_WROGA + ODSTEP_POZIOMY_MIEDZY_WROGAMI);
-                poleWroga.y = WYSOKOSC - WYSOKOSC_WROGA - y * (WYSOKOSC_WROGA + ODSTEP_PIONOWY_MIEDZY_WROGAMI);
-                poleWroga.height = WYSOKOSC_WROGA;
-                poleWroga.width = SZEROKOSC_WROGA;
-
-                boolean mozeStrzelac = y == ILE_LINII_WROGOW - 1;
-
-                long czasOstatniegoStrzalu = TimeUtils.nanoTime();
-
-                wrogowie.add(new Wrog(zarzadcaBytow.znajdzByt("wrog"), poleWroga, mozeStrzelac, czasOstatniegoStrzalu));
-            }
-        }
-    }
-
-
-
 
     @Override
     public void render() {
@@ -155,18 +120,7 @@ public class SpaceInvaders extends ApplicationAdapter {
 
         for (Wrog wrog : wrogowie) {
             wrog.updateState(camera);
-            if (wrog.mozeStrzelac &&
-                    TimeUtils.nanoTime() - wrog.czasOstatniegoStrzalu >
-                            MathUtils.random(5000000000L, 15000000000L)
-                    ) {
-                wrog.czasOstatniegoStrzalu = TimeUtils.nanoTime();
-                Rectangle wrogiStrzal = new Rectangle();
-                wrogiStrzal.x = wrog.pole.getX();
-                wrogiStrzal.y = wrog.pole.getY();
-                wrogiStrzal.height = 10;
-                wrogiStrzal.width = 10;
-                wrogieStrzaly.add(wrogiStrzal);
-            }
+            wrog.strzal();
         }
 
         obsluzWrogieStrzaly();
@@ -213,13 +167,13 @@ public class SpaceInvaders extends ApplicationAdapter {
 
     private void obsluzWrogieStrzaly() {
 //        System.out.println("DRop obsluzWrogieStrzaly, "+wrogieStrzaly.size());
-        Iterator<Rectangle> iter = wrogieStrzaly.iterator();
+        Iterator<WrogiPocisk> iter = wrogieStrzaly.iterator();
         while (iter.hasNext()) {
-            Rectangle wrogiStrzal = iter.next();
-            wrogiStrzal.y -= 200 * Gdx.graphics.getDeltaTime();
-            if (wrogiStrzal.y + 10 < 0) iter.remove();
+            WrogiPocisk wrogiPocisk = iter.next();
+            wrogiPocisk.rectangle.y -= 200 * Gdx.graphics.getDeltaTime();
+            if (wrogiPocisk.rectangle.y + 10 < 0) iter.remove();
 
-            if (wrogiStrzal.overlaps(player.rakietaRectangle)) {
+            if (wrogiPocisk.rectangle.overlaps(player.rakietaRectangle)) {
                 nadzorcaGry.koniecGry();
             }
         }
