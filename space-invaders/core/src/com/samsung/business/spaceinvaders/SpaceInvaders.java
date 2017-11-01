@@ -23,18 +23,6 @@ import java.util.List;
 
 public class SpaceInvaders extends ApplicationAdapter {
 
-    private static class Wrog {
-        public Rectangle pole;
-        public boolean mozeStrzelac;
-        public long czasOstatniegoStrzalu;
-
-        public Wrog(Rectangle pole, boolean mozeStrzelac, long czasOstatniegoStrzalu) {
-            this.pole = pole;
-            this.mozeStrzelac = mozeStrzelac;
-            this.czasOstatniegoStrzalu = czasOstatniegoStrzalu;
-        }
-    }
-
     private static final int WYSOKOSC = 480;
     private static final int SZEROKOSC = 800;
     private static final int ILE_LINII_WROGOW = 3;
@@ -56,7 +44,6 @@ public class SpaceInvaders extends ApplicationAdapter {
 	ZarzadcaBytow zarzadcaBytow;
 
     Rakieta player;
-    ZarzadcaBytow.Byt wrog;
     ZarzadcaBytow.Byt pocisk;
     ZarzadcaBytow.Byt obcyPocisk;
 
@@ -66,7 +53,6 @@ public class SpaceInvaders extends ApplicationAdapter {
 
         player = new Rakieta(zarzadcaBytow.znajdzByt("rakieta"));
 
-        wrog = zarzadcaBytow.znajdzByt("wrog");
         pocisk = zarzadcaBytow.znajdzByt("pocisk");
         obcyPocisk = zarzadcaBytow.znajdzByt("obcyPocisk");
 
@@ -107,9 +93,8 @@ public class SpaceInvaders extends ApplicationAdapter {
                 batch.draw(klatkaPocisk, naszStrzal.x, naszStrzal.y);
             }
 
-            TextureRegion klatkaWrog = wrog.klatkaDoWyrenderowania(czasAnimacji);
             for (Wrog wrog : wrogowie) {
-                batch.draw(klatkaWrog, wrog.pole.x, wrog.pole.y);
+                wrog.render(batch, czasAnimacji);
             }
 
         });
@@ -132,7 +117,7 @@ public class SpaceInvaders extends ApplicationAdapter {
 
                 long czasOstatniegoStrzalu = TimeUtils.nanoTime();
 
-                wrogowie.add(new Wrog(poleWroga, mozeStrzelac, czasOstatniegoStrzalu));
+                wrogowie.add(new Wrog(zarzadcaBytow.znajdzByt("wrog"), poleWroga, mozeStrzelac, czasOstatniegoStrzalu));
             }
         }
     }
@@ -169,6 +154,7 @@ public class SpaceInvaders extends ApplicationAdapter {
         player.updateState(camera);
 
         for (Wrog wrog : wrogowie) {
+            wrog.updateState(camera);
             if (wrog.mozeStrzelac &&
                     TimeUtils.nanoTime() - wrog.czasOstatniegoStrzalu >
                             MathUtils.random(5000000000L, 15000000000L)
