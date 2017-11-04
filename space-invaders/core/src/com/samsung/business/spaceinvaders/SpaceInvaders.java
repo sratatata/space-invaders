@@ -22,7 +22,7 @@ public class SpaceInvaders extends ApplicationAdapter {
 
     private SpriteBatch batch;
     private OrthographicCamera camera;
-    List<Wrog> wrogowie;
+
 
 
     private List<WrogiPocisk> wrogieStrzaly = new ArrayList<>();
@@ -32,6 +32,8 @@ public class SpaceInvaders extends ApplicationAdapter {
 	ZarzadcaBytow zarzadcaBytow;
 
     Rakieta player;
+    Inwazja inwazja;
+
     ZarzadcaBytow.Byt pocisk;
     ZarzadcaBytow.Byt obcyPocisk;
 
@@ -49,7 +51,7 @@ public class SpaceInvaders extends ApplicationAdapter {
         camera.setToOrtho(false, 800, 480);
         batch = new SpriteBatch();
 
-        wrogowie = Wrog.dodajWrogow(zarzadcaBytow, wrogieStrzaly);
+        inwazja = Inwazja.nalot(zarzadcaBytow, wrogieStrzaly);
 
         // create the raindrops array and spawn the first raindrop
         czasAnimacji = 0f;
@@ -82,9 +84,7 @@ public class SpaceInvaders extends ApplicationAdapter {
                 batch.draw(klatkaPocisk, naszStrzal.x, naszStrzal.y);
             }
 
-            for (Wrog wrog : wrogowie) {
-                wrog.render(batch, czasAnimacji);
-            }
+            inwazja.render(batch, czasAnimacji);
 
         });
 
@@ -118,17 +118,14 @@ public class SpaceInvaders extends ApplicationAdapter {
     private void updateState() {
         player.updateState(camera);
 
-        for (Wrog wrog : wrogowie) {
-            wrog.updateState(camera);
-            wrog.strzal();
-        }
+        inwazja.updateState(camera);
 
         obsluzWrogieStrzaly();
 
         obsluzNaszeStrzaly();
 
 
-        if (wrogowie.isEmpty()) {
+        if (inwazja.wszyscyZgineli()) {
             nadzorcaGry.wygrana();
         }
     }
@@ -140,30 +137,11 @@ public class SpaceInvaders extends ApplicationAdapter {
             naszStrzal.y += 200 * Gdx.graphics.getDeltaTime();
             if (naszStrzal.y - 10 > WYSOKOSC) iter.remove();
 
-            Iterator<Wrog> iterWrog = wrogowie.iterator();
-            Wrog trafionyWrog = null;
-            while (iterWrog.hasNext()) {
-                Wrog wrog = iterWrog.next();
-                if (naszStrzal.overlaps(wrog.pole)) {
-                    //	dropSound.play();
-                    iter.remove();
-                    iterWrog.remove();
-                    trafionyWrog = wrog;
-                }
-            }
-            if (trafionyWrog != null) {
-                Wrog nowyWrogMogacyStrzelac = null;
-                for (Wrog wrog : wrogowie) {
-                    if (wrog.pole.getX() == trafionyWrog.pole.getX()) {
-                        nowyWrogMogacyStrzelac = wrog;
-                    }
-                }
-                if (nowyWrogMogacyStrzelac != null) {
-                    nowyWrogMogacyStrzelac.mozeStrzelac = true;
-                }
-            }
+            inwazja.jakiWrogTrafiony(iter, naszStrzal);
         }
     }
+
+
 
     private void obsluzWrogieStrzaly() {
 //        System.out.println("DRop obsluzWrogieStrzaly, "+wrogieStrzaly.size());
