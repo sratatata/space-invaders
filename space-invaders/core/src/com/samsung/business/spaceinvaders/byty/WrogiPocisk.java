@@ -1,4 +1,4 @@
-package com.samsung.business.spaceinvaders;
+package com.samsung.business.spaceinvaders.byty;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -8,11 +8,11 @@ import com.badlogic.gdx.math.Rectangle;
 /**
  * Created by lb_lb on 01.11.17.
  */
-public class WrogiPocisk implements Pocisk{
-    Rectangle rectangle;
-    private ZarzadcaBytow.Byt byt;
+public class WrogiPocisk implements Pocisk {
+    private Rectangle rectangle;
+    private com.samsung.business.spaceinvaders.zarzadzanie.ZarzadcaBytow.Byt byt;
 
-    public WrogiPocisk(ZarzadcaBytow.Byt byt, float originX, float originY) {
+    public WrogiPocisk(com.samsung.business.spaceinvaders.zarzadzanie.ZarzadcaBytow.Byt byt, float originX, float originY) {
         this.byt = byt;
         rectangle = new Rectangle();
         rectangle.x = originX;
@@ -31,5 +31,14 @@ public class WrogiPocisk implements Pocisk{
     @Override
     public void updateState() {
         this.rectangle.y -= 200 * Gdx.graphics.getDeltaTime();
+    }
+
+    @Override
+    public boolean trafilW(Smiertelny smiertelnyObiekt) {
+        return smiertelnyObiekt.trafienie(this.rectangle, smiertelnyObiekt.namiary());
+    }
+
+    public boolean pozaEkranem() {
+        return this.rectangle.y + 10 < 0;
     }
 }

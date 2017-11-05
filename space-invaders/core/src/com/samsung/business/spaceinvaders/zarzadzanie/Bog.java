@@ -1,7 +1,12 @@
-package com.samsung.business.spaceinvaders;
+package com.samsung.business.spaceinvaders.zarzadzanie;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.samsung.business.spaceinvaders.byty.Inwazja;
+import com.samsung.business.spaceinvaders.byty.Pocisk;
+import com.samsung.business.spaceinvaders.byty.PociskGracza;
+import com.samsung.business.spaceinvaders.byty.Rakieta;
+import com.samsung.business.spaceinvaders.byty.Smiertelny;
+import com.samsung.business.spaceinvaders.byty.WrogiPocisk;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -15,17 +20,16 @@ import java.util.List;
  * Created by lb_lb on 05.11.17.
  */
 public class Bog {
-    private static final int WYSOKOSC = 480;
     private List<Pocisk> pociski;
-    public ZarzadcaBytow zarzadcaBytow;
-    public NadzorcaGry nadzorcaGry;
-    public Rakieta player;
-    public Inwazja inwazja;
+    public final ZarzadcaBytow zarzadcaBytow;
+    public final NadzorcaGry nadzorcaGry;
+    public final Rakieta gracz;
+    public final Inwazja inwazja;
 
-    public Bog(ZarzadcaBytow zarzadcaBytow, NadzorcaGry nadzorcaGry, Rakieta player, Inwazja inwazja) {
+    public Bog(ZarzadcaBytow zarzadcaBytow, NadzorcaGry nadzorcaGry, Rakieta gracz, Inwazja inwazja) {
         this.zarzadcaBytow = zarzadcaBytow;
         this.nadzorcaGry = nadzorcaGry;
-        this.player = player;
+        this.gracz = gracz;
         this.inwazja = inwazja;
         this.pociski = new ArrayList<>();
     }
@@ -43,15 +47,16 @@ public class Bog {
                 WrogiPocisk wrogiPocisk = (WrogiPocisk) pocisk;
                 wrogiPocisk.updateState();
 
-                if (wrogiPocisk.rectangle.y + 10 < 0) iter.remove();
 
-                if (wrogiPocisk.rectangle.overlaps(player.rakietaRectangle)) {
+                if (wrogiPocisk.pozaEkranem()) iter.remove();
+
+                if(gracz.trafiony(pocisk)){
                     nadzorcaGry.koniecGry();
                 }
             } else {
                 PociskGracza naszStrzal = (PociskGracza) pocisk;
                 naszStrzal.updateState();
-                if (naszStrzal.rectangle.y - 10 > WYSOKOSC) iter.remove();
+                if (naszStrzal.pozaEkranem()) iter.remove();
 
                 inwazja.jakiWrogTrafiony(iter, naszStrzal);
             }

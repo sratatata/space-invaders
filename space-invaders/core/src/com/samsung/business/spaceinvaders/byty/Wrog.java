@@ -1,4 +1,4 @@
-package com.samsung.business.spaceinvaders;
+package com.samsung.business.spaceinvaders.byty;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -6,20 +6,19 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.TimeUtils;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.samsung.business.spaceinvaders.zarzadzanie.Bog;
+import com.samsung.business.spaceinvaders.zarzadzanie.ZarzadcaBytow;
 
 /**
+ * Reprezentuje postaci wrogow. Wrogowie najczesciej dokonuja grupowej Inwazji.
+ *
  * Created by lb_lb on 01.11.17.
  */
-public class Wrog {
-
-
-    ZarzadcaBytow.Byt byt;
-    public Rectangle pole;
-    public boolean mozeStrzelac;
-    public long czasOstatniegoStrzalu;
+public class Wrog implements Smiertelny{
+    private ZarzadcaBytow.Byt byt;
+    private  Rectangle pole;
+    private boolean mozeStrzelac;
+    private long czasOstatniegoStrzalu;
 
     public Wrog(ZarzadcaBytow.Byt byt, Rectangle pole, boolean mozeStrzelac, long czasOstatniegoStrzalu) {
         this.byt = byt;
@@ -45,10 +44,29 @@ public class Wrog {
             this.czasOstatniegoStrzalu = TimeUtils.nanoTime();
 
             ZarzadcaBytow.Byt bytPocisku = bog.zarzadcaBytow.znajdzByt("obcyPocisk");
-            bog.dodajPocisk(new WrogiPocisk(bytPocisku, this.pole.getX(), this.pole.getY()));
+            bog.dodajPocisk( (Pocisk) new WrogiPocisk(bytPocisku, this.pole.getX(), this.pole.getY()));
 
         }
 
         return bog;
+    }
+
+    @Override
+    public Rectangle namiary() {
+        return this.pole;
+    }
+
+    @Override
+    public boolean trafienie(Rectangle cel, Rectangle pocisk) {
+        return cel.overlaps(pocisk);
+    }
+
+    @Override
+    public boolean trafiony(Pocisk pocisk) {
+        return pocisk.trafilW(this);
+    }
+
+    public void przygotujDoStrzalu() {
+        mozeStrzelac = true;
     }
 }

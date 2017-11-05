@@ -1,4 +1,4 @@
-package com.samsung.business.spaceinvaders;
+package com.samsung.business.spaceinvaders.byty;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -11,4 +11,6 @@ public interface Pocisk {
     void render(SpriteBatch batch, float czasAnimacji);
 
     void updateState();
+
+    boolean trafilW(Smiertelny smiertelnyObiekt);
 }

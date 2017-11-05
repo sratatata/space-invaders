@@ -1,9 +1,11 @@
-package com.samsung.business.spaceinvaders;
+package com.samsung.business.spaceinvaders.byty;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.samsung.business.spaceinvaders.zarzadzanie.Bog;
+import com.samsung.business.spaceinvaders.zarzadzanie.ZarzadcaBytow;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -77,13 +79,12 @@ public class Inwazja {
         return wrogowie.isEmpty();
     }
 
-    public void jakiWrogTrafiony(Iterator<Pocisk> iter, PociskGracza naszStrzal) {
+    public void jakiWrogTrafiony(Iterator<Pocisk> iter, Pocisk naszStrzal) {
         Iterator<Wrog> iterWrog = wrogowie.iterator();
-        Wrog trafionyWrog = null;
+        Smiertelny trafionyWrog = null;
         while (iterWrog.hasNext()) {
             Wrog wrog = iterWrog.next();
-            if (naszStrzal.rectangle.overlaps(wrog.pole)) {
-                //	dropSound.play();
+            if (wrog.trafiony(naszStrzal)) {
                 iter.remove();
                 iterWrog.remove();
                 trafionyWrog = wrog;
@@ -92,12 +93,12 @@ public class Inwazja {
         if (trafionyWrog != null) {
             Wrog nowyWrogMogacyStrzelac = null;
             for (Wrog wrog : wrogowie) {
-                if (wrog.pole.getX() == trafionyWrog.pole.getX()) {
+                if (wrog instanceof Smiertelny && wrog.namiary().getX() == trafionyWrog.namiary().getX()) {
                     nowyWrogMogacyStrzelac = wrog;
                 }
             }
             if (nowyWrogMogacyStrzelac != null) {
-                nowyWrogMogacyStrzelac.mozeStrzelac = true;
+                nowyWrogMogacyStrzelac.przygotujDoStrzalu();
             }
         }
     }

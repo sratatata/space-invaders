@@ -1,4 +1,4 @@
-package com.samsung.business.spaceinvaders;
+package com.samsung.business.spaceinvaders.byty;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -8,23 +8,20 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.samsung.business.spaceinvaders.zarzadzanie.ZarzadcaBytow;
 
 /**
+ * Reprezentuje pojazd gracza.
+ *
  * Created by lb_lb on 01.11.17.
  */
-public class Rakieta {
-    public final ZarzadcaBytow.Byt byt;
+public class Rakieta implements Smiertelny{
+    private final ZarzadcaBytow.Byt byt;
 
-    protected Rectangle rakietaRectangle;
+    private Rectangle rakietaRectangle;
     private long czasOstatniegoStrzalu;
 
-
-    public List<Rectangle> naszeStrzaly = new ArrayList<Rectangle>();
-
-    public Rakieta(ZarzadcaBytow.Byt byt) {
+    public Rakieta(com.samsung.business.spaceinvaders.zarzadzanie.ZarzadcaBytow.Byt byt) {
         this.byt = byt;
         dodajRakiete();
     }
@@ -42,13 +39,12 @@ public class Rakieta {
         rakietaRectangle.height = 40;
     }
 
-    private void naszStrzal(Bog bog) {
+    private void naszStrzal(com.samsung.business.spaceinvaders.zarzadzanie.Bog bog) {
         if (!mozemyStrzelic()) {
             return;
         }
-        Pocisk pocisk = new PociskGracza(bog.zarzadcaBytow.znajdzByt("pocisk"), rakietaRectangle.getX(), rakietaRectangle.getY());
 
-        bog.dodajPocisk(pocisk);
+        bog.dodajPocisk(new PociskGracza(bog.zarzadcaBytow.znajdzByt("pocisk"), rakietaRectangle.getX(), rakietaRectangle.getY()));
         czasOstatniegoStrzalu = TimeUtils.nanoTime();
     }
 
@@ -56,7 +52,7 @@ public class Rakieta {
         return TimeUtils.nanoTime() - czasOstatniegoStrzalu > 600 * 1000 * 1000;
     }
 
-    public void aktualizuj(OrthographicCamera camera, Bog bog){
+    public void aktualizuj(OrthographicCamera camera, com.samsung.business.spaceinvaders.zarzadzanie.Bog bog){
         // process user input
         if (Gdx.input.isTouched()) {
             if (Gdx.input.getY() > 360) {
@@ -80,4 +76,18 @@ public class Rakieta {
         if (rakietaRectangle.x > 800 - 20) rakietaRectangle.x = 800 - 20;
     }
 
+    public boolean trafiony(Pocisk pocisk) {
+        return pocisk.trafilW(this);
+    }
+
+
+    @Override
+    public Rectangle namiary() {
+        return this.rakietaRectangle;
+    }
+
+    @Override
+    public boolean trafienie(Rectangle cel, Rectangle pocisk) {
+        return pocisk.overlaps(cel);
+    }
 }
