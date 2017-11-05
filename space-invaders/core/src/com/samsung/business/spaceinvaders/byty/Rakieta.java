@@ -10,23 +10,28 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.samsung.business.spaceinvaders.zarzadzanie.ZarzadcaBytow;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Reprezentuje pojazd gracza.
- *
+ * <p/>
  * Created by lb_lb on 01.11.17.
  */
-public class Rakieta implements Smiertelny{
+public class Rakieta implements Smiertelny {
     private final ZarzadcaBytow.Byt byt;
 
     private Rectangle rakietaRectangle;
     private long czasOstatniegoStrzalu;
+    private List<GdyGraczTrafiony> sluchaczeGdyGraczTrafiony;
 
     public Rakieta(com.samsung.business.spaceinvaders.zarzadzanie.ZarzadcaBytow.Byt byt) {
+        this.sluchaczeGdyGraczTrafiony = new ArrayList<>();
         this.byt = byt;
         dodajRakiete();
     }
 
-    public void render(SpriteBatch batch, float czasAnimacji){
+    public void render(SpriteBatch batch, float czasAnimacji) {
         TextureRegion klatkaRakiety = byt.klatkaDoWyrenderowania(czasAnimacji);
         batch.draw(klatkaRakiety, rakietaRectangle.x, rakietaRectangle.y);
     }
@@ -52,7 +57,7 @@ public class Rakieta implements Smiertelny{
         return TimeUtils.nanoTime() - czasOstatniegoStrzalu > 600 * 1000 * 1000;
     }
 
-    public void aktualizuj(OrthographicCamera camera, com.samsung.business.spaceinvaders.zarzadzanie.Bog bog){
+    public void aktualizuj(OrthographicCamera camera, com.samsung.business.spaceinvaders.zarzadzanie.Bog bog) {
         // process user input
         if (Gdx.input.isTouched()) {
             if (Gdx.input.getY() > 360) {
@@ -76,6 +81,7 @@ public class Rakieta implements Smiertelny{
         if (rakietaRectangle.x > 800 - 20) rakietaRectangle.x = 800 - 20;
     }
 
+    @Override
     public boolean trafiony(Pocisk pocisk) {
         return pocisk.trafilW(this);
     }
@@ -88,6 +94,25 @@ public class Rakieta implements Smiertelny{
 
     @Override
     public boolean trafienie(Rectangle cel, Rectangle pocisk) {
-        return pocisk.overlaps(cel);
+        if (pocisk.overlaps((cel))) {
+            powiadomWszystkichGdyGraczTrafiony();
+            return true;
+        } else
+            return false;
     }
+
+    public void nasluchujGdyGraczTrafiony(GdyGraczTrafiony gdyGraczTrafiony){
+        sluchaczeGdyGraczTrafiony.add(gdyGraczTrafiony);
+    }
+
+    private void powiadomWszystkichGdyGraczTrafiony() {
+        for (GdyGraczTrafiony g : sluchaczeGdyGraczTrafiony) {
+            g.gdyGraczTrafiony();
+        }
+    }
+
+    public interface GdyGraczTrafiony {
+        void gdyGraczTrafiony();
+    }
+
 }

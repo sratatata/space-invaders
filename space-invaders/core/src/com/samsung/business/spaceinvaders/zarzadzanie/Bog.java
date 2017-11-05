@@ -22,13 +22,11 @@ import java.util.List;
 public class Bog {
     private List<Pocisk> pociski;
     public final ZarzadcaBytow zarzadcaBytow;
-    public final NadzorcaGry nadzorcaGry;
     public final Rakieta gracz;
     public final Inwazja inwazja;
 
-    public Bog(ZarzadcaBytow zarzadcaBytow, NadzorcaGry nadzorcaGry, Rakieta gracz, Inwazja inwazja) {
+    public Bog(ZarzadcaBytow zarzadcaBytow, Rakieta gracz, Inwazja inwazja) {
         this.zarzadcaBytow = zarzadcaBytow;
-        this.nadzorcaGry = nadzorcaGry;
         this.gracz = gracz;
         this.inwazja = inwazja;
         this.pociski = new ArrayList<>();
@@ -46,13 +44,9 @@ public class Bog {
             if (pocisk instanceof WrogiPocisk) {
                 WrogiPocisk wrogiPocisk = (WrogiPocisk) pocisk;
                 wrogiPocisk.updateState();
-
-
                 if (wrogiPocisk.pozaEkranem()) iter.remove();
 
-                if(gracz.trafiony(pocisk)){
-                    nadzorcaGry.koniecGry();
-                }
+                gracz.trafiony(pocisk);
             } else {
                 PociskGracza naszStrzal = (PociskGracza) pocisk;
                 naszStrzal.updateState();

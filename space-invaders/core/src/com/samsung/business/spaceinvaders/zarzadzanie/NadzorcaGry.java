@@ -1,13 +1,12 @@
 package com.samsung.business.spaceinvaders.zarzadzanie;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.samsung.business.spaceinvaders.byty.Inwazja;
 
 /**
  * Created by lb_lb on 13.10.17.
  */
 public class NadzorcaGry {
-    private com.samsung.business.spaceinvaders.byty.Inwazja inwazja;
-
     private ObserwatorGdyKoniecGry obserwatorGdyKoniecGry;
     private ObserwatorGdyWygrana obserwatorGdyWygrana;
 
@@ -16,8 +15,7 @@ public class NadzorcaGry {
     private boolean koniecGry = false;
     private boolean wygrana = false;
 
-    public NadzorcaGry(com.samsung.business.spaceinvaders.byty.Inwazja inwazja) {
-        this.inwazja = inwazja;
+    public NadzorcaGry() {
     }
 
     public void render(SpriteBatch batch) {
@@ -51,11 +49,6 @@ public class NadzorcaGry {
         this.wygrana = true;
     }
 
-    public void sprawdzWarunekKonca() {
-        if (inwazja.wszyscyZgineli()) {
-            this.wygrana();
-        }
-    }
 
     public interface ObserwatorGdyKoniecGry {
         void gdyKoniecGry(SpriteBatch batch);

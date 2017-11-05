@@ -27,17 +27,21 @@ public class Inwazja {
     private static final int ODSTEP_PIONOWY_MIEDZY_WROGAMI = 8;
 
     private List<Wrog> wrogowie;
+    private List<GdyZniszczony> gdyZniszczony;
+    private List<GdyInwazjaZniszczona> gdyInwazjaZniszczona;
 
     private Inwazja() {
+        gdyZniszczony = new ArrayList<>();
+        gdyInwazjaZniszczona = new ArrayList<>();
     }
 
     public static Inwazja nalot(ZarzadcaBytow zarzadcaBytow) {
         Inwazja inwazja = new Inwazja();
-        inwazja.wrogowie = dodajWrogow(zarzadcaBytow);
+        inwazja.wrogowie = dodajWrogow(inwazja, zarzadcaBytow);
         return inwazja;
     }
 
-    private static List<Wrog> dodajWrogow(ZarzadcaBytow zarzadcaBytow) {
+    private static List<Wrog> dodajWrogow(Inwazja inwazja, ZarzadcaBytow zarzadcaBytow) {
         List<Wrog> wrogowie = new ArrayList<Wrog>();
         int wcieciePoziome = (SZEROKOSC - ILU_WROGOW_W_LINII * (SZEROKOSC_WROGA + ODSTEP_POZIOMY_MIEDZY_WROGAMI)) / 2;
 
@@ -54,6 +58,9 @@ public class Inwazja {
                 long czasOstatniegoStrzalu = TimeUtils.nanoTime();
 
                 Wrog wrog = new Wrog(zarzadcaBytow.znajdzByt("wrog"), poleWroga, mozeStrzelac, czasOstatniegoStrzalu);
+                wrog.addGdyZniszczony(() -> {
+                    inwazja.powiadomWszystkichGdyZniszczony(wrog);
+                });
                 wrogowie.add(wrog);
 
             }
@@ -72,6 +79,10 @@ public class Inwazja {
         for (Wrog wrog : wrogowie) {
             wrog.updateState(camera);
             wrog.strzal(bog);
+        }
+
+        if(wrogowie.isEmpty()){
+            powiadomWszystkichGdyInwazjaZniszczona();
         }
     }
 
@@ -101,5 +112,33 @@ public class Inwazja {
                 nowyWrogMogacyStrzelac.przygotujDoStrzalu();
             }
         }
+    }
+
+    public void nasluchujGdyZniszczony(GdyZniszczony gdyZniszczony){
+        this.gdyZniszczony.add(gdyZniszczony);
+    }
+
+    public void powiadomWszystkichGdyZniszczony(Wrog wrog){
+        for(GdyZniszczony g: gdyZniszczony){
+            g.gdyZniszczony(wrog);
+        }
+    }
+
+    public void nasluchujGdyInwazjaZniszczona(GdyInwazjaZniszczona sluchacz) {
+        this.gdyInwazjaZniszczona.add(sluchacz);
+    }
+
+   public void powiadomWszystkichGdyInwazjaZniszczona(){
+        for(GdyInwazjaZniszczona g: gdyInwazjaZniszczona){
+            g.gdyInwazjaZniszczona();
+        }
+    }
+
+    public interface GdyZniszczony{
+        void gdyZniszczony(Wrog wrog);
+    }
+
+    public interface GdyInwazjaZniszczona{
+        void gdyInwazjaZniszczona();
     }
 }
