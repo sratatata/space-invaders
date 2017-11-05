@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.samsung.business.spaceinvaders.byty.Inwazja;
 import com.samsung.business.spaceinvaders.byty.Rakieta;
+import com.samsung.business.spaceinvaders.ui.Score;
 import com.samsung.business.spaceinvaders.zarzadzanie.Bog;
 import com.samsung.business.spaceinvaders.zarzadzanie.NadzorcaGry;
 import com.samsung.business.spaceinvaders.zarzadzanie.ZarzadcaBytow;
@@ -37,6 +38,10 @@ public class SpaceInvaders extends ApplicationAdapter {
         //zaladuj nadzorce gry
         nadzorcaGry = new NadzorcaGry();
 
+        //zaladui ui
+        Score score = new Score(0);
+        nadzorcaGry.setScore(score);
+
         //zaladuj tekstury
         zarzadcaBytow = ZarzadcaBytow.zaladujByty();
 
@@ -49,28 +54,27 @@ public class SpaceInvaders extends ApplicationAdapter {
         //przygotuj nalot wroga
         inwazja = Inwazja.nalot(zarzadcaBytow);
         inwazja.nasluchujGdyZniszczony((wrog) -> {
-
+            score.addScore(100);
         });
 
         inwazja.nasluchujGdyInwazjaZniszczona(()->{
             nadzorcaGry.wygrana();
         });
 
-
-
-        nadzorcaGry.setObserwatorGdyKoniecGry(batch -> {
+        nadzorcaGry.setObserwatorGdyKoniecGry((batch, s)-> {
             BitmapFont font = new BitmapFont();
-            font.draw(batch, "GAME OVER", 10, 10);
+            font.draw(batch, "GAME OVER "+s.getScore(), 10, 230);
         });
-        nadzorcaGry.setObserwatorGdyWygrana(batch -> {
+        nadzorcaGry.setObserwatorGdyWygrana((batch, s)-> {
             BitmapFont font = new BitmapFont();
-            font.draw(batch, "YOU WON!", 10, 10);
+            font.draw(batch, "YOU WON! "+s.getScore(), 10, 230);
         });
         nadzorcaGry.setGraSieToczy(batch -> {
             czasAnimacji += Gdx.graphics.getDeltaTime();
             player.render(batch, czasAnimacji);
             bog.render(batch, czasAnimacji);
             inwazja.render(batch, czasAnimacji);
+            score.render(batch);
         });
 
         //zaladuj system zarzadzania pociskami
