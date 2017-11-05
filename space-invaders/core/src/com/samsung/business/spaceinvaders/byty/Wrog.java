@@ -9,6 +9,9 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.samsung.business.spaceinvaders.zarzadzanie.Bog;
 import com.samsung.business.spaceinvaders.zarzadzanie.ZarzadcaBytow;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Reprezentuje postaci wrogow. Wrogowie najczesciej dokonuja grupowej Inwazji.
  *
@@ -19,8 +22,11 @@ public class Wrog implements Smiertelny{
     private  Rectangle pole;
     private boolean mozeStrzelac;
     private long czasOstatniegoStrzalu;
+    private List<GdyZniszczony> gdyZniszczony;
+
 
     public Wrog(ZarzadcaBytow.Byt byt, Rectangle pole, boolean mozeStrzelac, long czasOstatniegoStrzalu) {
+        gdyZniszczony = new ArrayList<>();
         this.byt = byt;
         this.pole = pole;
         this.mozeStrzelac = mozeStrzelac;
@@ -51,6 +57,16 @@ public class Wrog implements Smiertelny{
         return bog;
     }
 
+    public void addGdyZniszczony(GdyZniszczony gdyZniszczony){
+        this.gdyZniszczony.add(gdyZniszczony);
+    }
+
+    public void powiadomWszystkichGdyZniszczony(){
+        for(GdyZniszczony g: gdyZniszczony){
+            g.gdyZniszczony();
+        }
+    }
+
     @Override
     public Rectangle namiary() {
         return this.pole;
@@ -63,10 +79,18 @@ public class Wrog implements Smiertelny{
 
     @Override
     public boolean trafiony(Pocisk pocisk) {
-        return pocisk.trafilW(this);
+        boolean trafienie = pocisk.trafilW(this);
+        if(trafienie){
+            powiadomWszystkichGdyZniszczony();
+        }
+        return trafienie;
     }
 
     public void przygotujDoStrzalu() {
         mozeStrzelac = true;
+    }
+
+    public interface GdyZniszczony{
+        void gdyZniszczony();
     }
 }

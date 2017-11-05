@@ -6,8 +6,10 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.samsung.business.spaceinvaders.byty.Inwazja;
 import com.samsung.business.spaceinvaders.byty.Rakieta;
 import com.samsung.business.spaceinvaders.zarzadzanie.Bog;
+import com.samsung.business.spaceinvaders.zarzadzanie.NadzorcaGry;
 import com.samsung.business.spaceinvaders.zarzadzanie.ZarzadcaBytow;
 
 public class SpaceInvaders extends ApplicationAdapter {
@@ -16,12 +18,12 @@ public class SpaceInvaders extends ApplicationAdapter {
 
     private float czasAnimacji;
 
-    private com.samsung.business.spaceinvaders.zarzadzanie.Bog bog;
-    private com.samsung.business.spaceinvaders.zarzadzanie.NadzorcaGry nadzorcaGry;
-    private com.samsung.business.spaceinvaders.zarzadzanie.ZarzadcaBytow zarzadcaBytow;
+    private Bog bog;
+    private NadzorcaGry nadzorcaGry;
+    private ZarzadcaBytow zarzadcaBytow;
 
-    private com.samsung.business.spaceinvaders.byty.Rakieta player;
-    private com.samsung.business.spaceinvaders.byty.Inwazja inwazja;
+    private Rakieta player;
+    private Inwazja inwazja;
 
     @Override
     public void create() {
@@ -38,11 +40,21 @@ public class SpaceInvaders extends ApplicationAdapter {
         //utworz rakiete gracza
         player = new Rakieta(zarzadcaBytow.znajdzByt("rakieta"));
 
-        //przygotuj nalot wroga
-        inwazja = com.samsung.business.spaceinvaders.byty.Inwazja.nalot(zarzadcaBytow);
-
         //zaladuj nadzorce gry
-        nadzorcaGry = new com.samsung.business.spaceinvaders.zarzadzanie.NadzorcaGry(inwazja);
+        nadzorcaGry = new NadzorcaGry();
+
+        //przygotuj nalot wroga
+        inwazja = Inwazja.nalot(zarzadcaBytow);
+        inwazja.nasluchujGdyZniszczony((wrog) -> {
+
+        });
+
+        inwazja.nasluchujGdyInwazjaZniszczona(()->{
+            nadzorcaGry.wygrana();
+        });
+
+
+
         nadzorcaGry.setObserwatorGdyKoniecGry(batch -> {
             BitmapFont font = new BitmapFont();
             font.draw(batch, "GAME OVER", 10, 10);
@@ -94,9 +106,6 @@ public class SpaceInvaders extends ApplicationAdapter {
 
         //zaktualizuj stan pociskow
         bog.kuleNosi();
-
-        //sprawdz czy gra sie zakonczyla
-        nadzorcaGry.sprawdzWarunekKonca();
     }
 
     @Override
