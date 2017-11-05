@@ -42,17 +42,13 @@ public class Rakieta {
         rakietaRectangle.height = 40;
     }
 
-    private void naszStrzal() {
+    private void naszStrzal(Bog bog) {
         if (!mozemyStrzelic()) {
             return;
         }
-        Rectangle nowyStrzal = new Rectangle();
-        nowyStrzal.x = rakietaRectangle.getX();
-        nowyStrzal.y = rakietaRectangle.getY();
-        ;
-        nowyStrzal.width = 10;
-        nowyStrzal.height = 10;
-        naszeStrzaly.add(nowyStrzal);
+        Pocisk pocisk = new PociskGracza(bog.zarzadcaBytow.znajdzByt("pocisk"), rakietaRectangle.getX(), rakietaRectangle.getY());
+
+        bog.dodajPocisk(pocisk);
         czasOstatniegoStrzalu = TimeUtils.nanoTime();
     }
 
@@ -60,7 +56,7 @@ public class Rakieta {
         return TimeUtils.nanoTime() - czasOstatniegoStrzalu > 600 * 1000 * 1000;
     }
 
-    public void updateState(OrthographicCamera camera){
+    public void aktualizuj(OrthographicCamera camera, Bog bog){
         // process user input
         if (Gdx.input.isTouched()) {
             if (Gdx.input.getY() > 360) {
@@ -69,9 +65,10 @@ public class Rakieta {
                 camera.unproject(touchPos);
                 rakietaRectangle.x = touchPos.x - 40 / 2;
             } else {
-                naszStrzal();
+                naszStrzal(bog);
             }
         }
+
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
             rakietaRectangle.x -= 200 * Gdx.graphics.getDeltaTime();
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))

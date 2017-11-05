@@ -20,7 +20,6 @@ public class Wrog {
     public Rectangle pole;
     public boolean mozeStrzelac;
     public long czasOstatniegoStrzalu;
-    private OnStrzalListener strzalListener;
 
     public Wrog(ZarzadcaBytow.Byt byt, Rectangle pole, boolean mozeStrzelac, long czasOstatniegoStrzalu) {
         this.byt = byt;
@@ -38,26 +37,18 @@ public class Wrog {
         batch.draw(klatkaRakiety, pole.x, pole.y);
     }
 
-    public void setStrzalListener(OnStrzalListener strzalListener) {
-        this.strzalListener = strzalListener;
-    }
-
-    public void strzal() {
+    public Bog strzal(Bog bog) {
         if (this.mozeStrzelac &&
                 TimeUtils.nanoTime() - this.czasOstatniegoStrzalu >
                         MathUtils.random(5000000000L, 15000000000L)
                 ) {
             this.czasOstatniegoStrzalu = TimeUtils.nanoTime();
-            WrogiPocisk pocisk = new WrogiPocisk(this.pole.getX(), this.pole.getY());
 
-            strzalListener.onStrzal(pocisk);
+            ZarzadcaBytow.Byt bytPocisku = bog.zarzadcaBytow.znajdzByt("obcyPocisk");
+            bog.dodajPocisk(new WrogiPocisk(bytPocisku, this.pole.getX(), this.pole.getY()));
 
         }
-    }
 
-
-
-    public interface OnStrzalListener{
-        void onStrzal(WrogiPocisk pocisk);
+        return bog;
     }
 }

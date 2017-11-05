@@ -6,88 +6,57 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.utils.TimeUtils;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 public class SpaceInvaders extends ApplicationAdapter {
-
-    private static final int WYSOKOSC = 480;
-
-
     private SpriteBatch batch;
     private OrthographicCamera camera;
 
+    private float czasAnimacji;
 
+    private Bog bog;
+    private NadzorcaGry nadzorcaGry;
+    private ZarzadcaBytow zarzadcaBytow;
 
-    private List<WrogiPocisk> wrogieStrzaly = new ArrayList<>();
-    float czasAnimacji;
-
-    NadzorcaGry nadzorcaGry;
-	ZarzadcaBytow zarzadcaBytow;
-
-    Rakieta player;
-    Inwazja inwazja;
-
-    ZarzadcaBytow.Byt pocisk;
-    ZarzadcaBytow.Byt obcyPocisk;
+    private Rakieta player;
+    private Inwazja inwazja;
 
     @Override
     public void create() {
-		zarzadcaBytow = ZarzadcaBytow.zaladujByty();
-
-        player = new Rakieta(zarzadcaBytow.znajdzByt("rakieta"));
-
-        pocisk = zarzadcaBytow.znajdzByt("pocisk");
-        obcyPocisk = zarzadcaBytow.znajdzByt("obcyPocisk");
-
         // create the camera and the SpriteBatch
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
         batch = new SpriteBatch();
-
-        inwazja = Inwazja.nalot(zarzadcaBytow, wrogieStrzaly);
-
         // create the raindrops array and spawn the first raindrop
         czasAnimacji = 0f;
 
-        nadzorcaGry = new NadzorcaGry();
+        //zaladuj tekstury
+        zarzadcaBytow = ZarzadcaBytow.zaladujByty();
 
+        //utworz rakiete gracza
+        player = new Rakieta(zarzadcaBytow.znajdzByt("rakieta"));
+
+        //przygotuj nalot wroga
+        inwazja = Inwazja.nalot(zarzadcaBytow);
+
+        //zaladuj nadzorce gry
+        nadzorcaGry = new NadzorcaGry(inwazja);
         nadzorcaGry.setObserwatorGdyKoniecGry(batch -> {
             BitmapFont font = new BitmapFont();
             font.draw(batch, "GAME OVER", 10, 10);
         });
-
-        nadzorcaGry.setObserwatorGdyWygrana(batch ->{
+        nadzorcaGry.setObserwatorGdyWygrana(batch -> {
             BitmapFont font = new BitmapFont();
             font.draw(batch, "YOU WON!", 10, 10);
         });
-
         nadzorcaGry.setGraSieToczy(batch -> {
             czasAnimacji += Gdx.graphics.getDeltaTime();
-
             player.render(batch, czasAnimacji);
-
-            TextureRegion klatkaPociskWrog = obcyPocisk.klatkaDoWyrenderowania(czasAnimacji);
-
-            for (WrogiPocisk wrogiPocisk : wrogieStrzaly) {
-                batch.draw(klatkaPociskWrog, wrogiPocisk.rectangle.x, wrogiPocisk.rectangle.y);
-            }
-
-            TextureRegion klatkaPocisk = pocisk.klatkaDoWyrenderowania(czasAnimacji);
-            for (Rectangle naszStrzal : player.naszeStrzaly) {
-                batch.draw(klatkaPocisk, naszStrzal.x, naszStrzal.y);
-            }
-
+            bog.render(batch, czasAnimacji);
             inwazja.render(batch, czasAnimacji);
-
         });
 
+        //zaladuj system zarzadzania pociskami
+        bog = new Bog(zarzadcaBytow, nadzorcaGry, player, inwazja);
     }
 
     @Override
@@ -112,49 +81,19 @@ public class SpaceInvaders extends ApplicationAdapter {
             nadzorcaGry.render(batch);
         batch.end();
 
-        updateState();
+        aktualizujStanGry();
     }
 
-    private void updateState() {
-        player.updateState(camera);
+    private void aktualizujStanGry() {
+        //zaktualizuj stan i polozenie gracza i wrogow
+        player.aktualizuj(camera, bog);
+        inwazja.aktualizuj(camera, bog);
 
-        inwazja.updateState(camera);
+        //zaktualizuj stan pociskow
+        bog.kuleNosi();
 
-        obsluzWrogieStrzaly();
-
-        obsluzNaszeStrzaly();
-
-
-        if (inwazja.wszyscyZgineli()) {
-            nadzorcaGry.wygrana();
-        }
-    }
-
-    private void obsluzNaszeStrzaly() {
-        Iterator<Rectangle> iter = player.naszeStrzaly.iterator();
-        while (iter.hasNext()) {
-            Rectangle naszStrzal = iter.next();
-            naszStrzal.y += 200 * Gdx.graphics.getDeltaTime();
-            if (naszStrzal.y - 10 > WYSOKOSC) iter.remove();
-
-            inwazja.jakiWrogTrafiony(iter, naszStrzal);
-        }
-    }
-
-
-
-    private void obsluzWrogieStrzaly() {
-//        System.out.println("DRop obsluzWrogieStrzaly, "+wrogieStrzaly.size());
-        Iterator<WrogiPocisk> iter = wrogieStrzaly.iterator();
-        while (iter.hasNext()) {
-            WrogiPocisk wrogiPocisk = iter.next();
-            wrogiPocisk.rectangle.y -= 200 * Gdx.graphics.getDeltaTime();
-            if (wrogiPocisk.rectangle.y + 10 < 0) iter.remove();
-
-            if (wrogiPocisk.rectangle.overlaps(player.rakietaRectangle)) {
-                nadzorcaGry.koniecGry();
-            }
-        }
+        //sprawdz czy gra sie zakonczyla
+        nadzorcaGry.sprawdzWarunekKonca();
     }
 
     @Override

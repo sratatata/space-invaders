@@ -10,6 +10,8 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
+ * NadzorcaGry sprawuje piecze nad warunkami zakonczenia gry.
+ *
  * Created by lb_lb on 04.11.17.
  */
 public class Inwazja {
@@ -22,19 +24,18 @@ public class Inwazja {
     private static final int ODSTEP_POZIOMY_MIEDZY_WROGAMI = 12;
     private static final int ODSTEP_PIONOWY_MIEDZY_WROGAMI = 8;
 
-    List<Wrog> wrogowie;
+    private List<Wrog> wrogowie;
 
-    private Inwazja(){
-
+    private Inwazja() {
     }
 
-    public static Inwazja nalot(ZarzadcaBytow zarzadcaBytow, List<WrogiPocisk> wrogiePociski){
+    public static Inwazja nalot(ZarzadcaBytow zarzadcaBytow) {
         Inwazja inwazja = new Inwazja();
-        inwazja.wrogowie = dodajWrogow(zarzadcaBytow, wrogiePociski);
-        return  inwazja;
+        inwazja.wrogowie = dodajWrogow(zarzadcaBytow);
+        return inwazja;
     }
 
-    private static List<Wrog> dodajWrogow(ZarzadcaBytow zarzadcaBytow, List<WrogiPocisk> wrogiePociski) {
+    private static List<Wrog> dodajWrogow(ZarzadcaBytow zarzadcaBytow) {
         List<Wrog> wrogowie = new ArrayList<Wrog>();
         int wcieciePoziome = (SZEROKOSC - ILU_WROGOW_W_LINII * (SZEROKOSC_WROGA + ODSTEP_POZIOMY_MIEDZY_WROGAMI)) / 2;
 
@@ -51,10 +52,6 @@ public class Inwazja {
                 long czasOstatniegoStrzalu = TimeUtils.nanoTime();
 
                 Wrog wrog = new Wrog(zarzadcaBytow.znajdzByt("wrog"), poleWroga, mozeStrzelac, czasOstatniegoStrzalu);
-                wrog.setStrzalListener((wrogiStrzal) ->{
-                    wrogiePociski.add(wrogiStrzal);
-
-                });
                 wrogowie.add(wrog);
 
             }
@@ -69,10 +66,10 @@ public class Inwazja {
         }
     }
 
-    public void updateState(OrthographicCamera camera) {
+    public void aktualizuj(OrthographicCamera camera, Bog bog) {
         for (Wrog wrog : wrogowie) {
             wrog.updateState(camera);
-            wrog.strzal();
+            wrog.strzal(bog);
         }
     }
 
@@ -80,12 +77,12 @@ public class Inwazja {
         return wrogowie.isEmpty();
     }
 
-    public void jakiWrogTrafiony(Iterator<Rectangle> iter, Rectangle naszStrzal) {
+    public void jakiWrogTrafiony(Iterator<Pocisk> iter, PociskGracza naszStrzal) {
         Iterator<Wrog> iterWrog = wrogowie.iterator();
         Wrog trafionyWrog = null;
         while (iterWrog.hasNext()) {
             Wrog wrog = iterWrog.next();
-            if (naszStrzal.overlaps(wrog.pole)) {
+            if (naszStrzal.rectangle.overlaps(wrog.pole)) {
                 //	dropSound.play();
                 iter.remove();
                 iterWrog.remove();
