@@ -1,24 +1,36 @@
-package com.samsung.business.spaceinvaders;
+package com.samsung.business.spaceinvaders.zarzadzanie;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by lb_lb on 08.10.17.
  */
 public class ZarzadcaBytow {
-    public void render(){
+    public Map<String, Byt> byty = new HashMap<>();
 
+    public static ZarzadcaBytow zaladujByty(){
+        ZarzadcaBytow zarzadcaBytow = new ZarzadcaBytow();
+        zarzadcaBytow.dodajByt("rakieta", Byt.wczytajZPliku(Gdx.files.internal("rakieta.png"), 4, 2));
+        zarzadcaBytow.dodajByt("wrog", Byt.wczytajZPliku(Gdx.files.internal("obcy.png"), 4, 2));
+        zarzadcaBytow.dodajByt("pocisk", Byt.wczytajZPliku(Gdx.files.internal("pocisk-rakieta.png"), 5, 1));
+        zarzadcaBytow.dodajByt("obcyPocisk", Byt.wczytajZPliku(Gdx.files.internal("obcy-plazma.png"), 3, 3));
+
+        return zarzadcaBytow;
     }
 
-    public void create(){
-
+    public Byt znajdzByt(String name){
+        return byty.get(name);
     }
 
-    public void dispose(){
-
+    private void dodajByt(String rakieta, Byt byt) {
+        byty.put(rakieta, byt);
     }
 
     public static class Byt{

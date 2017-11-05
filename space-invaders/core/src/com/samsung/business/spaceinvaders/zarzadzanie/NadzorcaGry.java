@@ -1,12 +1,12 @@
-package com.samsung.business.spaceinvaders;
+package com.samsung.business.spaceinvaders.zarzadzanie;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
  * Created by lb_lb on 13.10.17.
  */
 public class NadzorcaGry {
+    private com.samsung.business.spaceinvaders.byty.Inwazja inwazja;
 
     private ObserwatorGdyKoniecGry obserwatorGdyKoniecGry;
     private ObserwatorGdyWygrana obserwatorGdyWygrana;
@@ -16,13 +16,17 @@ public class NadzorcaGry {
     private boolean koniecGry = false;
     private boolean wygrana = false;
 
-    public void render(SpriteBatch batch){
-        if (koniecGry){
+    public NadzorcaGry(com.samsung.business.spaceinvaders.byty.Inwazja inwazja) {
+        this.inwazja = inwazja;
+    }
+
+    public void render(SpriteBatch batch) {
+        if (koniecGry) {
             obserwatorGdyKoniecGry.gdyKoniecGry(batch);
-        }else if (wygrana) {
+        } else if (wygrana) {
             obserwatorGdyWygrana.gdyKoniecGry(batch);
             graSieToczy.klatka(batch);
-        }else{
+        } else {
             graSieToczy.klatka(batch);
         }
     }
@@ -35,11 +39,11 @@ public class NadzorcaGry {
         this.obserwatorGdyKoniecGry = obserwatorGdyKoniecGry;
     }
 
-    public void setObserwatorGdyWygrana(ObserwatorGdyWygrana obserwatorGdyWygrana){
+    public void setObserwatorGdyWygrana(ObserwatorGdyWygrana obserwatorGdyWygrana) {
         this.obserwatorGdyWygrana = obserwatorGdyWygrana;
     }
 
-    public void setGraSieToczy(GraSieToczy graSieToczy){
+    public void setGraSieToczy(GraSieToczy graSieToczy) {
         this.graSieToczy = graSieToczy;
     }
 
@@ -47,15 +51,21 @@ public class NadzorcaGry {
         this.wygrana = true;
     }
 
-    interface ObserwatorGdyKoniecGry{
+    public void sprawdzWarunekKonca() {
+        if (inwazja.wszyscyZgineli()) {
+            this.wygrana();
+        }
+    }
+
+    public interface ObserwatorGdyKoniecGry {
         void gdyKoniecGry(SpriteBatch batch);
     }
 
-    interface ObserwatorGdyWygrana{
+    public interface ObserwatorGdyWygrana {
         void gdyKoniecGry(SpriteBatch batch);
     }
 
-    interface GraSieToczy{
+    public interface GraSieToczy {
         void klatka(SpriteBatch batch);
     }
 }
