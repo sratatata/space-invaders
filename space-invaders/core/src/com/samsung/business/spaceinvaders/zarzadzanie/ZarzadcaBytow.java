@@ -15,18 +15,6 @@ import java.util.Map;
 public class ZarzadcaBytow {
     public Map<String, Byt> byty = new HashMap<>();
 
-    public void render(){
-
-    }
-
-    public void create(){
-
-    }
-
-    public void dispose(){
-
-    }
-
     public static ZarzadcaBytow zaladujByty(){
         ZarzadcaBytow zarzadcaBytow = new ZarzadcaBytow();
         zarzadcaBytow.dodajByt("rakieta", Byt.wczytajZPliku(Gdx.files.internal("rakieta.png"), 4, 2));
