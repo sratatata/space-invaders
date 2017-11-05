@@ -34,14 +34,17 @@ public class SpaceInvaders extends ApplicationAdapter {
         // create the raindrops array and spawn the first raindrop
         czasAnimacji = 0f;
 
+        //zaladuj nadzorce gry
+        nadzorcaGry = new NadzorcaGry();
+
         //zaladuj tekstury
         zarzadcaBytow = ZarzadcaBytow.zaladujByty();
 
         //utworz rakiete gracza
         player = new Rakieta(zarzadcaBytow.znajdzByt("rakieta"));
-
-        //zaladuj nadzorce gry
-        nadzorcaGry = new NadzorcaGry();
+        player.nasluchujGdyGraczTrafiony(()->{
+            nadzorcaGry.koniecGry();
+        });
 
         //przygotuj nalot wroga
         inwazja = Inwazja.nalot(zarzadcaBytow);
@@ -71,7 +74,7 @@ public class SpaceInvaders extends ApplicationAdapter {
         });
 
         //zaladuj system zarzadzania pociskami
-        bog = new Bog(zarzadcaBytow, nadzorcaGry, player, inwazja);
+        bog = new Bog(zarzadcaBytow, player, inwazja);
     }
 
     @Override
