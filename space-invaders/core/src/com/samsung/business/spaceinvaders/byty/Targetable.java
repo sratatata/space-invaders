@@ -7,8 +7,8 @@ import com.badlogic.gdx.math.Rectangle;
  *
  * Created by lb_lb on 05.11.17.
  */
-public interface Smiertelny {
-    Rectangle namiary();
-    boolean trafienie(Rectangle cel, Rectangle pocisk);
-    boolean trafiony(Pocisk pocisk);
+public interface Targetable {
+    Rectangle rectangle();
+    boolean checkHit(Rectangle cel, Rectangle shot);
+    boolean isHit(Shot shot);
 }
