@@ -1,4 +1,4 @@
-package com.samsung.business.spaceinvaders.byty;
+package com.samsung.business.spaceinvaders.entity;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.samsung.business.spaceinvaders.zarzadzanie.ShotManager;
-import com.samsung.business.spaceinvaders.zarzadzanie.GraphicsManager;
+import com.samsung.business.spaceinvaders.manager.ShotManager;
+import com.samsung.business.spaceinvaders.manager.GraphicsManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +42,7 @@ public class Enemy implements Targetable {
         batch.draw(spaceshipFrame, rectangle.x, rectangle.y);
     }
 
-    public ShotManager shot(ShotManager shotManager) {
+    public void shot(ShotManager shotManager) {
         if (this.canShoot &&
                 TimeUtils.nanoTime() - this.lastShotTime >
                         MathUtils.random(5000000000L, 15000000000L)
@@ -50,11 +50,8 @@ public class Enemy implements Targetable {
             this.lastShotTime = TimeUtils.nanoTime();
 
             GraphicsManager.Graphics shotGraphics = shotManager.graphicsManager.find("obcyPocisk");
-            shotManager.addShot( (Shot) new EnemyShot(shotGraphics, this.rectangle.getX(), this.rectangle.getY()));
-
+            shotManager.addShot(new EnemyShot(shotGraphics, this.rectangle.getX(), this.rectangle.getY()));
         }
-
-        return shotManager;
     }
 
     public void registerOnDestroyed(OnDestroyed onDestroyed){

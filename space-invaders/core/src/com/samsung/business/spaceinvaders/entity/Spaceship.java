@@ -1,4 +1,4 @@
-package com.samsung.business.spaceinvaders.byty;
+package com.samsung.business.spaceinvaders.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -8,8 +8,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.samsung.business.spaceinvaders.zarzadzanie.ShotManager;
-import com.samsung.business.spaceinvaders.zarzadzanie.GraphicsManager;
+import com.samsung.business.spaceinvaders.manager.ShotManager;
+import com.samsung.business.spaceinvaders.manager.GraphicsManager;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.samsung.business.spaceinvaders.zarzadzanie;
+package com.samsung.business.spaceinvaders.manager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;

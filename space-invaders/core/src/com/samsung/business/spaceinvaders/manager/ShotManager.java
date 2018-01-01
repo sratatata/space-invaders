@@ -1,11 +1,10 @@
-package com.samsung.business.spaceinvaders.zarzadzanie;
+package com.samsung.business.spaceinvaders.manager;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.samsung.business.spaceinvaders.byty.Invasion;
-import com.samsung.business.spaceinvaders.byty.Shot;
-import com.samsung.business.spaceinvaders.byty.PlayerShot;
-import com.samsung.business.spaceinvaders.byty.Spaceship;
-import com.samsung.business.spaceinvaders.byty.EnemyShot;
+import com.samsung.business.spaceinvaders.entity.EnemyShot;
+import com.samsung.business.spaceinvaders.entity.Invasion;
+import com.samsung.business.spaceinvaders.entity.Shot;
+import com.samsung.business.spaceinvaders.entity.Spaceship;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -40,18 +39,14 @@ public class ShotManager {
         Iterator<Shot> iter = shots.iterator();
         while (iter.hasNext()) {
             Shot shot = iter.next();
+            shot.updateState();
+            if (shot.isOutsideScreen()) {
+                iter.remove();
+            }
             if (shot instanceof EnemyShot) {
-                EnemyShot enemyShot = (EnemyShot) shot;
-                enemyShot.updateState();
-                if (enemyShot.isOutsideScreen()) iter.remove();
-
                 player.isHit(shot);
             } else {
-                PlayerShot playerShot = (PlayerShot) shot;
-                playerShot.updateState();
-                if (playerShot.isOutsideScreen()) iter.remove();
-
-                invasion.checkEnemyHit(iter, playerShot);
+                invasion.checkEnemyHit(iter, shot);
             }
         }
 

@@ -1,4 +1,4 @@
-package com.samsung.business.spaceinvaders.byty;
+package com.samsung.business.spaceinvaders.entity;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -13,4 +13,6 @@ public interface Shot {
     void updateState();
 
     boolean hitIn(Targetable targetableObject);
+
+    boolean isOutsideScreen();
 }

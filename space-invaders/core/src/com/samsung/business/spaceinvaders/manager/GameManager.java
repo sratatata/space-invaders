@@ -1,4 +1,4 @@
-package com.samsung.business.spaceinvaders.zarzadzanie;
+package com.samsung.business.spaceinvaders.manager;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.samsung.business.spaceinvaders.ui.Score;

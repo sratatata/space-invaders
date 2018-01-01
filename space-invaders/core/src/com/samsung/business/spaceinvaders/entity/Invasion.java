@@ -1,11 +1,11 @@
-package com.samsung.business.spaceinvaders.byty;
+package com.samsung.business.spaceinvaders.entity;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.samsung.business.spaceinvaders.zarzadzanie.ShotManager;
-import com.samsung.business.spaceinvaders.zarzadzanie.GraphicsManager;
+import com.samsung.business.spaceinvaders.manager.ShotManager;
+import com.samsung.business.spaceinvaders.manager.GraphicsManager;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -27,11 +27,11 @@ public class Invasion {
     private static final int VERTICAL_PADDING_ENEMIES = 8;
 
     private List<Enemy> enemies;
-    private List<OnDestroyed> onDestroyed;
+    private List<OnEnemyDestroyed> onEnemyDestroyed;
     private List<OnInvasionDestroyed> onInvasionDestroyed;
 
     private Invasion() {
-        onDestroyed = new ArrayList<>();
+        onEnemyDestroyed = new ArrayList<>();
         onInvasionDestroyed = new ArrayList<>();
     }
 
@@ -61,7 +61,7 @@ public class Invasion {
                 enemy.registerOnDestroyed(new Enemy.OnDestroyed() {
                     @Override
                     public void onDestroyed() {
-                        invasion.notifyAllOnDestroyed(enemy);
+                        invasion.notifyAllOnEnemyDestroyed(enemy);
                     }
                 });
                 enemies.add(enemy);
@@ -117,13 +117,13 @@ public class Invasion {
         }
     }
 
-    public void listenOnDestroyed(OnDestroyed onDestroyed){
-        this.onDestroyed.add(onDestroyed);
+    public void listenOnDestroyed(OnEnemyDestroyed onEnemyDestroyed){
+        this.onEnemyDestroyed.add(onEnemyDestroyed);
     }
 
-    public void notifyAllOnDestroyed(Enemy enemy){
-        for(OnDestroyed g: onDestroyed){
-            g.onDestroyed(enemy);
+    public void notifyAllOnEnemyDestroyed(Enemy enemy){
+        for(OnEnemyDestroyed g: onEnemyDestroyed){
+            g.onEnemyDestroyed(enemy);
         }
     }
 
@@ -137,8 +137,8 @@ public class Invasion {
         }
     }
 
-    public interface OnDestroyed {
-        void onDestroyed(Enemy enemy);
+    public interface OnEnemyDestroyed {
+        void onEnemyDestroyed(Enemy enemy);
     }
 
     public interface OnInvasionDestroyed {

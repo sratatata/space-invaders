@@ -1,4 +1,4 @@
-package com.samsung.business.spaceinvaders.byty;
+package com.samsung.business.spaceinvaders.entity;
 
 import com.badlogic.gdx.math.Rectangle;
 
