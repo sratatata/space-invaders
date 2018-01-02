@@ -42,7 +42,7 @@ public class Spaceship implements Targetable {
         spaceshipRectangle.x = 800 / 2 - 64 / 2; // center the bucket horizontally
         spaceshipRectangle.y = 20; // bottom left corner of the bucket is 20 pixels above the bottom screen edge
         spaceshipRectangle.width = 40;
-        spaceshipRectangle.height = 40;
+        spaceshipRectangle.height = 26;
     }
 
     private void playerShot(ShotManager shotManager) {
