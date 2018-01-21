@@ -6,13 +6,13 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.samsung.business.spaceinvaders.byty.Invasion;
-import com.samsung.business.spaceinvaders.byty.Spaceship;
-import com.samsung.business.spaceinvaders.byty.Enemy;
+import com.samsung.business.spaceinvaders.entity.Invasion;
+import com.samsung.business.spaceinvaders.entity.Spaceship;
+import com.samsung.business.spaceinvaders.entity.Enemy;
 import com.samsung.business.spaceinvaders.ui.Score;
-import com.samsung.business.spaceinvaders.zarzadzanie.ShotManager;
-import com.samsung.business.spaceinvaders.zarzadzanie.GameManager;
-import com.samsung.business.spaceinvaders.zarzadzanie.GraphicsManager;
+import com.samsung.business.spaceinvaders.manager.ShotManager;
+import com.samsung.business.spaceinvaders.manager.GameManager;
+import com.samsung.business.spaceinvaders.manager.GraphicsManager;
 
 public class SpaceInvaders extends ApplicationAdapter {
     private SpriteBatch batch;
@@ -57,9 +57,10 @@ public class SpaceInvaders extends ApplicationAdapter {
 
         //przygotuj raid wroga
         invasion = Invasion.raid(graphicsManager);
-        invasion.listenOnDestroyed(new Invasion.OnDestroyed() {
+
+        invasion.listenOnDestroyed(new Invasion.OnEnemyDestroyed() {
             @Override
-            public void onDestroyed(Enemy enemy) {
+            public void onEnemyDestroyed(Enemy enemy) {
                 score.addScore(100);
             }
         });
