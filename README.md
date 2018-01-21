@@ -3,9 +3,6 @@ This README document is written in Polish language according to hackathon requir
 This tutorial would be used in High School, and it's goal is to be as simple to understand
 as it is possible. 
 
-Also pleace notice and feel worned that most of class names, methods, properties and also variables are
-translated into Polish.
-
 If you have any specific question about code please create an issue.
 ```
 
