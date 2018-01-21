@@ -57,6 +57,7 @@ public class SpaceInvaders extends ApplicationAdapter {
 
         //przygotuj raid wroga
         invasion = Invasion.raid(graphicsManager);
+
         invasion.listenOnDestroyed(new Invasion.OnEnemyDestroyed() {
             @Override
             public void onEnemyDestroyed(Enemy enemy) {
