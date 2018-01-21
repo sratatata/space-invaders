@@ -7,10 +7,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  *
  * Created by lb_lb on 05.11.17.
  */
-public interface Pocisk {
-    void render(SpriteBatch batch, float czasAnimacji);
+public interface Shot {
+    void render(SpriteBatch batch, float animationTime);
 
     void updateState();
 
-    boolean trafilW(Smiertelny smiertelnyObiekt);
+    boolean hitIn(Targetable targetableObject);
 }
