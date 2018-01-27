@@ -44,7 +44,14 @@ public class SpaceInvaders extends ApplicationAdapter {
         gameManager = new GameManager();
 
         //zaladuj menadzera sterowania
-        inputManager = new InputManager(new TouchInput());
+        switch(Gdx.app.getType()) {
+            case Android:
+                inputManager = new InputManager(new TouchInput());
+                break;
+            case Desktop:
+                inputManager = new InputManager(new KeyboardInput());
+                break;
+        }
 
         //zaladui ui
         Score score = new Score(0);
