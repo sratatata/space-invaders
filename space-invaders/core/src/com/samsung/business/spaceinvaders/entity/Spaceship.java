@@ -65,18 +65,6 @@ public class Spaceship implements Targetable {
 
     public void update(OrthographicCamera camera, ShotManager shotManager) {
         // process user input
-//        if (Gdx.input.isTouched()) {
-//            if (Gdx.input.getY() > 360) {
-//                Vector3 touchPos = new Vector3();
-//                touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-//                camera.unproject(touchPos);
-//                spaceshipRectangle.x = touchPos.x - 40 / 2;
-//            } else {
-//                playerShot(shotManager);
-//            }
-//        }
-
-
         inputManager.setLeftListener(()->{
             spaceshipRectangle.x -= 200 * Gdx.graphics.getDeltaTime();
 

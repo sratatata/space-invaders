@@ -11,6 +11,7 @@ import com.samsung.business.spaceinvaders.entity.Spaceship;
 import com.samsung.business.spaceinvaders.entity.Enemy;
 import com.samsung.business.spaceinvaders.manager.InputManager;
 import com.samsung.business.spaceinvaders.manager.KeyboardInput;
+import com.samsung.business.spaceinvaders.manager.TouchInput;
 import com.samsung.business.spaceinvaders.ui.Score;
 import com.samsung.business.spaceinvaders.manager.ShotManager;
 import com.samsung.business.spaceinvaders.manager.GameManager;
@@ -43,7 +44,7 @@ public class SpaceInvaders extends ApplicationAdapter {
         gameManager = new GameManager();
 
         //zaladuj menadzera sterowania
-        inputManager = new InputManager(new KeyboardInput());
+        inputManager = new InputManager(new TouchInput());
 
         //zaladui ui
         Score score = new Score(0);
