@@ -24,7 +24,7 @@ android {
         exclude 'META-INF/robovm/ios/robovm.xml'
     }
     defaultConfig {
-        applicationId "com.badlogic.drop"
+        applicationId "com.samsung.business.spaceinvaders"
         minSdkVersion 23
         targetSdkVersion 25
         jackOptions {
@@ -79,7 +79,7 @@ task run(type: Exec) {
     }
 
     def adb = path + "/platform-tools/adb"
-    commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.badlogic.drop/com.badlogic.drop.AndroidLauncher'
+    commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.samsung.business.spaceinvaders/com.samsung.business.spaceinvaders.AndroidLauncher'
 }
 
 // sets up the Android Eclipse project, using the old Ant based build.
