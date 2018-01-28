@@ -44,15 +44,23 @@ public class Enemy implements Targetable {
     }
 
     private void verticalMove() {
-        if(delta >= MOVE_BARIER || delta <= (MOVE_BARIER)*-1) {
+        if(isBouncingOffRight() || isBouncingOffLeft()) {
             position.y -= 10;
         }
     }
 
+    private boolean isBouncingOffLeft() {
+        return delta <= (MOVE_BARIER)*-1;
+    }
+
+    private boolean isBouncingOffRight() {
+        return delta >= MOVE_BARIER;
+    }
+
     private void horizontalMove() {
-        if(delta >= MOVE_BARIER){
+        if(isBouncingOffRight()){
             switchDirection();
-        }else if(delta <= (MOVE_BARIER)*-1){
+        }else if(isBouncingOffLeft()){
             switchDirection();
         }
 
