@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.samsung.business.spaceinvaders.manager.ShotManager;
+import com.samsung.business.spaceinvaders.manager.ShootManager;
 import com.samsung.business.spaceinvaders.manager.GraphicsManager;
 
 import java.util.ArrayList;
@@ -42,15 +42,15 @@ public class Enemy implements Targetable {
         batch.draw(spaceshipFrame, rectangle.x, rectangle.y);
     }
 
-    public void shot(ShotManager shotManager) {
+    public void shot(ShootManager shootManager) {
         if (this.canShoot &&
                 TimeUtils.nanoTime() - this.lastShotTime >
                         MathUtils.random(5000000000L, 15000000000L)
                 ) {
             this.lastShotTime = TimeUtils.nanoTime();
 
-            GraphicsManager.Graphics shotGraphics = shotManager.graphicsManager.find("obcyPocisk");
-            shotManager.addShot(new EnemyShot(shotGraphics, this.rectangle.getX(), this.rectangle.getY()));
+            GraphicsManager.Graphics shotGraphics = shootManager.graphicsManager.find("obcyPocisk");
+            shootManager.addShot(new EnemyShoot(shotGraphics, this.rectangle.getX(), this.rectangle.getY()));
         }
     }
 
@@ -75,8 +75,8 @@ public class Enemy implements Targetable {
     }
 
     @Override
-    public boolean isHit(Shot shot) {
-        boolean isHit = shot.hitIn(this);
+    public boolean isHit(Shoot shoot) {
+        boolean isHit = shoot.hitIn(this);
         if(isHit){
             notifyAllOnDestroyed();
         }

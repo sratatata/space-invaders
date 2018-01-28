@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  *
  * Created by lb_lb on 05.11.17.
  */
-public interface Shot {
+public interface Shoot {
     void render(SpriteBatch batch, float animationTime);
 
     void updateState();

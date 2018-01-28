@@ -10,5 +10,5 @@ import com.badlogic.gdx.math.Rectangle;
 public interface Targetable {
     Rectangle rectangle();
     boolean checkHit(Rectangle cel, Rectangle shot);
-    boolean isHit(Shot shot);
+    boolean isHit(Shoot shoot);
 }

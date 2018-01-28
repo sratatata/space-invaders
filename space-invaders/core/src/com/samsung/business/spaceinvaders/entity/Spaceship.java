@@ -1,16 +1,13 @@
 package com.samsung.business.spaceinvaders.entity;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.samsung.business.spaceinvaders.manager.InputManager;
-import com.samsung.business.spaceinvaders.manager.KeyboardInput;
-import com.samsung.business.spaceinvaders.manager.ShotManager;
+import com.samsung.business.spaceinvaders.manager.ShootManager;
 import com.samsung.business.spaceinvaders.manager.GraphicsManager;
 
 import java.util.ArrayList;
@@ -50,12 +47,12 @@ public class Spaceship implements Targetable {
         spaceshipRectangle.height = 26;
     }
 
-    private void playerShot(ShotManager shotManager) {
+    private void playerShot(ShootManager shootManager) {
         if (!canShoot()) {
             return;
         }
 
-        shotManager.addShot(new PlayerShot(shotManager.graphicsManager.find("pocisk"), spaceshipRectangle.getX(), spaceshipRectangle.getY()));
+        shootManager.addShot(new PlayerShoot(shootManager.graphicsManager.find("pocisk"), spaceshipRectangle.getX(), spaceshipRectangle.getY()));
         lastShotTime = TimeUtils.nanoTime();
     }
 
@@ -63,7 +60,7 @@ public class Spaceship implements Targetable {
         return TimeUtils.nanoTime() - lastShotTime > 600 * 1000 * 1000;
     }
 
-    public void update(OrthographicCamera camera, ShotManager shotManager) {
+    public void update(OrthographicCamera camera, ShootManager shootManager) {
         // process user input
         inputManager.setLeftListener(()->{
             spaceshipRectangle.x -= 200 * Gdx.graphics.getDeltaTime();
@@ -78,7 +75,7 @@ public class Spaceship implements Targetable {
             if (spaceshipRectangle.x > 800 - 20) spaceshipRectangle.x = 800 - 20;
         });
         inputManager.setFireListener(() -> {
-            playerShot(shotManager);
+            playerShot(shootManager);
         });
 
         inputManager.update();
@@ -88,8 +85,8 @@ public class Spaceship implements Targetable {
     }
 
     @Override
-    public boolean isHit(Shot shot) {
-        return shot.hitIn(this);
+    public boolean isHit(Shoot shoot) {
+        return shoot.hitIn(this);
     }
 
 

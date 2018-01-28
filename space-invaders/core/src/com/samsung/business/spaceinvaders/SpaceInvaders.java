@@ -13,7 +13,7 @@ import com.samsung.business.spaceinvaders.manager.InputManager;
 import com.samsung.business.spaceinvaders.manager.KeyboardInput;
 import com.samsung.business.spaceinvaders.manager.TouchInput;
 import com.samsung.business.spaceinvaders.ui.Score;
-import com.samsung.business.spaceinvaders.manager.ShotManager;
+import com.samsung.business.spaceinvaders.manager.ShootManager;
 import com.samsung.business.spaceinvaders.manager.GameManager;
 import com.samsung.business.spaceinvaders.manager.GraphicsManager;
 
@@ -23,7 +23,7 @@ public class SpaceInvaders extends ApplicationAdapter {
 
     private float animationTime;
 
-    private ShotManager shotManager;
+    private ShootManager shootManager;
     private GameManager gameManager;
     private GraphicsManager graphicsManager;
     private InputManager inputManager;
@@ -105,14 +105,17 @@ public class SpaceInvaders extends ApplicationAdapter {
             public void frame(SpriteBatch batch) {
                 animationTime += Gdx.graphics.getDeltaTime();
                 player.render(batch, animationTime);
-                shotManager.render(batch, animationTime);
+                shootManager.render(batch, animationTime);
                 invasion.render(batch, animationTime);
                 score.render(batch);
             }
         });
 
         //zaladuj system zarzadzania pociskami
-        shotManager = new ShotManager(graphicsManager, player, invasion);
+        shootManager = new ShootManager(graphicsManager, player, invasion);
+        shootManager.onMissed(()->{
+           score.addScore(-10);
+        });
     }
 
     @Override
@@ -142,11 +145,11 @@ public class SpaceInvaders extends ApplicationAdapter {
 
     private void updatGameState() {
         //zaktualizuj stan i polozenie gracza i wrogow
-        player.update(camera, shotManager);
-        invasion.update(camera, shotManager);
+        player.update(camera, shootManager);
+        invasion.update(camera, shootManager);
 
         //zaktualizuj stan pociskow
-        shotManager.updateShots();
+        shootManager.updateShots();
     }
 
     @Override
