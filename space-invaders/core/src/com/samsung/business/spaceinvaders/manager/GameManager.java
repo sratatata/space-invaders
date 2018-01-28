@@ -10,7 +10,7 @@ public class GameManager {
     private ObserverOnGameOver observerOnGameOver;
     private ObserverOnWin observerOnWin;
 
-    private GameOnGoingShitName gameOnGoingShitName;
+    private OnNextFrameListener onNextFrameListener;
 
     private boolean gameOver = false;
     private boolean win = false;
@@ -24,9 +24,9 @@ public class GameManager {
             observerOnGameOver.onGameOver(batch, score);
         } else if (win) {
             observerOnWin.onGameFinished(batch, score);
-            gameOnGoingShitName.frame(batch);
+            onNextFrameListener.frame(batch);
         } else {
-            gameOnGoingShitName.frame(batch);
+            onNextFrameListener.frame(batch);
         }
     }
 
@@ -42,8 +42,8 @@ public class GameManager {
         this.observerOnWin = observerOnWin;
     }
 
-    public void setGameOngoing(GameOnGoingShitName gameOnGoingShitName) {
-        this.gameOnGoingShitName = gameOnGoingShitName;
+    public void setNextFrameListener(OnNextFrameListener onNextFrameListener) {
+        this.onNextFrameListener = onNextFrameListener;
     }
 
     public void win() {
@@ -65,7 +65,7 @@ public class GameManager {
         void onGameFinished(SpriteBatch batch, Score score);
     }
 
-    public interface GameOnGoingShitName {
+    public interface OnNextFrameListener {
         void frame(SpriteBatch batch);
     }
 }

@@ -100,7 +100,7 @@ public class SpaceInvaders extends ApplicationAdapter {
                 font.draw(batch, "YOU WON! " + s.getScore(), 10, 230);
             }
         });
-        gameManager.setGameOngoing(new GameManager.GameOnGoingShitName() {
+        gameManager.setNextFrameListener(new GameManager.OnNextFrameListener() {
             @Override
             public void frame(SpriteBatch batch) {
                 animationTime += Gdx.graphics.getDeltaTime();
