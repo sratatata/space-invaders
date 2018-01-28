@@ -19,27 +19,54 @@ import java.util.List;
  */
 public class Enemy implements Targetable {
     private GraphicsManager.Graphics graphics;
-    private Rectangle rectangle;
+    private Rectangle position;
     private boolean canShoot;
     private long lastShotTime;
     private List<OnDestroyed> onDestroyed;
+    private static final float MOVE_BARIER = 150f;
+    private float delta = 0;
+    private int direction = 1;
 
 
     public Enemy(GraphicsManager.Graphics graphics, Rectangle rectangle, boolean canShoot, long lastShotTime) {
         onDestroyed = new ArrayList<>();
         this.graphics = graphics;
-        this.rectangle = rectangle;
+        this.position = rectangle;
         this.canShoot = canShoot;
         this.lastShotTime = lastShotTime;
+        this.delta = MOVE_BARIER/2;
+        this.position.x+=MOVE_BARIER/2;
     }
 
     public void updateState(OrthographicCamera camera){
+        horizontalMove();
+        verticalMove();
+    }
 
+    private void verticalMove() {
+        if(delta >= MOVE_BARIER || delta <= (MOVE_BARIER)*-1) {
+            position.y -= 10;
+        }
+    }
+
+    private void horizontalMove() {
+        if(delta >= MOVE_BARIER){
+            switchDirection();
+        }else if(delta <= (MOVE_BARIER)*-1){
+            switchDirection();
+        }
+
+        position.x += direction;
+        delta += direction;
+    }
+
+    private void switchDirection() {
+        direction = direction * -1;
     }
 
     public void render(SpriteBatch batch, float animationTime){
         TextureRegion spaceshipFrame = graphics.frameToRender(animationTime);
-        batch.draw(spaceshipFrame, rectangle.x, rectangle.y);
+        batch.draw(spaceshipFrame, position.x, position.y);
     }
 
     public void shot(ShootManager shootManager) {
@@ -50,7 +77,7 @@ public class Enemy implements Targetable {
             this.lastShotTime = TimeUtils.nanoTime();
 
             GraphicsManager.Graphics shotGraphics = shootManager.graphicsManager.find("obcyPocisk");
-            shootManager.addShot(new EnemyShoot(shotGraphics, this.rectangle.getX(), this.rectangle.getY()));
+            shootManager.addShot(new EnemyShoot(shotGraphics, this.position.getX(), this.position.getY()));
         }
     }
 
@@ -66,7 +93,7 @@ public class Enemy implements Targetable {
 
     @Override
     public Rectangle rectangle() {
-        return this.rectangle;
+        return this.position;
     }
 
     @Override
