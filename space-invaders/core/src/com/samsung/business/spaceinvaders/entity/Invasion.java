@@ -1,5 +1,6 @@
 package com.samsung.business.spaceinvaders.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -17,8 +18,9 @@ import java.util.List;
  * Created by lb_lb on 04.11.17.
  */
 public class Invasion {
-    private static final int HEIGHT = 480;
-    private static final int WIDTH = 800;
+    private static final int HEIGHT = Gdx.graphics.getHeight();
+    private static final int WIDTH = Gdx.graphics.getWidth();
+    private static final int PADDING_TOP = 10;
     private static final int ENEMY_ROWS_COUNT = 3;
     private static final int ENEMY_IN_ROW_COUNT = 10;
     private static final int ENEMY_HEIGHT = 40;
@@ -49,7 +51,7 @@ public class Invasion {
             for (int x = 0; x < ENEMY_IN_ROW_COUNT; x++) {
                 Rectangle enemyRect = new Rectangle();
                 enemyRect.x = horizontalPadding + x * (ENEMY_WIDTH + HORIZONTAL_PADDING_ENEMIES);
-                enemyRect.y = HEIGHT - ENEMY_HEIGHT - y * (ENEMY_HEIGHT + VERTICAL_PADDING_ENEMIES);
+                enemyRect.y = HEIGHT - ( PADDING_TOP )- ENEMY_HEIGHT - y * (ENEMY_HEIGHT + VERTICAL_PADDING_ENEMIES);
                 enemyRect.height = ENEMY_HEIGHT;
                 enemyRect.width = ENEMY_WIDTH;
 
