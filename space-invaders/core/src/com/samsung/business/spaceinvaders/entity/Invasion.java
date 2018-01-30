@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.samsung.business.spaceinvaders.manager.ShotManager;
+import com.samsung.business.spaceinvaders.manager.ShootManager;
 import com.samsung.business.spaceinvaders.manager.GraphicsManager;
 
 import java.util.ArrayList;
@@ -78,10 +78,10 @@ public class Invasion {
         }
     }
 
-    public void update(OrthographicCamera camera, ShotManager shotManager) {
+    public void update(OrthographicCamera camera, ShootManager shootManager) {
         for (Enemy enemy : enemies) {
             enemy.updateState(camera);
-            enemy.shot(shotManager);
+            enemy.shot(shootManager);
         }
 
         if(enemies.isEmpty()){
@@ -93,12 +93,12 @@ public class Invasion {
         return enemies.isEmpty();
     }
 
-    public void checkEnemyHit(Iterator<Shot> iter, Shot playerShot) {
+    public void checkEnemyHit(Iterator<Shoot> iter, Shoot playerShoot) {
         Iterator<Enemy> iterEnemy = enemies.iterator();
         Targetable enemyHit = null;
         while (iterEnemy.hasNext()) {
             Enemy enemy = iterEnemy.next();
-            if (enemy.isHit(playerShot)) {
+            if (enemy.isHit(playerShoot)) {
                 iter.remove();
                 iterEnemy.remove();
                 enemyHit = enemy;

@@ -7,13 +7,15 @@ import com.badlogic.gdx.math.Rectangle;
 import com.samsung.business.spaceinvaders.manager.GraphicsManager;
 
 /**
- * Created by lb_lb on 01.11.17.
+ * Created by lb_lb on 05.11.17.
  */
-public class EnemyShot implements Shot {
+public class PlayerShoot implements Shoot {
+    private static final int HEIGHT = 480;
+
     private Rectangle rectangle;
     private GraphicsManager.Graphics graphics;
 
-    public EnemyShot(GraphicsManager.Graphics graphics, float originX, float originY) {
+    public PlayerShoot(GraphicsManager.Graphics graphics, float originX, float originY) {
         this.graphics = graphics;
         rectangle = new Rectangle();
         rectangle.x = originX;
@@ -22,16 +24,15 @@ public class EnemyShot implements Shot {
         rectangle.width = 10;
     }
 
-
     @Override
     public void render(SpriteBatch batch, float animationTime) {
-        TextureRegion enemyShotFrame = graphics.frameToRender(animationTime);
-        batch.draw(enemyShotFrame, rectangle.x, rectangle.y);
+        TextureRegion shotFrame = graphics.frameToRender(animationTime);
+        batch.draw(shotFrame, rectangle.x, rectangle.y);
     }
 
     @Override
     public void updateState() {
-        this.rectangle.y -= 200 * Gdx.graphics.getDeltaTime();
+        this.rectangle.y += 200 * Gdx.graphics.getDeltaTime();
     }
 
     @Override
@@ -41,6 +42,6 @@ public class EnemyShot implements Shot {
 
     @Override
     public boolean isOutsideScreen() {
-        return this.rectangle.y + 10 < 0;
+        return this.rectangle.y - 10 > HEIGHT;
     }
 }
