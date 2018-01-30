@@ -37,7 +37,6 @@ public class SpaceInvaders extends ApplicationAdapter {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
         batch = new SpriteBatch();
-        // create the raindrops array and spawn the first raindrop
         animationTime = 0f;
 
         //zaladuj nadzorce gry
@@ -134,8 +133,7 @@ public class SpaceInvaders extends ApplicationAdapter {
         // coordinate system specified by the camera.
         batch.setProjectionMatrix(camera.combined);
 
-        // begin a new batch and draw the bucket and
-        // all drops
+        //renderowanie gry
         batch.begin();
         gameManager.render(batch);
         batch.end();
