@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.samsung.business.spaceinvaders.manager.InputManager;
+import com.samsung.business.spaceinvaders.manager.KeyboardInput;
 import com.samsung.business.spaceinvaders.manager.ShotManager;
 import com.samsung.business.spaceinvaders.manager.GraphicsManager;
 
@@ -26,10 +28,13 @@ public class Spaceship implements Targetable {
     private long lastShotTime;
     private List<OnPlayerHit> playerHitListeners;
 
-    public Spaceship(GraphicsManager.Graphics graphics) {
+    private InputManager inputManager;
+
+    public Spaceship(GraphicsManager.Graphics graphics, InputManager inputManager) {
         this.playerHitListeners = new ArrayList<>();
         this.graphics = graphics;
         prepareSpaceship();
+        this.inputManager = inputManager;
     }
 
     public void render(SpriteBatch batch, float animationTime) {
@@ -60,26 +65,38 @@ public class Spaceship implements Targetable {
 
     public void update(OrthographicCamera camera, ShotManager shotManager) {
         // process user input
-        if (Gdx.input.isTouched()) {
-            if (Gdx.input.getY() > 360) {
-                Vector3 touchPos = new Vector3();
-                touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-                camera.unproject(touchPos);
-                spaceshipRectangle.x = touchPos.x - 40 / 2;
-            } else {
-                playerShot(shotManager);
-            }
-        }
+//        if (Gdx.input.isTouched()) {
+//            if (Gdx.input.getY() > 360) {
+//                Vector3 touchPos = new Vector3();
+//                touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+//                camera.unproject(touchPos);
+//                spaceshipRectangle.x = touchPos.x - 40 / 2;
+//            } else {
+//                playerShot(shotManager);
+//            }
+//        }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
+
+        inputManager.setLeftListener(()->{
             spaceshipRectangle.x -= 200 * Gdx.graphics.getDeltaTime();
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
+
+            // make sure the spaceship stays within the screen bounds
+            if (spaceshipRectangle.x < 0) spaceshipRectangle.x = 0;
+        });
+        inputManager.setRightListener(() -> {
             spaceshipRectangle.x += 200 * Gdx.graphics.getDeltaTime();
 
+            // make sure the spaceship stays within the screen bounds
+            if (spaceshipRectangle.x > 800 - 20) spaceshipRectangle.x = 800 - 20;
+        });
+        inputManager.setFireListener(() -> {
+            playerShot(shotManager);
+        });
 
-        // make sure the bucket stays within the screen bounds
-        if (spaceshipRectangle.x < 0) spaceshipRectangle.x = 0;
-        if (spaceshipRectangle.x > 800 - 20) spaceshipRectangle.x = 800 - 20;
+        inputManager.update();
+
+
+
     }
 
     @Override

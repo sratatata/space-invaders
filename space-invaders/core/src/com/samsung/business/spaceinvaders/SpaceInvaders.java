@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.samsung.business.spaceinvaders.entity.Invasion;
 import com.samsung.business.spaceinvaders.entity.Spaceship;
 import com.samsung.business.spaceinvaders.entity.Enemy;
+import com.samsung.business.spaceinvaders.manager.InputManager;
+import com.samsung.business.spaceinvaders.manager.KeyboardInput;
 import com.samsung.business.spaceinvaders.ui.Score;
 import com.samsung.business.spaceinvaders.manager.ShotManager;
 import com.samsung.business.spaceinvaders.manager.GameManager;
@@ -23,6 +25,7 @@ public class SpaceInvaders extends ApplicationAdapter {
     private ShotManager shotManager;
     private GameManager gameManager;
     private GraphicsManager graphicsManager;
+    private InputManager inputManager;
 
     private Spaceship player;
     private Invasion invasion;
@@ -39,6 +42,9 @@ public class SpaceInvaders extends ApplicationAdapter {
         //zaladuj nadzorce gry
         gameManager = new GameManager();
 
+        //zaladuj menadzera sterowania
+        inputManager = new InputManager(new KeyboardInput());
+
         //zaladui ui
         Score score = new Score(0);
         gameManager.setScore(score);
@@ -47,7 +53,7 @@ public class SpaceInvaders extends ApplicationAdapter {
         graphicsManager = GraphicsManager.loadGraphics();
 
         //utworz rakiete gracza
-        player = new Spaceship(graphicsManager.find("rakieta"));
+        player = new Spaceship(graphicsManager.find("rakieta"), inputManager);
         player.listenOnPlayerHit(new Spaceship.OnPlayerHit() {
             @Override
             public void onPlayerHit() {
