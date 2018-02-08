@@ -46,11 +46,12 @@ public class ShootManager {
                 iter.remove();
 
                 notifyMissingShootListenerForPlayerShoots(shoot);
-            }
-            if (shoot instanceof EnemyShoot) {
-                player.isHit(shoot);
             } else {
-                invasion.checkEnemyHit(iter, shoot);
+                if (shoot instanceof EnemyShoot) {
+                    player.isHit(shoot);
+                } else {
+                    invasion.checkEnemyHit(iter, shoot);
+                }
             }
         }
 
