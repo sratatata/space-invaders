@@ -10,7 +10,7 @@ import com.samsung.business.spaceinvaders.manager.GraphicsManager;
  * Created by lb_lb on 05.11.17.
  */
 public class PlayerShoot implements Shoot {
-    private static final int HEIGHT = 480;
+    private static final int HEIGHT = Gdx.graphics.getHeight();
 
     private Rectangle rectangle;
     private GraphicsManager.Graphics graphics;

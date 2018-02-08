@@ -41,7 +41,7 @@ public class Spaceship implements Targetable {
 
     private void prepareSpaceship() {
         spaceshipRectangle = new Rectangle();
-        spaceshipRectangle.x = 800 / 2 - 64 / 2; // center the bucket horizontally
+        spaceshipRectangle.x = Gdx.graphics.getWidth() / 2 - 64 / 2; // center the bucket horizontally
         spaceshipRectangle.y = 20; // bottom left corner of the bucket is 20 pixels above the bottom screen edge
         spaceshipRectangle.width = 40;
         spaceshipRectangle.height = 26;
@@ -72,7 +72,7 @@ public class Spaceship implements Targetable {
             spaceshipRectangle.x += 200 * Gdx.graphics.getDeltaTime();
 
             // make sure the spaceship stays within the screen bounds
-            if (spaceshipRectangle.x > 800 - 20) spaceshipRectangle.x = 800 - 20;
+            if (spaceshipRectangle.x > Gdx.graphics.getWidth() - 20) spaceshipRectangle.x = Gdx.graphics.getWidth() - 20;
         });
         inputManager.setFireListener(() -> {
             playerShot(shootManager);

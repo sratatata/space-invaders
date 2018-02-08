@@ -35,7 +35,7 @@ public class SpaceInvaders extends ApplicationAdapter {
     public void create() {
         // create the camera and the SpriteBatch
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 800, 480);
+        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch = new SpriteBatch();
         animationTime = 0f;
 
