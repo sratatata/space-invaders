@@ -8,4 +8,7 @@ public interface GameInputMethod{
     boolean right();
     boolean fire();
     boolean exit();
+    boolean up();
+    boolean down();
+    boolean select();
 }

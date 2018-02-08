@@ -28,4 +28,8 @@ public class Score {
     public int getValue() {
         return score;
     }
+
+    public void reset() {
+        score = 0;
+    }
 }

@@ -9,13 +9,13 @@ import com.samsung.business.spaceinvaders.ui.GameInputMethod;
 import com.samsung.business.spaceinvaders.ui.InputManager;
 import com.samsung.business.spaceinvaders.ui.KeyboardInput;
 
-public class GameOverScreen implements Screen , GameInputMethod{
+public class GameWinScreen implements Screen, GameInputMethod {
     private final SpaceInvaders spaceInvaders;
-    private InputManager inputManager;
-    private OrthographicCamera camera;
     private BitmapFont font;
+    private OrthographicCamera camera;
+    private InputManager inputManager;
 
-    public GameOverScreen(SpaceInvaders spaceInvaders) {
+    public GameWinScreen(SpaceInvaders spaceInvaders) {
         font = new BitmapFont();
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -39,7 +39,6 @@ public class GameOverScreen implements Screen , GameInputMethod{
             spaceInvaders.setScreen(new GameScreen(spaceInvaders));
             dispose();
         });
-
     }
 
     @Override
@@ -51,14 +50,15 @@ public class GameOverScreen implements Screen , GameInputMethod{
     public void render(float delta) {
         camera.update();
         spaceInvaders.batch.setProjectionMatrix(camera.combined);
+
         spaceInvaders.batch.begin();
-        font.draw(spaceInvaders.batch, "YOU OVER! " + spaceInvaders.getScore().getValue(), 10, Gdx.graphics.getHeight()/2);
+        font.draw(spaceInvaders.batch, "GAME WON! " + spaceInvaders.getScore().getValue(), 10, Gdx.graphics.getHeight()/2);
         switch(Gdx.app.getType()) {
             case Android:
-                font.draw(spaceInvaders.batch, "Touch screen to restart", 10, (Gdx.graphics.getHeight()/2)-50);
+                font.draw(spaceInvaders.batch, "Touch screen to restart", 10, Gdx.graphics.getHeight()/2-50);
                 break;
             case Desktop:
-                font.draw(spaceInvaders.batch, "Press enter to restart", 10, (Gdx.graphics.getHeight()/2)-50);
+                font.draw(spaceInvaders.batch, "Press enter to restart", 10, Gdx.graphics.getHeight()/2-50);
 
                 break;
         }
@@ -70,7 +70,6 @@ public class GameOverScreen implements Screen , GameInputMethod{
     @Override
     public void resize(int width, int height) {
         camera.setToOrtho(false, width, height);
-        camera.update();
     }
 
     @Override

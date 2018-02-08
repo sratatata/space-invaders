@@ -9,11 +9,44 @@ public class InputManager {
     private RightListener rightListener;
     private FireListener fireListener;
     private ExitListener exitListener;
+    private SelectListener selectListener;
 
     private GameInputMethod gameInputMethod;
 
     public InputManager(GameInputMethod gameInputMethod) {
         this.gameInputMethod = gameInputMethod;
+        leftListener = new LeftListener() {
+            @Override
+            public void navigateLeft() {
+                //do nothing
+            }
+        };
+        rightListener = new RightListener() {
+            @Override
+            public void navigateRight() {
+                //do nothing
+            }
+        };
+        fireListener = new FireListener() {
+            @Override
+            public void fire() {
+                //do nothing
+            }
+        };
+
+        exitListener = new ExitListener() {
+            @Override
+            public void exit() {
+                //do nothing
+            }
+        };
+
+        selectListener = new SelectListener() {
+            @Override
+            public void select() {
+                //do nothing
+            }
+        };
     }
 
     public void left(){
@@ -34,6 +67,11 @@ public class InputManager {
     public void exit(){
         if(gameInputMethod.exit())
             exitListener.exit();
+    }
+
+    private void select() {
+        if(gameInputMethod.select())
+            selectListener.select();
     }
 
     public void setLeftListener(LeftListener leftListener) {
@@ -57,7 +95,11 @@ public class InputManager {
         right();
         fire();
         exit();
+        select();
+    }
 
+    public void setSelectListener(SelectListener listener) {
+        this.selectListener = listener;
     }
 
     public interface LeftListener{
@@ -74,5 +116,9 @@ public class InputManager {
 
     public interface ExitListener{
         void exit();
+    }
+
+    public interface SelectListener{
+        void select();
     }
 }

@@ -24,7 +24,21 @@ public class KeyboardInput implements GameInputMethod{
 
     @Override
     public boolean exit(){
-        //todo quit the game;
-        return false;
+        return Gdx.input.isKeyPressed(Input.Keys.ESCAPE);
+    }
+
+    @Override
+    public boolean up() {
+        return Gdx.input.isKeyPressed(Input.Keys.UP);
+    }
+
+    @Override
+    public boolean down() {
+        return Gdx.input.isKeyPressed(Input.Keys.DOWN);
+    }
+
+    @Override
+    public boolean select() {
+        return Gdx.input.isKeyPressed(Input.Keys.ENTER);
     }
 }

@@ -4,18 +4,17 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.samsung.business.spaceinvaders.entity.Enemy;
 import com.samsung.business.spaceinvaders.entity.Invasion;
 import com.samsung.business.spaceinvaders.entity.Spaceship;
-import com.samsung.business.spaceinvaders.entity.Enemy;
-import com.samsung.business.spaceinvaders.ui.InputManager;
-import com.samsung.business.spaceinvaders.ui.KeyboardInput;
-import com.samsung.business.spaceinvaders.ui.TouchInput;
-import com.samsung.business.spaceinvaders.ui.Score;
-import com.samsung.business.spaceinvaders.manager.ShootManager;
 import com.samsung.business.spaceinvaders.manager.GameManager;
 import com.samsung.business.spaceinvaders.manager.GraphicsManager;
+import com.samsung.business.spaceinvaders.manager.ShootManager;
+import com.samsung.business.spaceinvaders.ui.InputManager;
+import com.samsung.business.spaceinvaders.ui.KeyboardInput;
+import com.samsung.business.spaceinvaders.ui.Score;
+import com.samsung.business.spaceinvaders.ui.TouchInput;
 
 public class GameScreen implements Screen {
     private final SpaceInvaders spaceInvaders;
@@ -59,6 +58,12 @@ public class GameScreen implements Screen {
                 break;
         }
 
+        inputManager.setExitListener(()->{
+            spaceInvaders.setScreen(new MainMenuScreen(spaceInvaders));
+            spaceInvaders.getScore().reset();
+            dispose();
+        });
+
         //zaladuj tekstury
         graphicsManager = GraphicsManager.loadGraphics();
 
@@ -91,15 +96,15 @@ public class GameScreen implements Screen {
         gameManager.setObserverOnGameOver(new GameManager.ObserverOnGameOver() {
             @Override
             public void onGameOver(SpriteBatch batch, Score s) {
-//                BitmapFont font = new BitmapFont();
-//                font.draw(batch, "GAME OVER " + s.getValue(), 10, 230);
+                spaceInvaders.setScreen(new GameOverScreen(spaceInvaders));
+                dispose();
             }
         });
         gameManager.setObserverOnWin(new GameManager.ObserverOnWin() {
             @Override
             public void onGameFinished(SpriteBatch batch, Score s) {
-                BitmapFont font = new BitmapFont();
-                font.draw(batch, "YOU WON! " + s.getValue(), 10, 230);
+                spaceInvaders.setScreen(new GameWinScreen(spaceInvaders));
+                dispose();
             }
         });
         gameManager.setNextFrameListener(new GameManager.OnNextFrameListener() {
@@ -137,10 +142,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        // clear the screen with a dark blue color. The
-        // arguments to glClearColor are the red, green
-        // blue and alpha component in the range [0,1]
-        // of the color to be used to clear the screen.
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -154,6 +155,7 @@ public class GameScreen implements Screen {
         //renderowanie gry
         spaceInvaders.batch.begin();
         gameManager.render(spaceInvaders.batch);
+        inputManager.update();
         spaceInvaders.batch.end();
 
         updatGameState();
@@ -161,7 +163,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        camera.update();
     }
 
     @Override
@@ -181,6 +183,5 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-
     }
 }
