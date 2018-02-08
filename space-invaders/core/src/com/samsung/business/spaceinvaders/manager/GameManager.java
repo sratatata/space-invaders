@@ -19,14 +19,13 @@ public class GameManager {
     public GameManager() {
     }
 
-    public void render(SpriteBatch batch) {
+    public void render(SpriteBatch batch, float delta) {
         if (gameOver) {
             observerOnGameOver.onGameOver(batch, score);
         } else if (win) {
             observerOnWin.onGameFinished(batch, score);
-            onNextFrameListener.frame(batch);
         } else {
-            onNextFrameListener.frame(batch);
+            onNextFrameListener.frame(batch, delta);
         }
     }
 
@@ -66,6 +65,6 @@ public class GameManager {
     }
 
     public interface OnNextFrameListener {
-        void frame(SpriteBatch batch);
+        void frame(SpriteBatch batch, float delta);
     }
 }

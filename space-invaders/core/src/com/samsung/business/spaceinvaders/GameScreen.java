@@ -21,8 +21,6 @@ public class GameScreen implements Screen {
 
     private OrthographicCamera camera;
 
-    private float animationTime;
-
     private ShootManager shootManager;
     private GameManager gameManager;
     private GraphicsManager graphicsManager;
@@ -40,10 +38,6 @@ public class GameScreen implements Screen {
         // create the camera and the SpriteBatch
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
-
-
-        animationTime = 0f;
 
         //zaladuj nadzorce gry
         gameManager = new GameManager();
@@ -109,11 +103,10 @@ public class GameScreen implements Screen {
         });
         gameManager.setNextFrameListener(new GameManager.OnNextFrameListener() {
             @Override
-            public void frame(SpriteBatch batch) {
-                animationTime += Gdx.graphics.getDeltaTime();
-                player.render(batch, animationTime);
-                shootManager.render(batch, animationTime);
-                invasion.render(batch, animationTime);
+            public void frame(SpriteBatch batch, float delta) {
+                player.render(batch, delta);
+                shootManager.render(batch, delta);
+                invasion.render(batch, delta);
                 spaceInvaders.getScore().render(batch);
             }
         });
@@ -154,7 +147,7 @@ public class GameScreen implements Screen {
 
         //renderowanie gry
         spaceInvaders.batch.begin();
-        gameManager.render(spaceInvaders.batch);
+        gameManager.render(spaceInvaders.batch, delta);
         inputManager.update();
         spaceInvaders.batch.end();
 
