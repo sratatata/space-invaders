@@ -1,8 +1,4 @@
-package com.samsung.business.spaceinvaders.manager;
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.sun.javafx.property.adapter.PropertyDescriptor;
+package com.samsung.business.spaceinvaders.ui;
 
 /**
  * Created by lb_lb on 27.01.18.

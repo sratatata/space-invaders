@@ -1,4 +1,4 @@
-package com.samsung.business.spaceinvaders.manager;
+package com.samsung.business.spaceinvaders.ui;
 
 /**
  * Created by lb_lb on 27.01.18.

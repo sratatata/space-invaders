@@ -1,4 +1,4 @@
-package com.samsung.business.spaceinvaders.manager;
+package com.samsung.business.spaceinvaders.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;

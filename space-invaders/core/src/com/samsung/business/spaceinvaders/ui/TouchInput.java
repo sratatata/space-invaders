@@ -1,7 +1,6 @@
-package com.samsung.business.spaceinvaders.manager;
+package com.samsung.business.spaceinvaders.ui;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector3;
 
 /**
  * Created by lb_lb on 27.01.18.
