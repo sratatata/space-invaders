@@ -25,7 +25,7 @@ public class Score {
         this.score += score;
     }
 
-    public int getScore() {
+    public int getValue() {
         return score;
     }
 }
