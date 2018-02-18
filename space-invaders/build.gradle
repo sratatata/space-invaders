@@ -10,6 +10,10 @@ buildscript {
     }
 }
 
+plugins {
+    id "org.asciidoctor.convert" version "1.5.3"
+}
+
 allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
@@ -62,7 +66,6 @@ project(":android") {
 project(":core") {
     apply plugin: "java"
 
-
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
     }
@@ -71,3 +74,7 @@ project(":core") {
 tasks.eclipse.doLast {
     delete ".project"
 }
+
+
+
+defaultTasks 'asciidoctor'

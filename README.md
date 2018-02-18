@@ -76,6 +76,9 @@ desktop - moduł zawiera równie małą aplikację, która uruchamia naszą gre 
 
 core - to jest najważniejszy moduł wszystkie zmiany będziemy wprowadzać w tym module, jest to serce naszej implementacji
 
+#### Komponenty
+
+![diagram komponentow](http://uml.mvnsearch.org/github/sratatata/space-invaders/blob/master/static/core-components.puml)
 
 ## Lekcja 2 - Animacja postaci
 

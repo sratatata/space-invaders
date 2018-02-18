@@ -2,18 +2,21 @@ package com.samsung.business.spaceinvaders;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.samsung.business.spaceinvaders.ui.Score;
+import com.samsung.business.spaceinvaders.manager.ScoreManager;
+import com.samsung.business.spaceinvaders.screens.GameOverScreen;
+import com.samsung.business.spaceinvaders.screens.GameScreen;
+import com.samsung.business.spaceinvaders.screens.GameWinScreen;
+import com.samsung.business.spaceinvaders.screens.MainMenuScreen;
 
 public class SpaceInvaders extends Game {
     public SpriteBatch batch;
-    private Score score;
+    private ScoreManager score;
 
     @Override
     public void create() {
         batch = new SpriteBatch();
-//        this.setScreen(new MainMenuScreen(this));
         this.setScreen(new MainMenuScreen(this));
-        score = new Score(0);
+        score = new ScoreManager(0);
 
     }
     @Override
@@ -26,8 +29,25 @@ public class SpaceInvaders extends Game {
         batch.dispose();
     }
 
+    public void gameOver() {
+        this.setScreen(new GameOverScreen(this));
+    }
 
-    public Score getScore() {
+    public void win() {
+        this.setScreen(new GameWinScreen(this));
+    }
+
+    public ScoreManager getScore() {
         return score;
+    }
+
+    public void restart() {
+        score.reset();
+        start();
+    }
+
+    public void start() {
+        this.setScreen(new GameScreen(this));
+
     }
 }

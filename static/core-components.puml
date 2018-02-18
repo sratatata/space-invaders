@@ -1,0 +1,40 @@
+@startuml
+package "spaceinvaders" {
+
+    package "manager" {
+        [GraphicsManager] -down-> Graphics
+        [ShootManager] -> [GraphicsManager] : use
+        [ShootManager] --> Shoot : manages
+        [ScoreManager]
+    }
+
+    package "ui" {
+        [InputManager] -up- TouchInput
+        [InputManager] -down- KeyboardInput
+    }
+
+    package "entity" {
+        [Enemy]
+        [Invasion] --> [Enemy] : use
+        [Spaceship] .....> InputManager : use
+    }
+
+    package "screens" {
+        [GameScreen] --> [InputManager] : use
+        [GameScreen] ----> [Spaceship] : renders
+        [GameScreen] ----> [Invasion] : renders
+        [GameScreen] --> [ShootManager] : use
+        [GameOverScreen]
+        [GameWinScreen]
+        [MainMenuScreen]
+    }
+
+    [SpaceInvaders] -> Game
+    [SpaceInvaders] .....> [ScoreManager] : creates
+    [SpaceInvaders] ..> screens : manages
+
+
+    manager .> entity : <depends>
+}
+
+@enduml

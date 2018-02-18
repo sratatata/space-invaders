@@ -1,19 +1,18 @@
-package com.samsung.business.spaceinvaders;
+package com.samsung.business.spaceinvaders.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.samsung.business.spaceinvaders.SpaceInvaders;
 import com.samsung.business.spaceinvaders.entity.Enemy;
 import com.samsung.business.spaceinvaders.entity.Invasion;
 import com.samsung.business.spaceinvaders.entity.Spaceship;
-import com.samsung.business.spaceinvaders.manager.GameManager;
 import com.samsung.business.spaceinvaders.manager.GraphicsManager;
 import com.samsung.business.spaceinvaders.manager.ShootManager;
 import com.samsung.business.spaceinvaders.ui.InputManager;
 import com.samsung.business.spaceinvaders.ui.KeyboardInput;
-import com.samsung.business.spaceinvaders.ui.Score;
+import com.samsung.business.spaceinvaders.ui.ScoreGuiLabel;
 import com.samsung.business.spaceinvaders.ui.TouchInput;
 
 public class GameScreen implements Screen {
@@ -22,15 +21,17 @@ public class GameScreen implements Screen {
     private OrthographicCamera camera;
 
     private ShootManager shootManager;
-    private GameManager gameManager;
     private GraphicsManager graphicsManager;
     private InputManager inputManager;
 
     private Spaceship player;
     private Invasion invasion;
 
+    private ScoreGuiLabel scoreGuiLabel;
+
     public GameScreen(SpaceInvaders spaceInvaders) {
         this.spaceInvaders = spaceInvaders;
+        scoreGuiLabel = new ScoreGuiLabel();
         create();
     }
 
@@ -38,9 +39,6 @@ public class GameScreen implements Screen {
         // create the camera and the SpriteBatch
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
-        //zaladuj nadzorce gry
-        gameManager = new GameManager();
 
         //zaladuj menadzera sterowania
         switch(Gdx.app.getType()) {
@@ -66,7 +64,8 @@ public class GameScreen implements Screen {
         player.listenOnPlayerHit(new Spaceship.OnPlayerHit() {
             @Override
             public void onPlayerHit() {
-                gameManager.gameOver();
+                spaceInvaders.gameOver();
+                dispose();
             }
         });
 
@@ -83,31 +82,8 @@ public class GameScreen implements Screen {
         invasion.listenOnInvasionDestroyed(new Invasion.OnInvasionDestroyed() {
             @Override
             public void onInvasionDestroyed() {
-                gameManager.win();
-            }
-        });
-
-        gameManager.setObserverOnGameOver(new GameManager.ObserverOnGameOver() {
-            @Override
-            public void onGameOver(SpriteBatch batch, Score s) {
-                spaceInvaders.setScreen(new GameOverScreen(spaceInvaders));
+                spaceInvaders.win();
                 dispose();
-            }
-        });
-        gameManager.setObserverOnWin(new GameManager.ObserverOnWin() {
-            @Override
-            public void onGameFinished(SpriteBatch batch, Score s) {
-                spaceInvaders.setScreen(new GameWinScreen(spaceInvaders));
-                dispose();
-            }
-        });
-        gameManager.setNextFrameListener(new GameManager.OnNextFrameListener() {
-            @Override
-            public void frame(SpriteBatch batch, float delta) {
-                player.render(batch, delta);
-                shootManager.render(batch, delta);
-                invasion.render(batch, delta);
-                spaceInvaders.getScore().render(batch);
             }
         });
 
@@ -116,6 +92,8 @@ public class GameScreen implements Screen {
         shootManager.onMissed(()->{
             spaceInvaders.getScore().addScore(-10);
         });
+
+
     }
 
 
@@ -126,6 +104,9 @@ public class GameScreen implements Screen {
 
         //zaktualizuj stan pociskow
         shootManager.updateShots();
+
+
+        scoreGuiLabel.setScore(spaceInvaders.getScore().getValue());
     }
 
     @Override
@@ -147,9 +128,14 @@ public class GameScreen implements Screen {
 
         //renderowanie gry
         spaceInvaders.batch.begin();
-        gameManager.render(spaceInvaders.batch, delta);
-        inputManager.update();
+
+        player.render(spaceInvaders.batch, delta);
+        shootManager.render(spaceInvaders.batch, delta);
+        invasion.render(spaceInvaders.batch, delta);
+        scoreGuiLabel.render(spaceInvaders.batch);
         spaceInvaders.batch.end();
+
+        inputManager.update();
 
         updatGameState();
     }
