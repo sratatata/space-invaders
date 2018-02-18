@@ -25,7 +25,11 @@ public class Score {
         this.score += score;
     }
 
-    public int getScore() {
+    public int getValue() {
         return score;
+    }
+
+    public void reset() {
+        score = 0;
     }
 }

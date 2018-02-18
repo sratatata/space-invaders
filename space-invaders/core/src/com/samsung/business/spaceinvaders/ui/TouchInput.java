@@ -41,9 +41,28 @@ public class TouchInput implements GameInputMethod {
                 && Gdx.input.getY() < MIDDLE_Y;
     }
 
+    /**
+     * When upper rectangle of screen is touched with two fingers
+     * @return when touched true
+     */
     @Override
     public boolean exit() {
-        //todo add exit button
+        return Gdx.input.isTouched(0) && Gdx.input.isTouched(1)
+                && Gdx.input.getY() < MIDDLE_Y;
+    }
+
+    @Override
+    public boolean up() {
+        return false;
+    }
+
+    @Override
+    public boolean down() {
+        return false;
+    }
+
+    @Override
+    public boolean select() {
         return false;
     }
 }
