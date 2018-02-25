@@ -12,7 +12,7 @@ import com.samsung.business.spaceinvaders.manager.GraphicsManager;
 import com.samsung.business.spaceinvaders.manager.ShootManager;
 import com.samsung.business.spaceinvaders.ui.InputManager;
 import com.samsung.business.spaceinvaders.ui.KeyboardInput;
-import com.samsung.business.spaceinvaders.ui.ScoreGuiLabel;
+import com.samsung.business.spaceinvaders.ui.components.ScoreGuiLabel;
 import com.samsung.business.spaceinvaders.ui.TouchInput;
 
 public class GameScreen implements Screen {

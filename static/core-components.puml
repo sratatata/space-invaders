@@ -11,6 +11,8 @@ package "spaceinvaders" {
     package "ui" {
         [InputManager] -up- TouchInput
         [InputManager] -down- KeyboardInput
+
+        package "components"
     }
 
     package "entity" {
@@ -35,6 +37,7 @@ package "spaceinvaders" {
 
 
     manager .> entity : <depends>
+    screens .> components : use
 }
 
 @enduml
