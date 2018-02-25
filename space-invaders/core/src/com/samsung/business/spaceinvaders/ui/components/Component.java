@@ -8,4 +8,5 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public interface Component {
     void render(SpriteBatch batch);
+
 }
