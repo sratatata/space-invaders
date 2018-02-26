@@ -21,6 +21,7 @@ public class GraphicsManager {
         graphicsManager.addGraphics("wrog", Graphics.loadFromFile(Gdx.files.internal("obcy.png"), 4, 2));
         graphicsManager.addGraphics("pocisk", Graphics.loadFromFile(Gdx.files.internal("pocisk-rakieta.png"), 5, 1));
         graphicsManager.addGraphics("obcyPocisk", Graphics.loadFromFile(Gdx.files.internal("obcy-plazma.png"), 3, 3));
+        graphicsManager.addGraphics("button", Graphics.loadFromFile(Gdx.files.internal("button.png"), 1, 1));
 
         return graphicsManager;
     }

@@ -23,7 +23,7 @@ public class ScoreGuiLabel implements Component{
     }
 
     @Override
-    public void render(SpriteBatch batch){
+    public void render(SpriteBatch batch, float delta){
         BitmapFont font = new BitmapFont();
         font.draw(batch, String.valueOf(score),  MARGIN_LEFT, Gdx.graphics.getHeight() - MARGIN_TOP);
     }

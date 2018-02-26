@@ -7,6 +7,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  */
 
 public interface Component {
-    void render(SpriteBatch batch);
+    void render(SpriteBatch batch, float animationTime);
 
+
+
+    interface OnClickListener {
+        public void onClick();
+    }
 }

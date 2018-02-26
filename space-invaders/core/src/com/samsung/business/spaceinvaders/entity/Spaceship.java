@@ -56,12 +56,16 @@ public class Spaceship implements Targetable {
         lastShotTime = TimeUtils.nanoTime();
     }
 
+    public void shoot(ShootManager shootManager){
+        playerShot(shootManager);
+    }
+
     private boolean canShoot() {
         return TimeUtils.nanoTime() - lastShotTime > 600 * 1000 * 1000;
     }
 
     public void update(OrthographicCamera camera, ShootManager shootManager) {
-        // process user input
+        // checkClick user input
         inputManager.setLeftListener(()->{
             spaceshipRectangle.x -= 200 * Gdx.graphics.getDeltaTime();
 
