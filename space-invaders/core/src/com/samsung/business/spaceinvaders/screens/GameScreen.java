@@ -10,9 +10,9 @@ import com.samsung.business.spaceinvaders.entity.Invasion;
 import com.samsung.business.spaceinvaders.entity.Spaceship;
 import com.samsung.business.spaceinvaders.manager.GraphicsManager;
 import com.samsung.business.spaceinvaders.manager.ShootManager;
+import com.samsung.business.spaceinvaders.ui.ControlsInput;
 import com.samsung.business.spaceinvaders.ui.InputManager;
 import com.samsung.business.spaceinvaders.ui.KeyboardInput;
-import com.samsung.business.spaceinvaders.ui.TouchInput;
 import com.samsung.business.spaceinvaders.ui.components.Button;
 import com.samsung.business.spaceinvaders.ui.components.ScoreGuiLabel;
 import com.samsung.business.spaceinvaders.ui.components.Stick;
@@ -44,10 +44,14 @@ public class GameScreen implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
+        //zaladuj tekstury
+        graphicsManager = GraphicsManager.loadGraphics();
+
         //zaladuj menadzera sterowania
         switch(Gdx.app.getType()) {
             case Android:
-                inputManager = new InputManager(new TouchInput());
+                configureControlsInput();
+                inputManager = new InputManager(new ControlsInput(button, stick));
                 break;
             case Desktop:
                 inputManager = new InputManager(new KeyboardInput());
@@ -60,8 +64,6 @@ public class GameScreen implements Screen {
             dispose();
         });
 
-        //zaladuj tekstury
-        graphicsManager = GraphicsManager.loadGraphics();
 
         //utworz rakiete gracza
         player = new Spaceship(graphicsManager.find("rakieta"), inputManager);
@@ -96,16 +98,15 @@ public class GameScreen implements Screen {
         shootManager.onMissed(()->{
             spaceInvaders.getScore().addScore(-10);
         });
+    }
 
-        button = new Button(graphicsManager.find("button"));
-        button.setOnClickListener(() -> {
-            player.shoot(shootManager);
-        });
+    private void configureControlsInput() {
+        GraphicsManager.Graphics fireBackground = graphicsManager.find("button");
+        button = new Button(120, 120, 100, fireBackground, camera);
 
         GraphicsManager.Graphics stickBackground = graphicsManager.find("stick");
         GraphicsManager.Graphics stickIndicator = graphicsManager.find("stickIndicator");
-        stick = new Stick(800, 500, 250, stickBackground, stickIndicator, camera );
-
+        stick = new Stick(Gdx.graphics.getWidth()-270, 270, 250, stickBackground, stickIndicator, camera );
     }
 
 

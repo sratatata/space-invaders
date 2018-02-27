@@ -1,10 +1,11 @@
 package com.samsung.business.spaceinvaders.ui.components;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector3;
 import com.samsung.business.spaceinvaders.manager.GraphicsManager;
-import com.samsung.business.spaceinvaders.ui.InputManager;
 
 /**
  * Created by lb_lb on 25.02.18.
@@ -12,37 +13,49 @@ import com.samsung.business.spaceinvaders.ui.InputManager;
 
 public class Button implements Component {
     private OnClickListener listener;
-    private final GraphicsManager.Graphics graphics;
+    private final GraphicsManager.Graphics background;
+    private final Camera camera;
+    private final int x;
+    private final int y;
+    private final int radius;
+    private Vector3 touchPos = new Vector3();
 
-    private int x = 0, y = 0;
-
-    public Button(GraphicsManager.Graphics graphics) {
-        this.graphics = graphics;
+    public Button(int x, int y, int radius, GraphicsManager.Graphics background, Camera camera) {
+        this.background = background;
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
+        this.camera = camera;
     }
 
     @Override
     public void render(SpriteBatch batch, float animationTime) {
-        TextureRegion frame = graphics.frameToRender(animationTime);
+        TextureRegion frame = background.frameToRender(animationTime);
         batch.draw(frame, x, y);
-        checkClick();
+        if (checkClick()){
+            handleClickListener();
+        }
     }
 
-    public void setPosition(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public boolean checkClick(){
+        if(Gdx.input.isTouched() || Gdx.input.isButtonPressed(0)) {
+            touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+            camera.unproject(touchPos);
+            if ((x - touchPos.x)*(x - touchPos.x)+(y - touchPos.y)*(y - touchPos.y) <= radius*radius) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    public void handleClickListener() {
+        if (listener != null){
+            listener.onClick();
+        }
     }
 
     public void setOnClickListener(OnClickListener listener) {
         this.listener = listener;
-    }
-
-    public void checkClick() {
-        //TODO calculate click radius from center point of button
-        if (x + 80 >= Gdx.graphics.getWidth()-Gdx.input.getX()
-                && y + 80 >= Gdx.graphics.getHeight()- Gdx.input.getY()
-                && (Gdx.input.isButtonPressed(0) || Gdx.input.isTouched())
-                ) {
-            listener.onClick();
-        }
     }
 }
