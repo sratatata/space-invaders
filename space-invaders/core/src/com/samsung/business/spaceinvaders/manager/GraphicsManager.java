@@ -22,6 +22,8 @@ public class GraphicsManager {
         graphicsManager.addGraphics("pocisk", Graphics.loadFromFile(Gdx.files.internal("pocisk-rakieta.png"), 5, 1));
         graphicsManager.addGraphics("obcyPocisk", Graphics.loadFromFile(Gdx.files.internal("obcy-plazma.png"), 3, 3));
         graphicsManager.addGraphics("button", Graphics.loadFromFile(Gdx.files.internal("button.png"), 1, 1));
+        graphicsManager.addGraphics("stick", Graphics.loadFromFile(Gdx.files.internal("stick.png"), 1, 1));
+        graphicsManager.addGraphics("stickIndicator", Graphics.loadFromFile(Gdx.files.internal("stick_indicator.png"), 1, 1));
 
         return graphicsManager;
     }

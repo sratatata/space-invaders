@@ -12,9 +12,10 @@ import com.samsung.business.spaceinvaders.manager.GraphicsManager;
 import com.samsung.business.spaceinvaders.manager.ShootManager;
 import com.samsung.business.spaceinvaders.ui.InputManager;
 import com.samsung.business.spaceinvaders.ui.KeyboardInput;
+import com.samsung.business.spaceinvaders.ui.TouchInput;
 import com.samsung.business.spaceinvaders.ui.components.Button;
 import com.samsung.business.spaceinvaders.ui.components.ScoreGuiLabel;
-import com.samsung.business.spaceinvaders.ui.TouchInput;
+import com.samsung.business.spaceinvaders.ui.components.Stick;
 
 public class GameScreen implements Screen {
     private final SpaceInvaders spaceInvaders;
@@ -30,6 +31,7 @@ public class GameScreen implements Screen {
 
     private ScoreGuiLabel scoreGuiLabel;
     private Button button;
+    private Stick stick;
 
     public GameScreen(SpaceInvaders spaceInvaders) {
         this.spaceInvaders = spaceInvaders;
@@ -100,6 +102,10 @@ public class GameScreen implements Screen {
             player.shoot(shootManager);
         });
 
+        GraphicsManager.Graphics stickBackground = graphicsManager.find("stick");
+        GraphicsManager.Graphics stickIndicator = graphicsManager.find("stickIndicator");
+        stick = new Stick(800, 500, 250, stickBackground, stickIndicator, camera );
+
     }
 
 
@@ -141,6 +147,7 @@ public class GameScreen implements Screen {
         scoreGuiLabel.render(spaceInvaders.batch, delta);
 
         button.render(spaceInvaders.batch, delta);
+        stick.render(spaceInvaders.batch, delta);
 
         spaceInvaders.batch.end();
 
