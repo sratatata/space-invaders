@@ -42,7 +42,7 @@ public class GameScreen implements Screen {
     public void create() {
         // create the camera and the SpriteBatch
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        camera.setToOrtho(false, com.samsung.business.spaceinvaders.ui.Screen.getWidth(), com.samsung.business.spaceinvaders.ui.Screen.getHeight());
 
         //zaladuj tekstury
         graphicsManager = GraphicsManager.loadGraphics();
@@ -102,11 +102,11 @@ public class GameScreen implements Screen {
 
     private void configureControlsInput() {
         GraphicsManager.Graphics fireBackground = graphicsManager.find("button");
-        button = new Button(120, 120, 100, fireBackground, camera);
+        button = new Button(40, 40, 30, fireBackground, camera);
 
         GraphicsManager.Graphics stickBackground = graphicsManager.find("stick");
         GraphicsManager.Graphics stickIndicator = graphicsManager.find("stickIndicator");
-        stick = new Stick(Gdx.graphics.getWidth()-270, 270, 200, 60, stickBackground, stickIndicator, camera );
+        stick = new Stick(com.samsung.business.spaceinvaders.ui.Screen.getWidth()-110, 110, 100, 30, stickBackground, stickIndicator, camera );
     }
 
 

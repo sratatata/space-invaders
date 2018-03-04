@@ -1,11 +1,11 @@
 package com.samsung.business.spaceinvaders.entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.samsung.business.spaceinvaders.manager.GraphicsManager;
 import com.samsung.business.spaceinvaders.manager.ShootManager;
+import com.samsung.business.spaceinvaders.ui.Screen;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -17,8 +17,8 @@ import java.util.List;
  * Created by lb_lb on 04.11.17.
  */
 public class Invasion {
-    private static final int HEIGHT = Gdx.graphics.getHeight();
-    private static final int WIDTH = Gdx.graphics.getWidth();
+    private static final int HEIGHT = Screen.getHeight();
+    private static final int WIDTH = Screen.getWidth();
     private static final int PADDING_TOP = 10;
     private static final int ENEMY_ROWS_COUNT = 3;
     private static final int ENEMY_IN_ROW_COUNT = 10;

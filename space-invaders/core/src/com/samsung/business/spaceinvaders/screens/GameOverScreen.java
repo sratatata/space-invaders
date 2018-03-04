@@ -23,7 +23,7 @@ public class GameOverScreen implements Screen , GameInputMethod{
 
         // tell the camera to update its matrices.
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        camera.setToOrtho(false, com.samsung.business.spaceinvaders.ui.Screen.getWidth(), com.samsung.business.spaceinvaders.ui.Screen.getHeight());
         this.spaceInvaders = spaceInvaders;
 
         //zaladuj menadzera sterowania

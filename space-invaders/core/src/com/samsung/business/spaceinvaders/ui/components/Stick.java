@@ -61,7 +61,7 @@ public class Stick implements Component {
     }
 
     private boolean checkClick(int pointer){
-        if(Gdx.input.isTouched(pointer) || Gdx.input.isButtonPressed(0)) {
+        if(Gdx.input.isTouched(pointer)) {
             touchPos.set(Gdx.input.getX(pointer), Gdx.input.getY(pointer), 0);
             camera.unproject(touchPos);
             if ((x - touchPos.x)*(x - touchPos.x)+(y - touchPos.y)*(y - touchPos.y) <= radius*radius) {

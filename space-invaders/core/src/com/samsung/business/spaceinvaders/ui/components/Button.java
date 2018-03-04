@@ -34,7 +34,7 @@ public class Button implements Component {
     @Override
     public void render(SpriteBatch batch, float animationTime) {
         TextureRegion frame = background.frameToRender(animationTime);
-        batch.draw(frame, x, y);
+        batch.draw(frame, x-radius, y-radius, this.radius * 2, this.radius * 2);
         if (checkClick()){
             handleClickListener();
         }
@@ -50,7 +50,7 @@ public class Button implements Component {
     }
 
     private boolean checkClick(int pointer){
-        if(Gdx.input.isTouched(pointer) || Gdx.input.isButtonPressed(0)) {
+        if(Gdx.input.isTouched(pointer)) {
             touchPos.set(Gdx.input.getX(pointer), Gdx.input.getY(pointer), 0);
             camera.unproject(touchPos);
             if ((x - touchPos.x)*(x - touchPos.x)+(y - touchPos.y)*(y - touchPos.y) <= radius*radius) {
