@@ -106,7 +106,7 @@ public class GameScreen implements Screen {
 
         GraphicsManager.Graphics stickBackground = graphicsManager.find("stick");
         GraphicsManager.Graphics stickIndicator = graphicsManager.find("stickIndicator");
-        stick = new Stick(Gdx.graphics.getWidth()-270, 270, 250, stickBackground, stickIndicator, camera );
+        stick = new Stick(Gdx.graphics.getWidth()-270, 270, 200, 60, stickBackground, stickIndicator, camera );
     }
 
 

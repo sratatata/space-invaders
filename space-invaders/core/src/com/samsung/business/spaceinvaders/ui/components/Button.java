@@ -12,6 +12,9 @@ import com.samsung.business.spaceinvaders.manager.GraphicsManager;
  */
 
 public class Button implements Component {
+
+    public static final int MAX_POINTERS = 5;
+
     private OnClickListener listener;
     private final GraphicsManager.Graphics background;
     private final Camera camera;
@@ -38,8 +41,17 @@ public class Button implements Component {
     }
 
     public boolean checkClick(){
-        if(Gdx.input.isTouched() || Gdx.input.isButtonPressed(0)) {
-            touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+        for (int pointer = 0; pointer < MAX_POINTERS; pointer++){
+            if (checkClick(pointer)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean checkClick(int pointer){
+        if(Gdx.input.isTouched(pointer) || Gdx.input.isButtonPressed(0)) {
+            touchPos.set(Gdx.input.getX(pointer), Gdx.input.getY(pointer), 0);
             camera.unproject(touchPos);
             if ((x - touchPos.x)*(x - touchPos.x)+(y - touchPos.y)*(y - touchPos.y) <= radius*radius) {
                 return true;
@@ -47,7 +59,6 @@ public class Button implements Component {
         }
         return false;
     }
-
 
     public void handleClickListener() {
         if (listener != null){
