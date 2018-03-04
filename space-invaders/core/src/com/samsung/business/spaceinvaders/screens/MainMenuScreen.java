@@ -17,8 +17,8 @@ public class MainMenuScreen implements Screen , GameInputMethod{
 
     private OrthographicCamera camera;
 
-    private int height = Gdx.graphics.getHeight();
-    private int width = Gdx.graphics.getWidth();
+    private int height = com.samsung.business.spaceinvaders.ui.Screen.getHeight();
+    private int width = com.samsung.business.spaceinvaders.ui.Screen.getWidth();
 
     public MainMenuScreen(SpaceInvaders spaceInvaders) {
         font = new BitmapFont();
@@ -29,7 +29,7 @@ public class MainMenuScreen implements Screen , GameInputMethod{
 
         // tell the camera to update its matrices.
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        camera.setToOrtho(false, com.samsung.business.spaceinvaders.ui.Screen.getWidth(), com.samsung.business.spaceinvaders.ui.Screen.getHeight());
 
 
         //zaladuj menadzera sterowania

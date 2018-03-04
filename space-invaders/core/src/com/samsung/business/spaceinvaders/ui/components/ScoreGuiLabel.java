@@ -1,14 +1,14 @@
 package com.samsung.business.spaceinvaders.ui.components;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.samsung.business.spaceinvaders.ui.Screen;
 
 /**
  * Created by lb_lb on 18.02.18.
  */
 
-public class ScoreGuiLabel {
+public class ScoreGuiLabel implements Component{
     private final static int MARGIN_TOP = 10;
     private final static int MARGIN_LEFT = 130;
     private int score;
@@ -22,9 +22,10 @@ public class ScoreGuiLabel {
         this.score = score;
     }
 
-    public void render(SpriteBatch batch){
+    @Override
+    public void render(SpriteBatch batch, float delta){
         BitmapFont font = new BitmapFont();
-        font.draw(batch, String.valueOf(score),  MARGIN_LEFT, Gdx.graphics.getHeight() - MARGIN_TOP);
+        font.draw(batch, String.valueOf(score),  MARGIN_LEFT, Screen.getHeight() - MARGIN_TOP);
     }
 
 }

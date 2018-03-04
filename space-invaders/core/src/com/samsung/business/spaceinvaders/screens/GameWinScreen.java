@@ -23,7 +23,7 @@ public class GameWinScreen implements Screen, GameInputMethod {
 
         // tell the camera to update its matrices.
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        camera.setToOrtho(false, com.samsung.business.spaceinvaders.ui.Screen.getWidth(), com.samsung.business.spaceinvaders.ui.Screen.getHeight());
         this.spaceInvaders = spaceInvaders;
 
         //zaladuj menadzera sterowania
@@ -52,13 +52,13 @@ public class GameWinScreen implements Screen, GameInputMethod {
         spaceInvaders.batch.setProjectionMatrix(camera.combined);
 
         spaceInvaders.batch.begin();
-        font.draw(spaceInvaders.batch, "GAME WON! " + spaceInvaders.getScore().getValue(), 10, Gdx.graphics.getHeight()/2);
+        font.draw(spaceInvaders.batch, "GAME WON! " + spaceInvaders.getScore().getValue(), 10, com.samsung.business.spaceinvaders.ui.Screen.getHeight()/2);
         switch(Gdx.app.getType()) {
             case Android:
-                font.draw(spaceInvaders.batch, "Touch screen to restart", 10, Gdx.graphics.getHeight()/2-50);
+                font.draw(spaceInvaders.batch, "Touch screen to restart", 10, com.samsung.business.spaceinvaders.ui.Screen.getHeight()/2-50);
                 break;
             case Desktop:
-                font.draw(spaceInvaders.batch, "Press enter to restart", 10, Gdx.graphics.getHeight()/2-50);
+                font.draw(spaceInvaders.batch, "Press enter to restart", 10, com.samsung.business.spaceinvaders.ui.Screen.getHeight()/2-50);
 
                 break;
         }
