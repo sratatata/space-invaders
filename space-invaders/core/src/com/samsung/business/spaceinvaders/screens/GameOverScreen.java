@@ -18,8 +18,6 @@ public class GameOverScreen implements Screen , GameInputMethod{
 
     public GameOverScreen(SpaceInvaders spaceInvaders) {
         font = new BitmapFont();
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // tell the camera to update its matrices.
         camera = new OrthographicCamera();
@@ -50,6 +48,8 @@ public class GameOverScreen implements Screen , GameInputMethod{
 
     @Override
     public void render(float delta) {
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();
         spaceInvaders.batch.setProjectionMatrix(camera.combined);
         spaceInvaders.batch.begin();
