@@ -104,6 +104,7 @@ public class Invasion {
                 iter.remove();
                 iterEnemy.remove();
                 enemyHit = enemy;
+                break;
             }
         }
         if (enemyHit != null) {
