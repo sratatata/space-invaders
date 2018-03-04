@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.samsung.business.spaceinvaders.manager.ShootManager;
 import com.samsung.business.spaceinvaders.manager.GraphicsManager;
+import com.samsung.business.spaceinvaders.manager.ShootManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,21 +21,21 @@ public class Enemy implements Targetable {
     private GraphicsManager.Graphics graphics;
     private Rectangle position;
     private boolean canShoot;
-    private long lastShotTime;
+    private long nextShotTime;
     private List<OnDestroyed> onDestroyed;
     private static final float MOVE_BARIER = 150f;
     private float delta = 0;
     private int direction = 1;
 
 
-    public Enemy(GraphicsManager.Graphics graphics, Rectangle rectangle, boolean canShoot, long lastShotTime) {
+    public Enemy(GraphicsManager.Graphics graphics, Rectangle rectangle, boolean canShoot) {
         onDestroyed = new ArrayList<>();
         this.graphics = graphics;
         this.position = rectangle;
         this.canShoot = canShoot;
-        this.lastShotTime = lastShotTime;
         this.delta = MOVE_BARIER/2;
         this.position.x+=MOVE_BARIER/2;
+        prepareNextShot();
     }
 
     public void updateState(OrthographicCamera camera){
@@ -78,15 +78,15 @@ public class Enemy implements Targetable {
     }
 
     public void shot(ShootManager shootManager) {
-        if (this.canShoot &&
-                TimeUtils.nanoTime() - this.lastShotTime >
-                        MathUtils.random(5000000000L, 15000000000L)
-                ) {
-            this.lastShotTime = TimeUtils.nanoTime();
-
+        if (this.canShoot && TimeUtils.nanoTime() > nextShotTime) {
+            prepareNextShot();
             GraphicsManager.Graphics shotGraphics = shootManager.graphicsManager.find("obcyPocisk");
             shootManager.addShot(new EnemyShoot(shotGraphics, this.position.getX(), this.position.getY()));
         }
+    }
+
+    private void prepareNextShot() {
+        this.nextShotTime = TimeUtils.nanoTime() + MathUtils.random(6000000000L);
     }
 
     public void registerOnDestroyed(OnDestroyed onDestroyed){

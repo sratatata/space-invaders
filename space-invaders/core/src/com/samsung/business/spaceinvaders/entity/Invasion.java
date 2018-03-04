@@ -4,9 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.utils.TimeUtils;
-import com.samsung.business.spaceinvaders.manager.ShootManager;
 import com.samsung.business.spaceinvaders.manager.GraphicsManager;
+import com.samsung.business.spaceinvaders.manager.ShootManager;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -57,9 +56,7 @@ public class Invasion {
 
                 boolean canShoot = y == ENEMY_ROWS_COUNT - 1;
 
-                long lastShotTime = TimeUtils.nanoTime();
-
-                Enemy enemy = new Enemy(graphicsManager.find("wrog"), enemyRect, canShoot, lastShotTime);
+                Enemy enemy = new Enemy(graphicsManager.find("wrog"), enemyRect, canShoot);
                 enemy.registerOnDestroyed(new Enemy.OnDestroyed() {
                     @Override
                     public void onDestroyed() {
