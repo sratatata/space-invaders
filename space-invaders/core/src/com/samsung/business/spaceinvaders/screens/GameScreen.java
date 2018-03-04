@@ -106,7 +106,7 @@ public class GameScreen implements Screen {
 
         GraphicsManager.Graphics stickBackground = graphicsManager.find("stick");
         GraphicsManager.Graphics stickIndicator = graphicsManager.find("stickIndicator");
-        stick = new Stick(com.samsung.business.spaceinvaders.ui.Screen.getWidth()-110, 110, 100, 30, stickBackground, stickIndicator, camera );
+        stick = new Stick(com.samsung.business.spaceinvaders.ui.Screen.getWidth()-90, 90, 80, 25, stickBackground, stickIndicator, camera );
     }
 
 
