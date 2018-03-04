@@ -147,14 +147,22 @@ public class GameScreen implements Screen {
         invasion.render(spaceInvaders.batch, delta);
         scoreGuiLabel.render(spaceInvaders.batch, delta);
 
-        button.render(spaceInvaders.batch, delta);
-        stick.render(spaceInvaders.batch, delta);
+        renderControls(delta);
 
         spaceInvaders.batch.end();
 
         inputManager.update();
 
         updatGameState();
+    }
+
+    private void renderControls(float delta) {
+        if (button != null) {
+            button.render(spaceInvaders.batch, delta);
+        }
+        if (stick != null) {
+            stick.render(spaceInvaders.batch, delta);
+        }
     }
 
     @Override
