@@ -39,15 +39,8 @@ public class GameWinScreen implements Screen {
 
         spaceInvaders.batch.begin();
         font.draw(spaceInvaders.batch, "GAME WON! " + spaceInvaders.getScore().getValue(), 10, DisplayInfo.getHeight()/2);
-        switch(Gdx.app.getType()) {
-            case Android:
-                font.draw(spaceInvaders.batch, "Touch screen to restart", 10, DisplayInfo.getHeight()/2-50);
-                break;
-            case Desktop:
-                font.draw(spaceInvaders.batch, "Press enter to restart", 10, DisplayInfo.getHeight()/2-50);
+        font.draw(spaceInvaders.batch, "Touch screen to restart", 10, DisplayInfo.getHeight()/2-50);
 
-                break;
-        }
         spaceInvaders.batch.end();
         if (touchInput.start()){
             spaceInvaders.restart();

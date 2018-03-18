@@ -19,11 +19,6 @@ public class TouchInput {
         this.camera = camera;
     }
 
-    /**
-     * When left down rectangle of screen is touched
-     * @return when touched true
-     */
-
     public boolean left() {
         if (Gdx.input.isTouched()) {
             touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
@@ -32,11 +27,6 @@ public class TouchInput {
         }
         return false;
     }
-
-    /**
-     * When right down rectangle of screen is touched
-     * @return when touched true
-     */
 
     public boolean right() {
         if (Gdx.input.isTouched()) {
@@ -47,11 +37,6 @@ public class TouchInput {
         return false;
     }
 
-    /**
-     * When upper rectangle of screen is touched
-     * @return when touched true
-     */
-
     public boolean fire() {
         if (Gdx.input.isTouched()) {
             touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
@@ -60,11 +45,6 @@ public class TouchInput {
         }
         return false;
     }
-
-    /**
-     * When upper rectangle of screen is touched with two fingers
-     * @return when touched true
-     */
 
     public boolean exit() {
         if (Gdx.input.isTouched()) {

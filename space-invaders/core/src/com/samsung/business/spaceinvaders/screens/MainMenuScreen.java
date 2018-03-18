@@ -42,15 +42,8 @@ public class MainMenuScreen implements Screen {
         spaceInvaders.batch.setProjectionMatrix(camera.combined);
         spaceInvaders.batch.begin();
         font.draw(spaceInvaders.batch, "Space Invaders", 10, height/2);
-        switch(Gdx.app.getType()) {
-            case Android:
-                font.draw(spaceInvaders.batch, "Touch screen to start", 10, height/2-50);
-                break;
-            case Desktop:
-                font.draw(spaceInvaders.batch, "Press enter to start", 10, height/2-50);
+        font.draw(spaceInvaders.batch, "Touch screen to start", 10, height/2-50);
 
-                break;
-        }
         spaceInvaders.batch.end();
         if (touchInput.start()){
             spaceInvaders.start();

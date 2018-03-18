@@ -38,15 +38,8 @@ public class GameOverScreen implements Screen{
         spaceInvaders.batch.setProjectionMatrix(camera.combined);
         spaceInvaders.batch.begin();
         font.draw(spaceInvaders.batch, "YOU OVER! " + spaceInvaders.getScore().getValue(), 10, Gdx.graphics.getHeight()/2);
-        switch(Gdx.app.getType()) {
-            case Android:
-                font.draw(spaceInvaders.batch, "Touch screen to restart", 10, (Gdx.graphics.getHeight()/2)-50);
-                break;
-            case Desktop:
-                font.draw(spaceInvaders.batch, "Press enter to restart", 10, (Gdx.graphics.getHeight()/2)-50);
+        font.draw(spaceInvaders.batch, "Touch screen to restart", 10, (Gdx.graphics.getHeight()/2)-50);
 
-                break;
-        }
         spaceInvaders.batch.end();
         if (touchInput.start()){
             spaceInvaders.restart();
