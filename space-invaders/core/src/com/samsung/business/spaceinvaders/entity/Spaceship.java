@@ -9,7 +9,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.samsung.business.spaceinvaders.ui.InputManager;
 import com.samsung.business.spaceinvaders.manager.ShootManager;
 import com.samsung.business.spaceinvaders.manager.GraphicsManager;
-import com.samsung.business.spaceinvaders.ui.Screen;
+import com.samsung.business.spaceinvaders.ui.DisplayInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +42,7 @@ public class Spaceship implements Targetable {
 
     private void prepareSpaceship() {
         spaceshipRectangle = new Rectangle();
-        spaceshipRectangle.x = Screen.getWidth() / 2 - 64 / 2; // center the bucket horizontally
+        spaceshipRectangle.x = DisplayInfo.getWidth() / 2 - 64 / 2; // center the bucket horizontally
         spaceshipRectangle.y = 20; // bottom left corner of the bucket is 20 pixels above the bottom screen edge
         spaceshipRectangle.width = 40;
         spaceshipRectangle.height = 26;
@@ -77,7 +77,7 @@ public class Spaceship implements Targetable {
             spaceshipRectangle.x += 200 * Gdx.graphics.getDeltaTime();
 
             // make sure the spaceship stays within the screen bounds
-            if (spaceshipRectangle.x > Screen.getWidth() - 20) spaceshipRectangle.x = Screen.getWidth() - 20;
+            if (spaceshipRectangle.x > DisplayInfo.getWidth() - 20) spaceshipRectangle.x = DisplayInfo.getWidth() - 20;
         });
         inputManager.setFireListener(() -> {
             playerShot(shootManager);

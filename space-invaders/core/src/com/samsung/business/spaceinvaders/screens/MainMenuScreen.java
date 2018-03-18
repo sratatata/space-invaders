@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.samsung.business.spaceinvaders.SpaceInvaders;
+import com.samsung.business.spaceinvaders.ui.DisplayInfo;
 import com.samsung.business.spaceinvaders.ui.GameInputMethod;
 import com.samsung.business.spaceinvaders.ui.InputManager;
 import com.samsung.business.spaceinvaders.ui.KeyboardInput;
@@ -17,19 +18,16 @@ public class MainMenuScreen implements Screen , GameInputMethod{
 
     private OrthographicCamera camera;
 
-    private int height = com.samsung.business.spaceinvaders.ui.Screen.getHeight();
-    private int width = com.samsung.business.spaceinvaders.ui.Screen.getWidth();
+    private int height = DisplayInfo.getHeight();
+    private int width = DisplayInfo.getWidth();
 
     public MainMenuScreen(SpaceInvaders spaceInvaders) {
         font = new BitmapFont();
         this.spaceInvaders = spaceInvaders;
 
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         // tell the camera to update its matrices.
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, com.samsung.business.spaceinvaders.ui.Screen.getWidth(), com.samsung.business.spaceinvaders.ui.Screen.getHeight());
+        camera.setToOrtho(false, DisplayInfo.getWidth(), DisplayInfo.getHeight());
 
 
         //zaladuj menadzera sterowania
@@ -55,6 +53,8 @@ public class MainMenuScreen implements Screen , GameInputMethod{
 
     @Override
     public void render(float delta) {
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();
         spaceInvaders.batch.setProjectionMatrix(camera.combined);
         spaceInvaders.batch.begin();
