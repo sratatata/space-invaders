@@ -1,7 +1,6 @@
 package com.samsung.business.spaceinvaders.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -9,7 +8,7 @@ import com.samsung.business.spaceinvaders.SpaceInvaders;
 import com.samsung.business.spaceinvaders.ui.DisplayInfo;
 import com.samsung.business.spaceinvaders.ui.TouchInput;
 
-public class MainMenuScreen implements Screen {
+public class MainMenuScreen extends AbstractScreen {
     private final SpaceInvaders spaceInvaders;
     private BitmapFont font;
 
@@ -17,7 +16,7 @@ public class MainMenuScreen implements Screen {
     private TouchInput touchInput;
 
     private int height = DisplayInfo.getHeight();
-    private int width = DisplayInfo.getWidth();
+	private int width = DisplayInfo.getWidth();
 
     public MainMenuScreen(SpaceInvaders spaceInvaders) {
         font = new BitmapFont();
@@ -27,11 +26,6 @@ public class MainMenuScreen implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, DisplayInfo.getWidth(), DisplayInfo.getHeight());
         touchInput = new TouchInput(camera);
-    }
-
-    @Override
-    public void show() {
-
     }
 
     @Override
@@ -57,21 +51,6 @@ public class MainMenuScreen implements Screen {
         this.height = height;
         camera.setToOrtho(false, width, height);
         camera.update();
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
     }
 
     @Override
