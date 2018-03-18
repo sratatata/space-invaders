@@ -10,13 +10,9 @@ import com.samsung.business.spaceinvaders.entity.Invasion;
 import com.samsung.business.spaceinvaders.entity.Spaceship;
 import com.samsung.business.spaceinvaders.manager.GraphicsManager;
 import com.samsung.business.spaceinvaders.manager.ShootManager;
-import com.samsung.business.spaceinvaders.ui.ControlsInput;
 import com.samsung.business.spaceinvaders.ui.DisplayInfo;
-import com.samsung.business.spaceinvaders.ui.InputManager;
-import com.samsung.business.spaceinvaders.ui.KeyboardInput;
-import com.samsung.business.spaceinvaders.ui.components.Button;
+import com.samsung.business.spaceinvaders.ui.TouchInput;
 import com.samsung.business.spaceinvaders.ui.components.ScoreGuiLabel;
-import com.samsung.business.spaceinvaders.ui.components.Stick;
 
 public class GameScreen implements Screen {
     private final SpaceInvaders spaceInvaders;
@@ -25,14 +21,12 @@ public class GameScreen implements Screen {
 
     private ShootManager shootManager;
     private GraphicsManager graphicsManager;
-    private InputManager inputManager;
 
     private Spaceship player;
     private Invasion invasion;
 
     private ScoreGuiLabel scoreGuiLabel;
-    private Button button;
-    private Stick stick;
+    private TouchInput touchInput;
 
     public GameScreen(SpaceInvaders spaceInvaders) {
         this.spaceInvaders = spaceInvaders;
@@ -45,29 +39,13 @@ public class GameScreen implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, DisplayInfo.getWidth(), DisplayInfo.getHeight());
 
+        touchInput = new TouchInput(camera);
+
         //zaladuj tekstury
         graphicsManager = GraphicsManager.loadGraphics();
 
-        //zaladuj menadzera sterowania
-        switch(Gdx.app.getType()) {
-            case Android:
-                configureControlsInput();
-                inputManager = new InputManager(new ControlsInput(button, stick));
-                break;
-            case Desktop:
-                inputManager = new InputManager(new KeyboardInput());
-                break;
-        }
-
-        inputManager.setExitListener(()->{
-            spaceInvaders.setScreen(new MainMenuScreen(spaceInvaders));
-            spaceInvaders.getScore().reset();
-            dispose();
-        });
-
-
         //utworz rakiete gracza
-        player = new Spaceship(graphicsManager.find("rakieta"), inputManager);
+        player = new Spaceship(graphicsManager.find("rakieta"), camera);
         player.listenOnPlayerHit(new Spaceship.OnPlayerHit() {
             @Override
             public void onPlayerHit() {
@@ -100,16 +78,6 @@ public class GameScreen implements Screen {
             spaceInvaders.getScore().addScore(-10);
         });
     }
-
-    private void configureControlsInput() {
-        GraphicsManager.Graphics fireBackground = graphicsManager.find("button");
-        button = new Button(40, 40, 30, fireBackground, camera);
-
-        GraphicsManager.Graphics stickBackground = graphicsManager.find("stick");
-        GraphicsManager.Graphics stickIndicator = graphicsManager.find("stickIndicator");
-        stick = new Stick(DisplayInfo.getWidth()-90, 90, 80, 25, stickBackground, stickIndicator, camera );
-    }
-
 
     private void updatGameState() {
         //zaktualizuj stan i polozenie gracza i wrogow
@@ -148,21 +116,13 @@ public class GameScreen implements Screen {
         invasion.render(spaceInvaders.batch, delta);
         scoreGuiLabel.render(spaceInvaders.batch, delta);
 
-        renderControls(delta);
-
         spaceInvaders.batch.end();
 
-        inputManager.update();
-
         updatGameState();
-    }
-
-    private void renderControls(float delta) {
-        if (button != null) {
-            button.render(spaceInvaders.batch, delta);
-        }
-        if (stick != null) {
-            stick.render(spaceInvaders.batch, delta);
+        if (touchInput.exit()){
+            spaceInvaders.setScreen(new MainMenuScreen(spaceInvaders));
+            spaceInvaders.getScore().reset();
+            dispose();
         }
     }
 

@@ -1,15 +1,16 @@
 package com.samsung.business.spaceinvaders.entity;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.samsung.business.spaceinvaders.ui.InputManager;
-import com.samsung.business.spaceinvaders.manager.ShootManager;
 import com.samsung.business.spaceinvaders.manager.GraphicsManager;
+import com.samsung.business.spaceinvaders.manager.ShootManager;
 import com.samsung.business.spaceinvaders.ui.DisplayInfo;
+import com.samsung.business.spaceinvaders.ui.TouchInput;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,14 +26,13 @@ public class Spaceship implements Targetable {
     private Rectangle spaceshipRectangle;
     private long lastShotTime;
     private List<OnPlayerHit> playerHitListeners;
+    private TouchInput touchInput;
 
-    private InputManager inputManager;
-
-    public Spaceship(GraphicsManager.Graphics graphics, InputManager inputManager) {
+    public Spaceship(GraphicsManager.Graphics graphics, Camera camera) {
         this.playerHitListeners = new ArrayList<>();
         this.graphics = graphics;
+        touchInput = new TouchInput(camera);
         prepareSpaceship();
-        this.inputManager = inputManager;
     }
 
     public void render(SpriteBatch batch, float animationTime) {
@@ -67,26 +67,21 @@ public class Spaceship implements Targetable {
 
     public void update(OrthographicCamera camera, ShootManager shootManager) {
         // checkClick user input
-        inputManager.setLeftListener(()->{
+        if (touchInput.left()){
             spaceshipRectangle.x -= 200 * Gdx.graphics.getDeltaTime();
 
             // make sure the spaceship stays within the screen bounds
             if (spaceshipRectangle.x < 0) spaceshipRectangle.x = 0;
-        });
-        inputManager.setRightListener(() -> {
+        }
+        if (touchInput.right()) {
             spaceshipRectangle.x += 200 * Gdx.graphics.getDeltaTime();
 
             // make sure the spaceship stays within the screen bounds
             if (spaceshipRectangle.x > DisplayInfo.getWidth() - 20) spaceshipRectangle.x = DisplayInfo.getWidth() - 20;
-        });
-        inputManager.setFireListener(() -> {
+        };
+        if (touchInput.fire()) {
             playerShot(shootManager);
-        });
-
-        inputManager.update();
-
-
-
+        }
     }
 
     @Override

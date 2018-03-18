@@ -7,15 +7,13 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.samsung.business.spaceinvaders.SpaceInvaders;
 import com.samsung.business.spaceinvaders.ui.DisplayInfo;
-import com.samsung.business.spaceinvaders.ui.GameInputMethod;
-import com.samsung.business.spaceinvaders.ui.InputManager;
-import com.samsung.business.spaceinvaders.ui.KeyboardInput;
+import com.samsung.business.spaceinvaders.ui.TouchInput;
 
-public class GameWinScreen implements Screen, GameInputMethod {
+public class GameWinScreen implements Screen {
     private final SpaceInvaders spaceInvaders;
     private BitmapFont font;
     private OrthographicCamera camera;
-    private InputManager inputManager;
+    private TouchInput touchInput;
 
     public GameWinScreen(SpaceInvaders spaceInvaders) {
         font = new BitmapFont();
@@ -23,21 +21,8 @@ public class GameWinScreen implements Screen, GameInputMethod {
         // tell the camera to update its matrices.
         camera = new OrthographicCamera();
         camera.setToOrtho(false, DisplayInfo.getWidth(), DisplayInfo.getHeight());
+        touchInput = new TouchInput(camera);
         this.spaceInvaders = spaceInvaders;
-
-        //zaladuj menadzera sterowania
-        switch(Gdx.app.getType()) {
-            case Android:
-                inputManager = new InputManager(this);
-                break;
-            case Desktop:
-                inputManager = new InputManager(new KeyboardInput());
-
-                break;
-        }
-        inputManager.setSelectListener(()->{
-            spaceInvaders.restart();
-        });
     }
 
     @Override
@@ -64,8 +49,9 @@ public class GameWinScreen implements Screen, GameInputMethod {
                 break;
         }
         spaceInvaders.batch.end();
-
-        inputManager.update();
+        if (touchInput.start()){
+            spaceInvaders.restart();
+        }
     }
 
     @Override
@@ -91,40 +77,5 @@ public class GameWinScreen implements Screen, GameInputMethod {
     @Override
     public void dispose() {
         font.dispose();
-    }
-
-    @Override
-    public boolean left() {
-        return false;
-    }
-
-    @Override
-    public boolean right() {
-        return false;
-    }
-
-    @Override
-    public boolean fire() {
-        return false;
-    }
-
-    @Override
-    public boolean exit() {
-        return false;
-    }
-
-    @Override
-    public boolean up() {
-        return false;
-    }
-
-    @Override
-    public boolean down() {
-        return false;
-    }
-
-    @Override
-    public boolean select() {
-        return Gdx.input.isTouched();
     }
 }

@@ -7,16 +7,14 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.samsung.business.spaceinvaders.SpaceInvaders;
 import com.samsung.business.spaceinvaders.ui.DisplayInfo;
-import com.samsung.business.spaceinvaders.ui.GameInputMethod;
-import com.samsung.business.spaceinvaders.ui.InputManager;
-import com.samsung.business.spaceinvaders.ui.KeyboardInput;
+import com.samsung.business.spaceinvaders.ui.TouchInput;
 
-public class MainMenuScreen implements Screen , GameInputMethod{
+public class MainMenuScreen implements Screen {
     private final SpaceInvaders spaceInvaders;
     private BitmapFont font;
-    private InputManager inputManager;
 
     private OrthographicCamera camera;
+    private TouchInput touchInput;
 
     private int height = DisplayInfo.getHeight();
     private int width = DisplayInfo.getWidth();
@@ -28,22 +26,7 @@ public class MainMenuScreen implements Screen , GameInputMethod{
         // tell the camera to update its matrices.
         camera = new OrthographicCamera();
         camera.setToOrtho(false, DisplayInfo.getWidth(), DisplayInfo.getHeight());
-
-
-        //zaladuj menadzera sterowania
-        switch(Gdx.app.getType()) {
-            case Android:
-                inputManager = new InputManager(this);
-                break;
-            case Desktop:
-                inputManager = new InputManager(new KeyboardInput());
-
-                break;
-        }
-        inputManager.setSelectListener(()->{
-            spaceInvaders.start();
-            dispose();
-        });
+        touchInput = new TouchInput(camera);
     }
 
     @Override
@@ -69,9 +52,10 @@ public class MainMenuScreen implements Screen , GameInputMethod{
                 break;
         }
         spaceInvaders.batch.end();
-
-
-        inputManager.update();
+        if (touchInput.start()){
+            spaceInvaders.start();
+            dispose();
+        }
     }
 
     @Override
@@ -100,40 +84,5 @@ public class MainMenuScreen implements Screen , GameInputMethod{
     @Override
     public void dispose() {
         font.dispose();
-    }
-
-    @Override
-    public boolean left() {
-        return false;
-    }
-
-    @Override
-    public boolean right() {
-        return false;
-    }
-
-    @Override
-    public boolean fire() {
-        return false;
-    }
-
-    @Override
-    public boolean exit() {
-        return false;
-    }
-
-    @Override
-    public boolean up() {
-        return false;
-    }
-
-    @Override
-    public boolean down() {
-        return false;
-    }
-
-    @Override
-    public boolean select() {
-        return Gdx.input.isTouched();
     }
 }
