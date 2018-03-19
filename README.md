@@ -49,7 +49,9 @@ Ale jeżeli linia komend jest dla Ciebie przerażająca przygotowaliśmy specjal
 
 ''' .githelp/lekcja.bat Lekcja-1 '''
 
-## Lekcja 1 - Szablon projektu
+# Lekcje dla Liceum im. Kasprzaka
+
+## Lekcja 0 - Szablon projektu
 
 ### Co robimy
 Najpierw tytułem wstępu wyjaśnimy Ci co chcemy osiągnąć naszym kursem.
@@ -79,6 +81,105 @@ core - to jest najważniejszy moduł wszystkie zmiany będziemy wprowadzać w ty
 #### Komponenty
 
 ![diagram komponentow](http://uml.mvnsearch.org/github/sratatata/space-invaders/blob/master/static/core-components.puml)
+
+## Lekcja 1 - Dziedziczenie
+
+Temat poświęcony dziedziczeniu rozpoczniemy od prostego przykładu, który być może niektórzy z Was 
+widzieli już wielokrotnie w różnego rodzaju publikacjach poświęconych językom obiektowym jakim bez 
+wątpienia jest język Java. 
+Zanim jednak zajmiemy się przykładem zapoznajmy się z encyklopedyczną definicją:
+
+    Dziedziczenie (ang. inheritance) – mechanizm współdzielenia funkcjonalności między klasami. 
+    Klasa może dziedziczyć po innej klasie, co oznacza, że oprócz swoich własnych atrybutów oraz zachowań, 
+    uzyskuje także te pochodzące z klasy, z której dziedziczy.
+
+Dlaczego chcielibyście współdzielić funkjonalności pomiędzy klasami? 
+Odpowiedź jest prosta, żeby powtarzające się, wspólne zachowania dla różnych klas były implementowane 
+tylko jeden raz. Jak mogą Was niektórzy autorzy przekonywać, wcale nie chodzi tutaj o lenistwo programistów. 
+Pozwolę tu sobie na jeszczę jedną mądrość ludową
+
+    Kod, który z całą pewnością nie zawiera błędów to ten kod, który nie istnieje.
+    
+Już z spieszę z wyjaśnieniem, otóż pisząć jakąś funkjonalność 2, 3 a może i więcej razy, łatwo jest 
+popełnić, w jednej z implementacji błąd. Zatem jeżeli możemy uniknąć powtarzania takiego samego 
+kodu możemy uniknąć niepotrzebnych błędów. No ale przecież używam copy-paste, móglibyście odpowiedzić,
+wtedy nie zrobię żadnej literówki. Tak zgadza się, ale co jeżeli ta kod, który skopiowaliście do 5, 
+może 20 różynych klas zawiera błąd? Już nie jest to takie oczywiste jak to poprawić i nie wprowadzić
+dodatkowych błędów, copy-paste już nie pomoże. Dlatego właśnie języki obiektowe zyskały tak ogromną 
+popularność, poprzez koncept dziedziczenia pozwalaja unikać zbędnych powtórzeń. W ogólności powyższe
+zagadnienie opisuje zasadę DRY (Don't repeat yourself). 
+
+Dobrze, więc wyjaśniwszy sobie sens dziedziczenia, przejdźmy do naszego sztampowego przykładu - zwierzątek. 
+Wyobraźmy sobie zwierzę (_Animal_), zwierzę może być scharakteryzowane w jakiś sposób, weźmy na ten 
+przykład wielkość, a właściwie bardzej precyzyjnie to jego masę, mięcho w sensie. 
+
+```java
+class Animal{
+    int weight; //in kilograms
+}
+```
+
+To jeżeli już mamy materialne zwierzę w jakiś tam sposób scharakteryzowane, to co takie zwierze robi? 
+No jeżeli oglądaliście Shreka to takie zwierze może gadać! 
+
+```java
+class Animal{
+    int weight; 
+    
+    String noise(){
+        return "Ja latam, gadam, pełny serwis!!!";
+    }
+}
+```
+
+No dobrze więc jak już pewnie wiecie z poprzednich lekcji to taką klasę jak powyżej to możemy sobie
+i zmaterializować, w sensie zrobić sobie obiekt tej klasy i zapisać jego referencję do zmiennej,
+następnie możemy temu zwierzakowi udzielić głosu i wywołać metodę `noise()`.
+
+```java
+Animal animal = new Animal();
+String noise = animal.noise();
+System.out.println(noise);
+
+//: Ja latam, gadam, pełny serwis!!!
+```
+
+No dobra nic odkrywczego, czekajcie. Nadal nie wiemy co to za zwierzę jest, pewnie się domyślacie:
+
+```java
+class Donkey{
+    int mass;
+    
+    void noise(){
+        System.out.println("Daleko jeszcze?! Iooo Iooo");
+    }
+}
+```
+
+no dobra to sprawdźmy naszego osła:
+
+```java
+Donkey donkey = new Donkey();
+donkey.noise();
+
+//: Daleko jeszcze?! Iooo Iooo
+```
+
+Super! Dobra to to jak mamy jakieś zwierzę i mamy osła to może tak zamkniemy je w jednej głośnej zagrodzie:
+
+```java
+List farm = new ArrayList(); 
+farm.add(animal);
+farm.add(donkey);
+
+
+
+```
+
+
+
+
+//Space invaders - dziedziczenie: przesłanianie metod, enkapsulacja, interfejsy
 
 ## Lekcja 2 - Animacja postaci
 
