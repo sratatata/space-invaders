@@ -6,8 +6,8 @@ import com.badlogic.gdx.Gdx;
  * Created by lb_lb on 27.01.18.
  */
 public class TouchInput implements GameInputMethod {
-    final int MIDDLE_Y = Screen.getHeight()/2;
-    final int MIDDLE_X = Screen.getWidth()/2;
+    final int MIDDLE_Y = DisplayInfo.getHeight()/2;
+    final int MIDDLE_X = DisplayInfo.getWidth()/2;
 
     /**
      * When left down rectangle of screen is touched

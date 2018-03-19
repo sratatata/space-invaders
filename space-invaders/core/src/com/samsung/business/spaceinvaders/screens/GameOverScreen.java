@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.samsung.business.spaceinvaders.SpaceInvaders;
+import com.samsung.business.spaceinvaders.ui.DisplayInfo;
 import com.samsung.business.spaceinvaders.ui.GameInputMethod;
 import com.samsung.business.spaceinvaders.ui.InputManager;
 import com.samsung.business.spaceinvaders.ui.KeyboardInput;
@@ -19,9 +20,10 @@ public class GameOverScreen implements Screen , GameInputMethod{
     public GameOverScreen(SpaceInvaders spaceInvaders) {
         font = new BitmapFont();
 
+
         // tell the camera to update its matrices.
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, com.samsung.business.spaceinvaders.ui.Screen.getWidth(), com.samsung.business.spaceinvaders.ui.Screen.getHeight());
+        camera.setToOrtho(false, DisplayInfo.getWidth(), DisplayInfo.getHeight());
         this.spaceInvaders = spaceInvaders;
 
         //zaladuj menadzera sterowania

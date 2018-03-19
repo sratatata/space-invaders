@@ -5,13 +5,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.samsung.business.spaceinvaders.manager.GraphicsManager;
-import com.samsung.business.spaceinvaders.ui.Screen;
+import com.samsung.business.spaceinvaders.ui.DisplayInfo;
 
 /**
  * Created by lb_lb on 05.11.17.
  */
 public class PlayerShoot implements Shoot {
-    private static final int HEIGHT = Screen.getHeight();
+    private static final int HEIGHT = DisplayInfo.getHeight();
 
     private Rectangle rectangle;
     private GraphicsManager.Graphics graphics;
