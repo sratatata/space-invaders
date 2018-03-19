@@ -5,7 +5,7 @@ import com.samsung.business.spaceinvaders.entity.EnemyShoot;
 import com.samsung.business.spaceinvaders.entity.Invasion;
 import com.samsung.business.spaceinvaders.entity.PlayerShoot;
 import com.samsung.business.spaceinvaders.entity.Shoot;
-import com.samsung.business.spaceinvaders.entity.Spaceship;
+import com.samsung.business.spaceinvaders.entity.PlayerSpaceship;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -21,11 +21,11 @@ import java.util.List;
 public class ShootManager {
     private List<Shoot> shoots;
     public final GraphicsManager graphicsManager;
-    public final Spaceship player;
+    public final PlayerSpaceship player;
     public final Invasion invasion;
     private OnMissingShootListener onMissingShootListener;
 
-    public ShootManager(GraphicsManager graphicsManager, Spaceship player, Invasion invasion) {
+    public ShootManager(GraphicsManager graphicsManager, PlayerSpaceship player, Invasion invasion) {
         this.graphicsManager = graphicsManager;
         this.player = player;
         this.invasion = invasion;

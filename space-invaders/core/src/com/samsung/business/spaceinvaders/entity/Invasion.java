@@ -27,7 +27,7 @@ public class Invasion {
     private static final int HORIZONTAL_PADDING_ENEMIES = 12;
     private static final int VERTICAL_PADDING_ENEMIES = 8;
 
-    private List<Enemy> enemies;
+    private List<EnemySpaceship> enemies;
     private List<OnEnemyDestroyed> onEnemyDestroyed;
     private List<OnInvasionDestroyed> onInvasionDestroyed;
 
@@ -42,8 +42,8 @@ public class Invasion {
         return invasion;
     }
 
-    private static List<Enemy> prepareEnemies(Invasion invasion, GraphicsManager graphicsManager) {
-        List<Enemy> enemies = new ArrayList<Enemy>();
+    private static List<EnemySpaceship> prepareEnemies(Invasion invasion, GraphicsManager graphicsManager) {
+        List<EnemySpaceship> enemies = new ArrayList<EnemySpaceship>();
         int horizontalPadding = (WIDTH - ENEMY_IN_ROW_COUNT * (ENEMY_WIDTH + HORIZONTAL_PADDING_ENEMIES)) / 2;
 
         for (int y = 0; y < ENEMY_ROWS_COUNT; y++) {
@@ -56,10 +56,10 @@ public class Invasion {
 
                 boolean canShoot = y == ENEMY_ROWS_COUNT - 1;
 
-                Enemy enemy = new Enemy(graphicsManager.find("wrog"), enemyRect, canShoot);
-                enemy.registerOnDestroyed(new Enemy.OnDestroyed() {
+                EnemySpaceship enemy = new EnemySpaceship(graphicsManager.find("wrog"), enemyRect, canShoot);
+                enemy.registerOnSpaceshipHit(new Spaceship.OnSpaceshipHit() {
                     @Override
-                    public void onDestroyed() {
+                    public void onSpaceshipHit() {
                         invasion.notifyAllOnEnemyDestroyed(enemy);
                     }
                 });
@@ -72,13 +72,13 @@ public class Invasion {
     }
 
     public void render(SpriteBatch batch, float animationTime) {
-        for (Enemy enemy : enemies) {
+        for (EnemySpaceship enemy : enemies) {
             enemy.render(batch, animationTime);
         }
     }
 
     public void update(OrthographicCamera camera, ShootManager shootManager) {
-        for (Enemy enemy : enemies) {
+        for (EnemySpaceship enemy : enemies) {
             enemy.updateState(camera);
             enemy.shot(shootManager);
         }
@@ -93,10 +93,10 @@ public class Invasion {
     }
 
     public void checkEnemyHit(Iterator<Shoot> iter, Shoot playerShoot) {
-        Iterator<Enemy> iterEnemy = enemies.iterator();
-        Targetable enemyHit = null;
+        Iterator<EnemySpaceship> iterEnemy = enemies.iterator();
+        Spaceship enemyHit = null;
         while (iterEnemy.hasNext()) {
-            Enemy enemy = iterEnemy.next();
+            EnemySpaceship enemy = iterEnemy.next();
             if (enemy.isHit(playerShoot)) {
                 iter.remove();
                 iterEnemy.remove();
@@ -105,9 +105,9 @@ public class Invasion {
             }
         }
         if (enemyHit != null) {
-            Enemy newEnemyWhoCanShoot = null;
-            for (Enemy enemy : enemies) {
-                if (enemy instanceof Targetable && enemy.rectangle().getX() == enemyHit.rectangle().getX()) {
+            EnemySpaceship newEnemyWhoCanShoot = null;
+            for (EnemySpaceship enemy : enemies) {
+                if (enemy.position().getX() == enemyHit.position().getX()) {
                     newEnemyWhoCanShoot = enemy;
                 }
             }
@@ -121,7 +121,7 @@ public class Invasion {
         this.onEnemyDestroyed.add(onEnemyDestroyed);
     }
 
-    public void notifyAllOnEnemyDestroyed(Enemy enemy){
+    public void notifyAllOnEnemyDestroyed(EnemySpaceship enemy){
         for(OnEnemyDestroyed g: onEnemyDestroyed){
             g.onEnemyDestroyed(enemy);
         }
@@ -138,7 +138,7 @@ public class Invasion {
     }
 
     public interface OnEnemyDestroyed {
-        void onEnemyDestroyed(Enemy enemy);
+        void onEnemyDestroyed(EnemySpaceship enemy);
     }
 
     public interface OnInvasionDestroyed {

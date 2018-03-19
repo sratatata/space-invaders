@@ -1,121 +1,53 @@
 package com.samsung.business.spaceinvaders.entity;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.utils.TimeUtils;
 import com.samsung.business.spaceinvaders.manager.GraphicsManager;
-import com.samsung.business.spaceinvaders.manager.ShootManager;
-import com.samsung.business.spaceinvaders.ui.DisplayInfo;
-import com.samsung.business.spaceinvaders.ui.TouchInput;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Reprezentuje pojazd gracza.
- * <p/>
- * Created by lb_lb on 01.11.17.
- */
-public class Spaceship implements Targetable {
-    private final GraphicsManager.Graphics graphics;
 
-    private Rectangle spaceshipRectangle;
-    private long lastShotTime;
-    private List<OnPlayerHit> playerHitListeners;
-    private TouchInput touchInput;
+public class Spaceship {
 
-    public Spaceship(GraphicsManager.Graphics graphics, Camera camera) {
-        this.playerHitListeners = new ArrayList<>();
-        this.graphics = graphics;
-        touchInput = new TouchInput(camera);
-        prepareSpaceship();
-    }
+	private final GraphicsManager.Graphics graphics;
+	protected Rectangle position;
+	private List<OnSpaceshipHit> spaceshipHitListeners = new ArrayList<>();
 
-    public void render(SpriteBatch batch, float animationTime) {
-        TextureRegion spaceshipFrame = graphics.frameToRender(animationTime);
-        batch.draw(spaceshipFrame, spaceshipRectangle.x, spaceshipRectangle.y);
-    }
+	public Spaceship(GraphicsManager.Graphics graphics) {
+		this.graphics = graphics;
+	}
 
-    private void prepareSpaceship() {
-        spaceshipRectangle = new Rectangle();
-        spaceshipRectangle.x = DisplayInfo.getWidth() / 2 - 64 / 2; // center the bucket horizontally
-        spaceshipRectangle.y = 20; // bottom left corner of the bucket is 20 pixels above the bottom screen edge
-        spaceshipRectangle.width = 40;
-        spaceshipRectangle.height = 26;
-    }
+	public void render(SpriteBatch batch, float animationTime) {
+		TextureRegion spaceshipFrame = graphics.frameToRender(animationTime);
+		batch.draw(spaceshipFrame, position.x, position.y);
+	}
 
-    private void playerShot(ShootManager shootManager) {
-        if (!canShoot()) {
-            return;
-        }
+	public boolean isHit(Shoot shoot) {
+		boolean isHit = shoot.position().overlaps(this.position);
+		if(isHit){
+			notifyAllOnSpaceshipHit();
+		}
+		return isHit;
+	}
 
-        shootManager.addShot(new PlayerShoot(shootManager.graphicsManager.find("pocisk"), spaceshipRectangle.getX(), spaceshipRectangle.getY()));
-        lastShotTime = TimeUtils.nanoTime();
-    }
+	public Rectangle position() {
+		return this.position;
+	}
 
-    public void shoot(ShootManager shootManager){
-        playerShot(shootManager);
-    }
-
-    private boolean canShoot() {
-        return TimeUtils.nanoTime() - lastShotTime > 600 * 1000 * 1000;
-    }
-
-    public void update(OrthographicCamera camera, ShootManager shootManager) {
-        // checkClick user input
-        if (touchInput.left()){
-            spaceshipRectangle.x -= 200 * Gdx.graphics.getDeltaTime();
-
-            // make sure the spaceship stays within the screen bounds
-            if (spaceshipRectangle.x < 0) spaceshipRectangle.x = 0;
-        }
-        if (touchInput.right()) {
-            spaceshipRectangle.x += 200 * Gdx.graphics.getDeltaTime();
-
-            // make sure the spaceship stays within the screen bounds
-            if (spaceshipRectangle.x > DisplayInfo.getWidth() - 20) spaceshipRectangle.x = DisplayInfo.getWidth() - 20;
-        };
-        if (touchInput.fire()) {
-            playerShot(shootManager);
-        }
-    }
-
-    @Override
-    public boolean isHit(Shoot shoot) {
-        return shoot.hitIn(this);
-    }
+	public void registerOnSpaceshipHit(OnSpaceshipHit onSpaceshipHit){
+		spaceshipHitListeners.add(onSpaceshipHit);
+	}
 
 
-    @Override
-    public Rectangle rectangle() {
-        return this.spaceshipRectangle;
-    }
+	private void notifyAllOnSpaceshipHit() {
+		for (OnSpaceshipHit g : spaceshipHitListeners) {
+			g.onSpaceshipHit();
+		}
+	}
 
-    @Override
-    public boolean checkHit(Rectangle target, Rectangle shot) {
-        if (shot.overlaps((target))) {
-            notifyAllOnPlayerHit();
-            return true;
-        } else
-            return false;
-    }
-
-    public void listenOnPlayerHit(OnPlayerHit onPlayerHit){
-        playerHitListeners.add(onPlayerHit);
-    }
-
-    private void notifyAllOnPlayerHit() {
-        for (OnPlayerHit g : playerHitListeners) {
-            g.onPlayerHit();
-        }
-    }
-
-    public interface OnPlayerHit {
-        void onPlayerHit();
-    }
-
+	public interface OnSpaceshipHit {
+		void onSpaceshipHit();
+	}
 }

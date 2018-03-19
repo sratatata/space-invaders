@@ -1,36 +1,28 @@
 package com.samsung.business.spaceinvaders.entity;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.samsung.business.spaceinvaders.manager.GraphicsManager;
 import com.samsung.business.spaceinvaders.manager.ShootManager;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Reprezentuje postaci wrogow. Wrogowie najczesciej dokonuja grupowej Inwazji.
  *
  * Created by lb_lb on 01.11.17.
  */
-public class Enemy implements Targetable {
-    private GraphicsManager.Graphics graphics;
-    private Rectangle position;
+public class EnemySpaceship extends Spaceship {
+
     private boolean canShoot;
     private long nextShotTime;
-    private List<OnDestroyed> onDestroyed;
     private static final float MOVE_BARIER = 150f;
     private float delta = 0;
     private int direction = 1;
 
 
-    public Enemy(GraphicsManager.Graphics graphics, Rectangle rectangle, boolean canShoot) {
-        onDestroyed = new ArrayList<>();
-        this.graphics = graphics;
+    public EnemySpaceship(GraphicsManager.Graphics graphics, Rectangle rectangle, boolean canShoot) {
+        super(graphics);
         this.position = rectangle;
         this.canShoot = canShoot;
         this.delta = MOVE_BARIER/2;
@@ -72,11 +64,6 @@ public class Enemy implements Targetable {
         direction = direction * -1;
     }
 
-    public void render(SpriteBatch batch, float animationTime){
-        TextureRegion spaceshipFrame = graphics.frameToRender(animationTime);
-        batch.draw(spaceshipFrame, position.x, position.y);
-    }
-
     public void shot(ShootManager shootManager) {
         if (this.canShoot && TimeUtils.nanoTime() > nextShotTime) {
             prepareNextShot();
@@ -89,40 +76,8 @@ public class Enemy implements Targetable {
         this.nextShotTime = TimeUtils.nanoTime() + MathUtils.random(6000000000L);
     }
 
-    public void registerOnDestroyed(OnDestroyed onDestroyed){
-        this.onDestroyed.add(onDestroyed);
-    }
-
-    public void notifyAllOnDestroyed(){
-        for(OnDestroyed g: onDestroyed){
-            g.onDestroyed();
-        }
-    }
-
-    @Override
-    public Rectangle rectangle() {
-        return this.position;
-    }
-
-    @Override
-    public boolean checkHit(Rectangle target, Rectangle shot) {
-        return target.overlaps(shot);
-    }
-
-    @Override
-    public boolean isHit(Shoot shoot) {
-        boolean isHit = shoot.hitIn(this);
-        if(isHit){
-            notifyAllOnDestroyed();
-        }
-        return isHit;
-    }
-
     public void prepareToShot() {
         canShoot = true;
     }
 
-    public interface OnDestroyed {
-        void onDestroyed();
-    }
 }

@@ -4,8 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.samsung.business.spaceinvaders.SpaceInvaders;
-import com.samsung.business.spaceinvaders.entity.Enemy;
+import com.samsung.business.spaceinvaders.entity.EnemySpaceship;
 import com.samsung.business.spaceinvaders.entity.Invasion;
+import com.samsung.business.spaceinvaders.entity.PlayerSpaceship;
 import com.samsung.business.spaceinvaders.entity.Spaceship;
 import com.samsung.business.spaceinvaders.manager.GraphicsManager;
 import com.samsung.business.spaceinvaders.manager.ShootManager;
@@ -21,7 +22,7 @@ public class GameScreen extends AbstractScreen {
     private ShootManager shootManager;
     private GraphicsManager graphicsManager;
 
-    private Spaceship player;
+    private PlayerSpaceship player;
     private Invasion invasion;
 
     private ScoreGuiLabel scoreGuiLabel;
@@ -44,10 +45,10 @@ public class GameScreen extends AbstractScreen {
         graphicsManager = GraphicsManager.loadGraphics();
 
         //utworz rakiete gracza
-        player = new Spaceship(graphicsManager.find("rakieta"), camera);
-        player.listenOnPlayerHit(new Spaceship.OnPlayerHit() {
+        player = new PlayerSpaceship(graphicsManager.find("rakieta"), camera);
+        player.registerOnSpaceshipHit(new Spaceship.OnSpaceshipHit() {
             @Override
-            public void onPlayerHit() {
+            public void onSpaceshipHit() {
                 spaceInvaders.gameOver();
                 dispose();
             }
@@ -58,7 +59,7 @@ public class GameScreen extends AbstractScreen {
 
         invasion.listenOnDestroyed(new Invasion.OnEnemyDestroyed() {
             @Override
-            public void onEnemyDestroyed(Enemy enemy) {
+            public void onEnemyDestroyed(EnemySpaceship enemy) {
                 spaceInvaders.getScore().addScore(100);
             }
         });
