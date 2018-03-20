@@ -824,9 +824,12 @@ public abstract class Shoot {
 }
 ```
 
+
 #####Zadanie - zidentyfikować i poprawić błąd związany z enkapsulacją.
 
+
 ###Interfejsy
+
 Interfejs jest zbiorem metod wyznaczających pewną, powiązaną ze sobą funkcjonalność. Do javy 8 był to 
 tylko zbiór nagłówków metod, bez implementacji, przykłądem nieche będzie `Screen` z libgdx:
 
@@ -894,9 +897,12 @@ Jest to szczegół implementacyjny na poziomie pojedynczego ekranu.
 
 #####Zadanie - napisać i podpiąć ekran po wygraniu gry.
 
+
 ###Elementy libgdx
 
+
 ####BitmapFont 
+
 Służy do rysowania tekstu. Podstawowe użycie wygląda następująco:
 
 ```java
@@ -906,6 +912,7 @@ font.draw(spaceInvaders.batch, "Touch screen to restart", 10, (Gdx.graphics.getH
 ```
 https://github.com/libgdx/libgdx/wiki/Bitmap-fonts do pobrania nardzedzie Hiero do konwertowania czcionek
 #####Zadanie - podpiąć własną czcionkę do aplikacji
+
 
 ## Lekcja 3 - Animacja postaci
 
