@@ -895,7 +895,17 @@ Jest to szczegół implementacyjny na poziomie pojedynczego ekranu.
 #####Zadanie - napisać i podpiąć ekran po wygraniu gry.
 
 ###Elementy libgdx
-//todo
+
+####BitmapFont 
+Służy do rysowania tekstu. Podstawowe użycie wygląda następująco:
+
+```java
+font = new BitmapFont();
+font.getData().setScale(3); //mozna skalowac
+font.draw(spaceInvaders.batch, "Touch screen to restart", 10, (Gdx.graphics.getHeight()/2)-50);
+```
+https://github.com/libgdx/libgdx/wiki/Bitmap-fonts do pobrania nardzedzie Hiero do konwertowania czcionek
+#####Zadanie - podpiąć własną czcionkę do aplikacji
 
 ## Lekcja 3 - Animacja postaci
 
