@@ -165,21 +165,276 @@ donkey.noise();
 //: Daleko jeszcze?! Iooo Iooo
 ```
 
-Super! Dobra to to jak mamy jakieś zwierzę i mamy osła to może tak zamkniemy je w jednej głośnej zagrodzie:
+Super! Dobra to to jak mamy jakieś zwierzę i mamy osła to może tak zamkniemy je w jednej głośnej zagrodzie i posluchajmy co sie stanie:
 
 ```java
 List farm = new ArrayList(); 
 farm.add(animal);
 farm.add(donkey);
 
+for(Object o: farm){
+    String noise = o.noise();
+    System.out.println(noise);
+}
 
+// jshell> for(Object a : farm){
+//    ...> a.noise();
+//    ...> }
+// |  Error:
+// |  cannot find symbol
+// |    symbol:   method noise()
+// |  a.noise();
+// |  ^-----^
+```
+
+Co sie stalo, otoz wpusicilem Was drodzy czytelnicy w maliny.
+Zwroccie prosze uwage na roznice implementacyjne klasy `Animal` i `Donkey`. Nasza intencja 
+bylo, ze osiol to tez zwierze. Tylko skad ten biedny kompilator ma to wiedziec? 
+Jak to mozemy naprawic? 
+Mozemy np. zmienic nazwe metody `noise()` na `toString()` i je ujednolicic. 
+
+```java
+class Animal{
+    int weight; 
+    
+    String toString(){
+        return "Ja latam, gadam, pełny serwis!!!";
+    }
+}
+
+class Donkey{
+    int mass;
+    
+    void toString(){
+        return "Daleko jeszcze?! Iooo Iooo";
+    }
+}
+
+List farm = new ArrayList(); 
+farm.add(new Animal());
+farm.add(new Donkey());
+
+for(Object o: farm){
+    System.out.println(o.toString());
+}
+
+// Ja latam, gadam, pelny serwis!!!
+// Daleko Jeszcze
+```
+
+No dobrze ale to jest obejscie dla mieczakow, zwroccie uwage, ze wykorzystuje wlasciwosc klasy 
+`Object` zarowno w przypadku petli `for`, jak i samej listy czyli naszej farmy. 
+`List farm` w tym momencie przechowuje elementy typu `Object`. Niemozliwe dlatego bylo wywolanie
+na obiektach farmy, czyli zwierzetach metody `noise()`. Obiekt `Object` takiej metody nie 
+zawiera. 
+W powyzszym przykladzie wykorzystalismy tzw. _przeslanianie_ czyli jedna z wlasciwosci 
+_polimorfizmu_, o ktorym dowiecie sie w dalszej czesci tutorialu. 
+
+Co to ma wszystko wspolnego z 
+dziedziczeniem? Do rzeczy chlopie! 
+Kazda klasa w jezyku Java dziedziczy po klasie `Object`! Tak! Wykorzystaliscie wlasnie 
+polimorfizm czyli jedna z cech programowania obiektowego, ktory nierozlaczny jest z konceptem dziedziczenia. Metoda `toString()` z klasy `Object` zostala przeslonieta Wasza implementacja.
+
+Dobrze wiec jak sie robi to dziedziczenie? Bardzo prosto, bedziemy potrzebowali slowa kluczowego
+`extends` czyli mowimy, ze Osiol rozszerza Zwierze: `Donkey extends Animal`.
+
+```java
+class Animal{
+    int weight; 
+    
+    String noise(){
+        return "Ja latam, gadam, pełny serwis!!!";
+    }
+}
+
+class Donkey extends Animal{
+    int mass;
+    
+    @Override
+    String noise(){
+        return "Daleko jeszcze?! Iooo Iooo";
+    }
+}
+```
+
+Skoro juz wiecie, ze jest cos takiego jak polimorfizm, to wprowadzmy odrazu podpowiedz,
+dla kompilatora, ktora jawnie przypomni i jemu i Wam, ze metoda `noise()` jest przeslaniana. 
+Do tego sluzy slowko - anotacja - `@Override` czyli nadpisz. 
+Teraz juz jawnie widzimy, ze `Donkey` rozszerza klase `Animal`. Mozemy traktowac obiekt
+klasy `Donkey` tak samo jak `Animal`, gdyz Osiol to zwierze. Tak wiec mozemy zebrac zwierzaki
+do jednej farmy w postaci listy zwierzat. A nastepnie przeiterowac sie po wszystkich
+zwierzetach i poprosic je o glos. 
+ 
+```java
+//Musimy tym razem podpowiedziec, ze farma przechowuje zwierzeta
+List<Animal> farm = new ArrayList<Animal>(); 
+farm.add(new Animal());
+farm.add(new Donkey());
+
+for(Animal a: farm){
+    System.out.println(a.noise());
+}
+```
+
+Zwroccie uwage na to, ze wewnatrz petli `for` odnosimy sie do zmiennej `a` typu `Animal`.
+Jak myslicie jaki bedzie wynik powyzszego kodu? 
+```
+// Ja latam, gadam, pelny serwis!!!
+// Ja latam, gadam, pelny serwis!!!
+```
+
+czy
+
+```
+// Ja latam, gadam, pelny serwis!!!
+// Daleko Jeszcze
+```
+Ci z Was, ktorzy obstawali wariant drugi oczywiscie mieli racje. Pomimo, ze zmienna o krotkim zasiegu `a` jest typu `Animal` to w rzeczywistosci w drugiej iteracji petli bedzie zawierala
+referencje do obiektu klasy `Donkey`.
+
+Wrocmy jeszcze do watku na temat klasy `Object`, przeciez wczesniej nie uzywalismy nigdzie
+frazy `extends`. A no, to dlatego, ze w javie nasze klasy dziedzicza op klasie `Object` w sposob nie jawny. Jest to takzwany _syntax sugar_ czyli ulatwienie w skladni jezyka. W tym przypadku poprzez opcjonalne stosowanie `extends Object`, bo nic nie stoi na przeszkodzie, zeby nasza
+deklaracja klasy wygladala w taki sposob:
+
+```java
+class Animal extends Object{
+    int weight; 
+    
+    String noise(){
+        return "Ja latam, gadam, pełny serwis!!!";
+    }
+}
+```
+
+Ale po co wogole to robic, 
+napewno nie tylko po to, zeby moc operowac na kolekcjach jaka sa listy. Tylko jak 
+na poczatku wspomnialem, zeby unikac powtarzania kodu. Pamietacie? Zasada DRY.
+
+Przyjzyjmy sie naszym zwierzakom, w poszukiwaniu jakis powtorzen. Zwierzak, jest charakteryzowany
+poprzez jego wage `int weight`, oraz wydaje z siebie dzwiek - metoda `String noise()`.
+
+O! Nie zauwazyliscie pewnie, ze caly czas zwierze i osiol mialy odrebne charakterystyki.
+
+```java
+class Animal{
+    int weight; 
+    
+    String noise(){
+        return "Ja latam, gadam, pełny serwis!!!";
+    }
+}
+
+class Donkey extends Animal{
+    int mass;
+    
+    @Override
+    String noise(){
+        return "Daleko jeszcze?! Iooo Iooo";
+    }
+}
+```
+
+`int mass` i `int weight`, ponadto to jest to samo, czyli waga! Jak widac, szewc bez butow chodzi. Nie zastosowalem sie do zasady DRY, popelnilem blad, ktory teraz naprawimy. Poprosmy jeszcze zwierzaki, zeby powiedzialy nam ile waza. Zacznijmy tez ustawiac ta wartosc w konstruktorze klasy.
+
+```java
+class Animal{
+    int weight; 
+
+    public Animal(int weight){
+        this.weight = weight;
+    }
+    
+    String noise(){
+        return "Ja latam, gadam, pełny serwis!!!";
+    }
+
+    int getWeight(){
+        return weight;
+    }
+}
+
+class Donkey extends Animal{ 
+    
+    public Donkey(int weight){
+        super(weight);
+    }    
+    
+    @Override
+    String noise(){
+        return "Daleko jeszcze?! Iooo Iooo";
+    }    
+}
+```
+
+A co z Oslem? A no to wlasnie cale sedno rozszerzania klas. Osiol z uwagi na to, ze rozszerza klase `Animal` otrzyma takze wszystkie jej funkjonalnosci i charakterystyki. Z wyjatkiem metody 
+konstruktora. Pojawil sie w nim dziwny twor `super`, to nie tak, ze waga jest 'super'(wiem cos o tym), ale odwolujemy sie tutaj do konstruktora klasy nadrzednej czyli do konstruktora zwierzaka. 
+Unikamy w ten sposob powtorzen. 
+Zreszta jezeli sprobujecie o nim zapomniec to kompilator Wam oczywiscie przypomni...
+```
+Error:
+|  constructor Animal in class Animal cannot be applied to given types;
+|    required: int
+|    found: no arguments
+|    reason: actual and formal argument lists differ in length
+|  class Donkey extends Animal{
+|  ^
+|  modified class Donkey, however, it cannot be referenced until this error is corrected: 
+|      constructor Animal in class Animal cannot be applied to given types;
+|        required: int
+|        found: no arguments
+|        reason: actual and formal argument lists differ in length
+|      class Donkey extends Animal{
+|      ^
+```
+
+... ale wracajac do przykladu, dodajmy nasze zwierzaki do farmy i zapytajmy o glos i wage:
+
+```java
+List<Animal> farm = new ArrayList<>();
+
+farm.add(new Animal("122"));
+farm.add(new Donkey("144"));
+
+for(Animal a: farm){
+    System.out.println("Glos: "+ a.noise());
+    System.out.println("Waga: "+ a.getWeight());
+}
+
+// Glos: Latam gadam...
+// Waga: 122
+// Glos: Daleko?
+// Waga: 144
 
 ```
 
+Osiol mimo, ze nie zawiera implementacji zwiazanej z waga, bedac zwierzeciem, zawiera wszystkie 
+charakterystyki klasy `Animal`.
+
+Rozszerzmy nasz przyklad o nowe zwierzatko i dodajmy je do naszej farmy (czujecie sie jak Noe?)?
+
+```java
+class Coliber extends Animal{ 
+    
+    public Coliber(int weight){
+        super(weight);
+    }    
+    
+    @Override
+    String noise(){
+        return "Fru fru fru!";
+    }    
+}
+```
+//todo dodac metode latam
 
 
+Podsumowujac czego sie nauczylismy do tej pory? 
+* Dziedziczenie pozwala na redukcje powtarzajacego sie kodu. Poniewaz klasa dziedziczaca dziedziczy zachowania i charakterystyki nadklasy, superklasy lub przodka jak kto woli, mozecie spotkac sie z roznymi okresleniami.
+* Klasa dziedziczaca moze wprowadzic, rozszerzyc klase podstawowa o wlasne zachowania
+* Dziedziczenie wiaze sie stricte z polimorfizmem i czyli przeslanianiem sie wzajemnym metod klas.
+* Wszystkie klasy w javie dziedzicza z klasy `Object` w sposob niejawny
 
-//Space invaders - dziedziczenie: przesłanianie metod, enkapsulacja, interfejsy
+
 
 ## Lekcja 2 - Animacja postaci
 
@@ -196,7 +451,7 @@ W naszym przykładzie wykorzystamy technike stosowaną przez naszych dziadków ;
 ## Lekcja 4 - Strzelanie
 
 ## Lekcja 5 - Wykrywanie kolizji
-
+L
 ## Lekcja 6 -
 
 # Słownik
