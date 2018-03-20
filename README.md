@@ -775,6 +775,55 @@ Hierarchia powyższych klas i okolic:
 
 ![animation hierarchy](http://uml.mvnsearch.org/github/sratatata/space-invaders/blob/lesson1-tutorial/static/animation.puml)
 
-## Lekcja 2 - Enkupsulacja i interfejsy
+## Lekcja 2 - Enkapsulacja
+Enkapsulacja, inaczej hermetyzacja jest ukrywaniem szczegółów implementacji oraz uniemożliwieniem zmiany
+stanu obiektu przez inne klasy. Gwarantuje nam, że jedynym obiektem odpowiedzialnym za zmianę stanu jest sam obiekt
+i nie ma możliwości modyfikacji jego stanu z zewnątrz. 
+
+Jednym z oczywistych sposobów częściowego uzyskania takiego zachowania jest stosowanie 
+modyfikatorow dostępu jak najniższego poziomu, tzn. zaczynamy pisać kod tak, że
+wszystkie pola i metody sa private i dokonujemy ich modyfikacji dopiero gdy planujemy użyć 
+danego pola/metody w innym miejscu. Niestety jest to tylko puntk wyjscia dla poprawnie enkapsulowanej klasy, 
+ponieważ istnieje możliwość, że z jakiegoś powodu chcemy udostępnić stan obiektu, który to może zostać
+zmodyfikowany. Przykład takiej niepoprawnej enkapsulacji możemy znaleźć w listingu klasy
+`Shoot` z naszego projektu poniżej:
+
+```java
+public abstract class Shoot {
+    protected Rectangle position;
+    
+    protected GraphicsManager.Graphics graphics;
+    
+
+    public Shoot(GraphicsManager.Graphics graphics, float originX, float originY) {
+        this.graphics = graphics;
+        position = new Rectangle();
+        position.x = originX;
+        position.y = originY;
+        position.height = 10;
+        position.width = 10;
+    }
+    
+
+
+    public abstract boolean isOutsideScreen();
+
+    public abstract void updateState();
+    
+
+    public void render(SpriteBatch batch, float animationTime) {
+        TextureRegion shotFrame = graphics.frameToRender(animationTime);
+        batch.draw(shotFrame, position.x, position.y);
+    }
+    
+
+    public Rectangle position(){
+        return position;
+    }
+    
+}
+```
+
+#####Zadanie - zidentyfikować i poprawić błąd związany z enkapsulacją.
 
 ... bez spoilerów ...
