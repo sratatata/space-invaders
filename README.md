@@ -219,7 +219,7 @@ for(Object o: farm){
 }
 
 // Ja latam, gadam, pelny serwis!!!
-// Daleko Jeszcze
+// Daleko jeszcze?! Iooo Iooo
 ```
 
 No dobrze ale to jest obejscie dla mieczakow, zwroccie uwage, ze wykorzystuje wlasciwosc klasy 
@@ -392,17 +392,17 @@ Error:
 ```java
 List<Animal> farm = new ArrayList<>();
 
-farm.add(new Animal("122"));
-farm.add(new Donkey("144"));
+farm.add(new Animal(122));
+farm.add(new Donkey(144));
 
 for(Animal a: farm){
     System.out.println("Glos: "+ a.noise());
     System.out.println("Waga: "+ a.getWeight());
 }
 
-// Glos: Latam gadam...
+// Glos: Ja latam, gadam, pełny serwis!!!
 // Waga: 122
-// Glos: Daleko?
+// Glos: Daleko jeszcze?! Iooo Iooo
 // Waga: 144
 
 ```
@@ -413,19 +413,43 @@ charakterystyki klasy `Animal`.
 Rozszerzmy nasz przyklad o nowe zwierzatko i dodajmy je do naszej farmy (czujecie sie jak Noe?)?
 
 ```java
-class Coliber extends Animal{ 
+class Crow extends Animal{ 
     
-    public Coliber(int weight){
+    public Crow(int weight){
         super(weight);
     }    
     
     @Override
     String noise(){
-        return "Fru fru fru!";
+        return "Kraa Kraaa!";
+    }
+
+    void fly(){
+        System.out.println("Flap flap flap!");
     }    
 }
+
+Crow crow = new Crow(1);
+farm.add(crow);
+
+for(Animal a:farm){
+    System.out.println(a.noise());
+}
+
+//Ja latam, gadam, pełny serwis!!!
+// Daleko jeszcze?! Iooo Iooo
+// Kraa Kraaa!
+
+crow.fly();
+
+// Flap flap flap!
 ```
-//todo dodac metode latam
+Nie możliwe jest jednak wywołanie metody `fly()` na obiekcie klasy `Animal` gdyż ta metoda w jej kontekście poprostu nie istnieje. 
+Zatem mówimy w takim wypadku, że klasa `Crow` rozszerza klasę `Animal` o metodę `fly()`. Czyli wprowadziliśmy zupełnie nową funkcjonalność, 
+do istniejącego wcześniej typu. Zresztą zauważcie proszę, że dokładnie to samo robimy za każdym razem z klasą `Object`. 
+Jakie to niesie ze sobą korzyści? A no takie, że może się zdażyć sytuacje w której potrzebujecie dodać nowe zachowanie do jakiejś
+klasy np. z biblioteki trzeciej, i jak się pechowo składa, nie macie dostępu do kodu źródłowego. Nic straconego, zawsze możecie rozszeżyć i dodać 
+swoje nowe unikalne funkcjonalności.
 
 
 Podsumowujac czego sie nauczylismy do tej pory? 
