@@ -826,4 +826,99 @@ public abstract class Shoot {
 
 #####Zadanie - zidentyfikować i poprawić błąd związany z enkapsulacją.
 
-... bez spoilerów ...
+###Interfejsy
+Interfejs jest zbiorem metod wyznaczających pewną, powiązaną ze sobą funkcjonalność. Do javy 8 był to 
+tylko zbiór nagłówków metod, bez implementacji, przykłądem nieche będzie `Screen` z libgdx:
+
+```java
+/** <p>
+ * Represents one of many application screens, such as a main menu, a settings menu, the game screen and so on.
+ * </p>
+ * <p>
+ * Note that {@link #dispose()} is not called automatically.
+ * </p>
+ * @see Game */
+public interface Screen {
+	
+	/** Called when this screen becomes the current screen for a {@link Game}. */
+	public void show ();
+	
+	/** Called when the screen should render itself.
+	 * @param delta The time in seconds since the last render. */
+	public void render (float delta);
+	
+
+	/** @see ApplicationListener#resize(int, int) */
+	public void resize (int width, int height);
+	
+
+	/** @see ApplicationListener#pause() */
+	public void pause ();
+	
+
+	/** @see ApplicationListener#resume() */
+	public void resume ();
+	
+
+	/** Called when this screen is no longer the current screen for a {@link Game}. */
+	public void hide ();
+	
+
+	/** Called when this screen should release all resources. */
+	public void dispose ();
+	
+}
+```
+
+Od javy 8 interfejsy mogą mieć domyslną implementację metod:
+```java
+public interface A {
+    default void foo(){
+       System.out.println("Calling A.foo()");
+    }
+}
+```
+
+Jeśli klasa implementuje interfejs musi ona zapewnić implementację każdej metody w nim zawartej 
+(wyjątkiem jest klasa abstrakcyjna). Każda klasa może implementować dowolną liczbę interfejsów. Jest 
+to jedna z głównych różnic między klasą abstrakcyjną a interfejsem. Drugą jest ograniczenie, że interfejs
+nie może zawierać pól. Interfejsy ułatwiają enkapsulację, w klasie możemy mieć pole będące interfacem,
+i posługiwać się nim bez wiedzy jakiej konkretnie klasy faktycznej używamy. Interesuje nas czynność jaką
+interfejs umożliwia wykokanie, a nie sama implementacja. Poprawne używanie interfejsów sprawia, żę kod jest
+czeytelniejszy i bardizej przejrzysty, oraz posiada mniej zależności pomiędzy klasami.
+
+Dobrym przykładem interfejsu jest ``Screen`` z powyższego listingu. Mamy klasa `Game`, która zarządza 
+poszczególnymi ekranami, za pomocą metody ``setScreen()``, dzięki czemu mamy wydzieloną logikę każdego 
+ekranu w osobnym miejscu. Natomiast samej klasy ``Game`` nie interesuje implementacja każdego ekranu z oosbna.
+Jest to szczegół implementacyjny na poziomie pojedynczego ekranu.
+
+#####Zadanie - napisać i podpiąć ekran po wygraniu gry.
+
+###Elementy libgdx
+//todo
+
+## Lekcja 3 - Animacja postaci
+
+Przez postać rozumiemy rakiety, obcych ale także pociski.
+
+W naszym przykładzie wykorzystamy technike stosowaną przez naszych dziadków ;) zwaną Sprite animation. Podejście to polega na przechowywaniu grafiki w plikach typy mapa bitowa, w tym wypadku png. Kolejne klatki są zapisane w tym samym pliku w postaci kolumn i wierszy. Technika ta polega na indeksowaniu i wybieraniu kolejnych sekwencji z pliku.
+
+![Sprite z Rakieta](/space-invaders/graphics/rakieta.png)
+
+//todo wczytywanie sprite, przyklad
+
+## Lekcja 4 - Poruszanie postacią
+
+## Lekcja 5 - Strzelanie
+
+## Lekcja 6 - Wykrywanie kolizji
+
+## Lekcja 7 -
+
+# Słownik
+* Repozytorium - odnosi się do systemów kontroli wersji, w tym wypadku GIT. Repozytorium przypomina bibliotekę z wszystkimi wersjami napisanego programu.
+* TAG - znacznik wyróżniający konkretną wersję programu w repozytorium.
+
+# Bibliografia
+[1] https://pl.wikipedia.org/wiki/Android_(system_operacyjny)
+[2] Android Podręcznik Hackera: Joshua J. Drake, Pau Oliva Fora, Zach Lanier, Collin Mulliner, Stephen A. Ridley, Georg Wicherski
