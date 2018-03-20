@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.samsung.business.spaceinvaders.manager.ScoreManager;
 import com.samsung.business.spaceinvaders.screens.GameOverScreen;
 import com.samsung.business.spaceinvaders.screens.GameScreen;
-import com.samsung.business.spaceinvaders.screens.GameWinScreen;
 import com.samsung.business.spaceinvaders.screens.MainMenuScreen;
 
 public class SpaceInvaders extends Game {
@@ -34,7 +33,6 @@ public class SpaceInvaders extends Game {
     }
 
     public void win() {
-        this.setScreen(new GameWinScreen(this));
     }
 
     public ScoreManager getScore() {
