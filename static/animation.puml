@@ -1,0 +1,31 @@
+@startuml
+
+title Animations - Class Diagram
+
+
+class GraphicsManager {
+    +{static} loadGraphics():GraphicsManager
+    +find(String):Graphics
+}
+
+class Graphics {
+ -texture:Texture
+ -animation:Animation<TextureRegion>
+ loadFromFile(textureFile,columnFrames,rowFrames):Graphics
+ +frameToRender(delta):TextureRegion
+}
+
+GraphicsManager +-down-- Graphics : <static>
+
+class Spaceship{
+  +render(SpriteBatch, delta)
+}
+class PlayerSpaceship
+class EnemySpaceship
+
+Spaceship <|-- PlayerSpaceship 
+Spaceship <|-- EnemySpaceship
+
+Spaceship -> GraphicsManager : uses
+ 
+@enduml
