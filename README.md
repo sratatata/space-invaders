@@ -467,7 +467,7 @@ swoje nowe unikalne funkcjonalności.
 
 Nasza hierarchia class w tym momencie prezentuje sie nastepujaco:
 
-![animals hierarchy](http://uml.mvnsearch.org/github/sratatata/space-invaders/blob/master/static/lesson-1/animals.puml)
+![animals hierarchy](http://uml.mvnsearch.org/github/sratatata/space-invaders/blob/master/static/animals.puml)
 
 ### Dla wnikliwych - Klasy Abstrakcyjne
 
@@ -674,7 +674,14 @@ Podsumowujac czego sie nauczylismy do tej pory?
 * Klasy abstrakcyjne nie mogą mieć własnych instancji i służą do ich rozszerzania
 * Można zablokować dziedziczenie przy pomocy słowa kluczowego `final`
 
-### Animacja postaci
+### Zadanie
+Jesteś mechanikiem pokładowym, awarii uległ system napędu rakiet typu próżnia-próżnia. Dostosuj oprogramowanie rakiet analogicznie do rakiet wroga.
+
+Sterownik znajdziesz w klasie:
+
+`com.samsung.business.spaceinvaders.entity.PlayerShoot`
+
+## Lekcja 1 - Animacja postaci
 
 Przez postać rozumiemy rakiety, obcych ale także pociski.
 
@@ -765,7 +772,7 @@ Cały przykład ładowania i wykorzystania tekstur oraz animacji możecie znale�
 
 Hierarchia powyższych klas i okolic: 
 
-![animation hierarchy](http://uml.mvnsearch.org/github/sratatata/space-invaders/blob/master/static/lesson-1/animation.puml)
+![animation hierarchy](http://uml.mvnsearch.org/github/sratatata/space-invaders/blob/master/static/animation.puml)
 
 ## Lekcja 2 - Enkupsulacja i interfejsy
 
