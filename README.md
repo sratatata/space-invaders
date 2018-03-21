@@ -772,7 +772,7 @@ Cały przykład ładowania i wykorzystania tekstur oraz animacji możecie znale�
 
 Hierarchia powyższych klas i okolic: 
 
-![animation hierarchy](http://uml.mvnsearch.org/github/sratatata/space-invaders/blob/master/static/animation.puml)
+![animation hierarchy](http://uml.mvnsearch.org/github/sratatata/space-invaders/blob/lesson1-tutorial/static/animation.puml)
 
 ## Lekcja 2 - Enkupsulacja i interfejsy
 
