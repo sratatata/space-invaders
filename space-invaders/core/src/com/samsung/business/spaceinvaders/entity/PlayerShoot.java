@@ -1,6 +1,5 @@
 package com.samsung.business.spaceinvaders.entity;
 
-import com.badlogic.gdx.Gdx;
 import com.samsung.business.spaceinvaders.manager.GraphicsManager;
 import com.samsung.business.spaceinvaders.ui.DisplayInfo;
 
@@ -15,12 +14,15 @@ public class PlayerShoot extends Shoot {
     }
 
     @Override
-    public void updateState() {
-        this.position.y += 200 * Gdx.graphics.getDeltaTime();
+    public boolean isOutsideScreen() {
+        //todo sprawdzenie czy pocisk wylecial za gorna krawedz ekranu
+        return true;
     }
 
     @Override
-    public boolean isOutsideScreen() {
-        return this.position.y - 10 > HEIGHT;
+    public void updateState() {
+        //todo aktualizacja pozycji pocisku, analogicznie do EnemyShoot
     }
+
+
 }
