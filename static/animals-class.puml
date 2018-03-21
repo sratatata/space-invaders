@@ -1,6 +1,6 @@
 @startuml
-title Animals - Class Diagram
 
+title Animals - Class Diagram
 
 class Animal {
   +weight:int
@@ -22,4 +22,5 @@ Animal <|-- Donkey
 Animal <|-- Crow
 
 Animal *- Farm : contains
+
 @enduml
