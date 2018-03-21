@@ -467,7 +467,7 @@ swoje nowe unikalne funkcjonalności.
 
 Nasza hierarchia class w tym momencie prezentuje sie nastepujaco:
 
-![animals hierarchy](http://uml.mvnsearch.org/github/sratatata/space-invaders/blob/lesson1-tutorial/static/animals-class.puml)
+![animals hierarchy](https://www.planttext.com/plantuml/img/NO_13e8m44Jl-nLx14r_W7Z0GFm13vmhrhfQjacxXX3rtwM097gSsJUJsJAA3lBe782GE8DxfawxY0ehfsF4chGDkWDe9pcVyGc8szwGlKf1B4cnfsYol3XA8BR9iKQQ2HdT1Bs_9RNdkndcah_OobJ1zpDnSKEMfuC_tKmhUD1XdBCCsRsKMlf-h1HVeOsQGbXWwraqSGGe3P_7jpy0)
 
 ### Dla wnikliwych - Klasy Abstrakcyjne
 
