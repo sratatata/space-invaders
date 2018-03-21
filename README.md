@@ -451,6 +451,9 @@ Jakie to niesie ze sobą korzyści? A no takie, że może się zdażyć sytuacj
 klasy np. z biblioteki trzeciej, i jak się pechowo składa, nie macie dostępu do kodu źródłowego. Nic straconego, zawsze możecie rozszeżyć i dodać 
 swoje nowe unikalne funkcjonalności.
 
+Nasza hierarchia class w tym momencie prezentuje sie nastepujaco:
+
+![animals hierarchy](http://uml.mvnsearch.org/github/sratatata/space-invaders/blob/master/static/lesson-1/animals.puml)
 
 Podsumowujac czego sie nauczylismy do tej pory? 
 * Dziedziczenie pozwala na redukcje powtarzajacego sie kodu. Poniewaz klasa dziedziczaca dziedziczy zachowania i charakterystyki nadklasy, superklasy lub przodka jak kto woli, mozecie spotkac sie z roznymi okresleniami.
@@ -458,6 +461,37 @@ Podsumowujac czego sie nauczylismy do tej pory?
 * Dziedziczenie wiaze sie stricte z polimorfizmem i czyli przeslanianiem sie wzajemnym metod klas.
 * Wszystkie klasy w javie dziedzicza z klasy `Object` w sposob niejawny
 
+### Dla wnikliwych
+
+Wnikliwiy biolodzy moga zwrocic uwage na pewna niespojnosc w powyzszej koncepcji, a mianowicie co to za zwierze ten caly `Animal`? Nie 
+ma takiego zwierzaka, pojecie zwierzecia jest pojeciem abstrakcyjnym.  
+No wiec zaskocze was, jezyki obiektowe maja na to rozwiazanie i w elegancki sposob odzwierciedlaja to zjawisko. 
+
+```java
+abstract class Animal{
+    int weight; 
+
+    public Animal(int weight){
+        this.weight = weight;
+    }
+    
+    abstract String noise();
+
+    abstract int getWeight();
+}
+
+class Donkey extends Animal{ 
+    
+    public Donkey(int weight){
+        super(weight);
+    }    
+    
+    @Override
+    String noise(){
+        return "Daleko jeszcze?! Iooo Iooo";
+    }    
+}
+```
 
 
 ## Lekcja 2 - Animacja postaci
