@@ -9,13 +9,21 @@ If you have any specific question about code please create an issue.
 # Wstęp
 ### Space Invaders (Najeźdźcy z Kosmosu)
 
-(Tu opis plus screeny space invaders)
+Space Invaders jest grą shoot 'em up typu fixed shooter, tj. cała plansza widoczna jest przez cały czas na ekranie. Gracz kontroluje działko, przemieszczając je na dole ekranu i strzelając do kosmitów. Celem jest zniszczenie pięciu rzędów kosmitów, po jedenaście przeciwników w każdym (w niektórych wersjach liczby te mogą się różnić), które poruszają się poziomo tam i z powrotem oraz opadają na dół ekranu. Gracz pokonuje kosmitę, zyskując przy tym pewną liczbę punktów, zestrzeliwując go z działka. Im więcej kosmitów gracz zniszczył, tym szybsze są ich ruchy oraz muzyka gry. Pokonanie jednej fali kosmitów powoduje nadejście kolejnej, trudniejszej – cykl ten może trwać w nieskończoność.
 
-![Space Invaders](./static/space-invaders.png)
+Kosmici starają się zniszczyć działko, strzelając w nie. Jednocześnie zbliżają się ku dołowi planszy. Gdy tam dotrą, oznacza to, że ich inwazja się powiodła, a gra się kończy. Specjalny „tajemniczy statek” czasami przemieszcza się u góry ekranu – za jego zniszczenie gracz otrzymuje dodatkowe punkty. Działko chronione jest przez kilka stacjonarnych stanowisk obronnych (ich liczba zależy od wersji gry), które są stopniowo niszczone przez wrogi ostrzał.
+
+Treść zaczerpnięta z wikipedi: [Space Invaders](https://pl.wikipedia.org/wiki/Space_Invaders), gdzie możecie poczytać na 
+temat tej klasycznej gry nieco więcej.
+
+Poniżej możecie zobaczyć jak wyglądała oryginalna wersja gry: 
+
+![Space Invaders](./static/Space_Invader_Cabinet.jpg)
 
 ## Organizacja Tutoriala
 
-Niniejszy kurs podzielony został na lekcje. Każda z lekcji pomoże Ci zrozumieć kolejne aspekty programowania.
+Niniejszy kurs podzielony został na lekcje. Każda z lekcji pomoże Ci zrozumieć kolejne aspekty programowania obiektowego, oraz silnika _libgdx_. Naszym królikiem doświadczalnym
+będzie nasza, odpowiednio uproszczona, interpretacja oryginalnej gry Space Invaders.
 
 * Lekcja 0 - Szablon i struktura projektu
 * Lekcja 1 - Dziedziczenie i polimorfizm
@@ -26,6 +34,16 @@ Niniejszy kurs podzielony został na lekcje. Każda z lekcji pomoże Ci zrozumie
   * TimeUtils
   * Screen
 * Lekcja 2 - Wzorce projektowe
+
+Poszczególne lekcje z wyjątkiem Lekcji 0 - będą znajdowały się na odpowiednich branchach.  
+tj. `lesson1-tutorial`, `lesson2-tutorial` i `lesson3-tutorial`.
+
+Oczywiście niniejsza implementacja gry jest niemal kompletna, z uwagi na ograniczony czas trwania zajęć. 
+Nic jednak nie stoi na przeszkodzie, żeby w ramach dodatkowych ćwiczeń zapoznać się z 
+pozostałymi meandrami projektu, a być może nawet rozbudować o dodatkowe fukcjonalności. 
+
+Jeżeli interesuje Was bardziej rozbudowana wersja gry, albo chcecie rozwijać grę dalej,
+zalecam rozpoczęcie przygody od brancha `master`.
 
 # Techniki programowania obiektowego
 
@@ -38,9 +56,16 @@ Będziemy ćwiczyć programowanie, poprzez implementacje klasyki gier komputerow
 Reguły jakie chcemy spełnić:
 1. Wrogowie znajdują się w trzech rzędach na środku ekranu
 2. Statek znajduje się na dole ekranu
-3. Statek porusza się w lewo i prawo w płaszyźnie ziemi ( pojawia się w miejscu dotknięcia, lub można go przeciągać)
-4. Statek może strzelać do kosmitów (przez dotknięcie powyżej 1/3 ekranu)
+3. Statek porusza się w lewo i prawo w płaszyźnie ziemi (należy odpowiednio dotknąc lewej lub prawej strony ekranu)
+4. Statek może strzelać do kosmitów (przez dotknięcie powyżej środka ekranu)
 5. Kosmici strzelają w stronę ziemi
+6. Za każdym razem kiedy gracz nie trafia w kosmitę - traci punkty
+7. Gdy gracz trafi w kosmitę dostaje punkty dodatnie
+8. Kiedy kosmita trafi w gracza, ten przegrywa
+
+Po uruchomieniu gra powinna zaprezentować się w pełnej okazałości: 
+
+![Space Invaders](./static/space-invaders.png)
 
 ### Struktura projektu:
 
@@ -56,11 +81,22 @@ desktop - moduł zawiera równie małą aplikację, która uruchamia naszą gre 
 
 core - to jest najważniejszy moduł wszystkie zmiany będziemy wprowadzać w tym module, jest to serce naszej implementacji
 
-#### Komponenty
+### Komponenty
+
+* pakiet _root_: `SpaceInvaders` jest główną klasą gry i rozszerza klasę `Game` z silnika _libgdx_, służy
+nam jako punkt wejścia dla logiki gry jak i do zarządzania ekranami.
+* pakiet `screens` zawiera implementację poszczególnych ekranów gry
+* pakiet `manager` składa się z klas, które pozwalają nam zarządzać postaciami, strzałami i elementami graficznymi gry
+* pakiet `entity` zawiera wszystkie postaci w grze: strzały, statki wrogów, które tworzą inwazje oraz statek gracza.
+* pakiet `ui` zbiera nam wszystkie wizualne komponenty takie jak licznik punktów czy też strowanie gracza.
+
+Poniżej możecie zobaczyć jakie zależności pomiędzy komponentami warto wyróżnić:
 
 ![diagram komponentow](http://uml.mvnsearch.org/github/sratatata/space-invaders/blob/master/static/core-components.puml)
 
-## Lekcja 1 - Dziedziczenie
+## Lekcja 1 - Dziedziczenie i polimorfizm
+
+Proszę przełączcie się na branch: `lesson1-tutorial`
 
 Temat poświęcony dziedziczeniu rozpoczniemy od prostego przykładu, który być może niektórzy z Was 
 widzieli już wielokrotnie w różnego rodzaju publikacjach poświęconych językom obiektowym jakim bez 
@@ -644,6 +680,93 @@ Przez postać rozumiemy rakiety, obcych ale także pociski.
 
 W naszym przykładzie wykorzystamy technike stosowaną przez naszych dziadków ;) zwaną Sprite animation. Podejście to polega na przechowywaniu grafiki w plikach typy mapa bitowa, w tym wypadku png. Kolejne klatki są zapisane w tym samym pliku w postaci kolumn i wierszy. Technika ta polega na indeksowaniu i wybieraniu kolejnych sekwencji z pliku.
 
-![Sprite z Rakieta](/space-invaders/graphics/rakieta.png)
+Nasz plik dla rakiety wyglada w następujący sposób: 
 
-//todo wczytywanie sprite, przyklad
+![Sprite z Rakieta](./static/rakieta.png)
+
+Animacja polega na tym, że przeglądamy nasz "słownik" tekstur, tak to się czasem nazywa przy pomocy 2 zagnieżdżonych pętli.  
+Następnie tak zbudowaną listę tekstur wyświetlamy co jakiś stały odcinek czasu, żeby sprawić wrażenie animacji.
+
+![Schemat animacji](./static/animations.svg)
+
+W jaki sposob osiągnąć to w _libgdx_? Dość prosto, mimo, że początkowo może wydać się skomplikowane.
+Najpierw przygotujmy sobie zmienne i stałe, które będziemy później wykorzystywać:
+
+```java
+private static final boolean LOOPED = true; //warto nazywac stale w kodzie, zeby jasne bylo do czego ona sluzy
+private static final float delay = 0.025f; // czas pomiędzy kolejnymi klatkami
+
+private Texture texture; // przechowuje cały plik tekstury (słownika tekstur)
+private Animation<TextureRegion> animation; // zmienna przechowuje nam wszystkie klatki animacji i pozwala zwrócić kluczową klatkę bazując na czasie od początku
+                                            // animacji.
+                                            // typ tej zmiennej to tak zwany typ generyczny, możecie poczytać o tym w internecie, albo poprostu skopiować
+```
+Przyjżyjcie się komentarzom powyżej.  
+Kolejną czynnością jest załadowanie słownika tekstur do pamięci, do zmiennej texture.
+```java
+Texture texture = new Texture(Gdx.files.internal("rakieta.png"));
+```
+W następnej kolejności chcemy przy pomocy metody statycznej `split` podzielić załadowaną teksturę na 
+pojedyńcze klatki. W tym celu obliczamy sobie rozmiar bitmapy (obrazka) klatki poprzez podzielenie jej wielkości przez oczekiwaną 
+ilość kolumn i wierszy.  
+W tym przykładzie jak wskazuje na to schemat animacji wskazany wcześniej, będą to 4 kolumny po 2 wiersze.  
+Wynikiem podziału (`split`) jest 2 wymiarowa tablica typu 'TextureRegion`.
+
+```java
+TextureRegion[][] dictionary = TextureRegion.split(texture,
+        texture.getWidth()/ 4,
+        texture.getHeight()/ 2);
+```
+
+`TextureRegion` jest to prostokątna reprezentacja tekstury, której punktem początkowym jest górny lewy narożnik, natomiast punktem końcowym prawy, dolny narożnik.  
+Tego typu dwu-wymiarowa tablica stanowi docelowo łatwy w dostępie słownik tekstur, gdzie adres tablicy: `dictionary[0,1]` zawiera dokładnie 2 klatkę.  
+Dosyć często takie słowniki służą też do innych celów niż same animacje, np. mogą to być wizerunki broni, albo kolejne ściany sześcianu.  
+W naszym przypadku zamiarem jest przechowywanie poszczególnych klatek animacji, dlatego kolejną rzeczą, którą potrzebujemy wykonać jest spłaszczenie naszej dwu-wymiarowej
+tablicy tekstur do tablicy jedno-wymiarowej (pozbywamy się jednego wymiaru). Jej rozmiarem jest `8`, czyli tyle ile poszczególnych klatek animacji.
+
+```java        
+TextureRegion[] textureFrames = new TextureRegion[8];
+int indeks = 0;
+for (int i = 0; i < rowFrames; i++){
+    for (int j = 0; j < columnFrames; j++){
+        textureFrames[indeks++] = dictionary[i][j];
+    }
+}
+```
+Aby utworzyć konkretną animację, czyli zestawić klatki z osią czasu, potrzebujemy stworzyć obiekt animation klasy `Animation<TextureRegion>`.  
+Poniżej widzimy przykład, którego efektem jest animacja, która automatycznie rozkłada klatki równomiernice co odcinek czasu (`delay`).
+
+```java
+Animation animation = new Animation<TextureRegion>(delay, textureFrames);
+```
+
+Aby w trakcie rendereowania naszej animacji, otrzymać właściwego _Sprita_ (właściwą klatkę), korzystamy z metody `getKeyFrame(float delta, boolean isLooped)`, która
+w pozwala nam zamiast posługiwać się indeksami w tablicy, pobierać właściwą klatkę bazując na czasie `delta` od poprzedniego wywołania metody `render`.  
+Dzięki takiemu zabiegowi, niezależnie od czasu faktycznych obliczeń procesora, otrzymamy właściwą klatkę. Ma to szczególne znaczenie w przypadku mocy procesora, która nie
+jest wystarczająca dla naszej gry. 
+
+```java
+TextureRegion textureRegion = animation.getKeyFrame(delta, LOOPED);
+```
+
+Tak pozyskaną klatkę możęmy wykorzystać w trakcie renderowania, dla przykłądu:
+
+```java
+public void render(SpriteBatch batch, float delta) {
+		TextureRegion textureRegion = animation.getKeyFrame(delta, LOOPED);
+		batch.draw(textureRegion, position.x, position.y);
+}
+```
+
+Cały przykład ładowania i wykorzystania tekstur oraz animacji możecie znaleźć w przykłądowej dla tego kursu grze w następujacych klasach:
+
+* com.samsung.business.spaceinvaders.entity.Spaceship - renderowanie przygotowanej klatki
+* com.samsung.business.spaceinvaders.manager.GraphicsManager - ładowanie i przygotowywanie animacji
+
+Hierarchia powyższych klas i okolic: 
+
+![animation hierarchy](http://uml.mvnsearch.org/github/sratatata/space-invaders/blob/master/static/lesson-1/animation.puml)
+
+## Lekcja 2 - Enkupsulacja i interfejsy
+
+... bez spoilerów ...
