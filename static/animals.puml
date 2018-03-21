@@ -1,0 +1,25 @@
+@startuml
+title Animals - Class Diagram
+
+
+class Animal {
+  +weight:int
+  +noise():String
+  +getWeight():int
+}
+
+class Donkey {
+  +noise():String
+}
+
+class Crow {
+  +fly()
+}
+
+object Farm
+
+Animal <|-- Donkey
+Animal <|-- Crow
+
+Animal *- Farm : contains
+@enduml
