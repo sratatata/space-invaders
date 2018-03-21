@@ -1,6 +1,11 @@
 @startuml
 package "spaceinvaders" {
 
+    package "ui" {
+        [TouchInput]
+        package "components"
+    }
+    
     package "manager" {
         [GraphicsManager] -down-> Graphics
         [ShootManager] -> [GraphicsManager] : use
@@ -8,23 +13,19 @@ package "spaceinvaders" {
         [ScoreManager]
     }
 
-    package "ui" {
-        [InputManager] -up- TouchInput
-        [InputManager] -down- KeyboardInput
-
-        package "components"
-    }
+    
 
     package "entity" {
-        [Enemy]
-        [Invasion] --> [Enemy] : use
-        [Spaceship] .....> InputManager : use
+        [Spaceship] -down-> [PlayerSpaceship]
+        [Spaceship] -down-> [EnemySpaceship]
+        [Invasion] --> [EnemySpaceship] : use
+        [Spaceship] ..> TouchInput : use
     }
 
     package "screens" {
-        [GameScreen] --> [InputManager] : use
-        [GameScreen] ----> [Spaceship] : renders
-        [GameScreen] ----> [Invasion] : renders
+        [GameScreen] --> [TouchInput] : use
+        [GameScreen] ---> [Spaceship] : renders
+        [GameScreen] ---> [Invasion] : renders
         [GameScreen] --> [ShootManager] : use
         [GameOverScreen]
         [GameWinScreen]
@@ -32,12 +33,12 @@ package "spaceinvaders" {
     }
 
     [SpaceInvaders] -> Game
-    [SpaceInvaders] .....> [ScoreManager] : creates
-    [SpaceInvaders] ..> screens : manages
+    [SpaceInvaders] .> [ScoreManager] : creates
+    [SpaceInvaders] .> screens : manages
 
 
-    manager .> entity : <depends>
-    screens .> components : use
+    manager ...> entity : <depends>
+    screens ...> components : use
 }
 
 @enduml
