@@ -455,15 +455,9 @@ Nasza hierarchia class w tym momencie prezentuje sie nastepujaco:
 
 ![animals hierarchy](http://uml.mvnsearch.org/github/sratatata/space-invaders/blob/master/static/lesson-1/animals.puml)
 
-Podsumowujac czego sie nauczylismy do tej pory? 
-* Dziedziczenie pozwala na redukcje powtarzajacego sie kodu. Poniewaz klasa dziedziczaca dziedziczy zachowania i charakterystyki nadklasy, superklasy lub przodka jak kto woli, mozecie spotkac sie z roznymi okresleniami.
-* Klasa dziedziczaca moze wprowadzic, rozszerzyc klase podstawowa o wlasne zachowania
-* Dziedziczenie wiaze sie stricte z polimorfizmem i czyli przeslanianiem sie wzajemnym metod klas.
-* Wszystkie klasy w javie dziedzicza z klasy `Object` w sposob niejawny
+### Dla wnikliwych - Klasy Abstrakcyjne
 
-### Dla wnikliwych
-
-Wnikliwiy biolodzy moga zwrocic uwage na pewna niespojnosc w powyzszej koncepcji, a mianowicie co to za zwierze ten caly `Animal`? Nie 
+Wnikliwi biolodzy moga zwrocic uwage na pewna niespojnosc w powyzszej koncepcji, a mianowicie co to za zwierze ten caly `Animal`? Nie 
 ma takiego zwierzaka, pojecie zwierzecia jest pojeciem abstrakcyjnym.  
 No wiec zaskocze was, jezyki obiektowe maja na to rozwiazanie i w elegancki sposob odzwierciedlaja to zjawisko. 
 
@@ -479,7 +473,28 @@ abstract class Animal{
 
     abstract int getWeight();
 }
+```
+W powyższym przykładzie zastosowaliśmy klasę abstrakcyjną, wskazuje to słowo kluczowe `abstract`. Od tej pory 
+nie można już tworzyć instancji klasy `Animal`.  
+Jeżeli spróbujecie kompilator poinformuje Was o tym, dlatego nie martwcie się nie zapomnicie.
 
+```java
+   jshell> new Animal(2);
+    // |  Error:
+    // |  Animal is abstract; cannot be instantiated
+    // |  new Animal(2);
+    // |  ^-----------^
+```
+No dobrze, w takim razie w jaki sposób powołać do życia instancję zwierzaka? No tylko i wyłącznie poprzez dziedziczenie.
+Niejako zmuszamy użytkownika naszej klasy do dziedziczenia. Na następnej lekcji poznacie jeszcze kolejne sposoby, oraz 
+zostanie wyjaśnione w jakim celu chcielibyśmy to zastosować. Na chwile obecną skupmy sie na samej mechanice tego rozwiązania.
+
+W załączonym wyżej przykładzie Waszej uwadze napewno nie umknęła specyficzna deklaracja metod. `noise()` i `getWeight()`  
+zostały zaimplementowane jako tzw. metody abstrakcyjne, czyli takie, które muszą zostać zaimplementowane przez 
+rozszerzająca klasę.  
+Zróbmy tak:
+
+```java
 class Donkey extends Animal{ 
     
     public Donkey(int weight){
@@ -490,9 +505,160 @@ class Donkey extends Animal{
     String noise(){
         return "Daleko jeszcze?! Iooo Iooo";
     }    
+
+    @Override
+    int getWeight(){
+        return weight;
+    }
+}
+```
+Jak widzicie, nadpisałem wszystkie metody abstrakcyjne i podałem ich implementację. Dzięki czemu naszego osła możemy spokojnie traktować 
+jako zwierzę a jednocześnie pozbywamy się możliwości tworzenia nijakich instancji klasy `Animal`. Poniższy kod zadziała bez 
+najmniejszego problemu.
+
+```java
+Animal animal = new Donkey(133);
+System.out.println("Waga: "+ animal.getWeight());
+System.out.println("Glos: " + animal.noise());
+
+// Waga: 133
+// Glos: Daleko jeszcze?! Iooo Iooo
+```
+No dobrze, a czy możemy pominąć jakąś metodę abstrakcyjną i nie podawać jej implementacji?  
+Jako prwadziwy fachowiec odpowiem wam, że to zależy (wężykiem). Otóż jeżeli spróbujemy stworzyć klasę `Dog` bez implementacji 
+wszystkich metod to kompilator Wam o tym przypomni:
+
+```java
+class Dog extends Animal{
+   public Dog(int weight){
+       super(weight);
+   }
+}
+
+// |  Error:
+// |  Dog is not abstract and does not override abstract method getWeight() in Animal
+// |  class Dog extends Animal{
+// |  ^------------------------...
+
+```
+
+Jednak jeżeli przeczytacie uważnie komunikat to w sumie, jest to możliwe. Implikuje to jednak koniczność, żeby Wasza klasa również była `abstract`. Czyli i tak przed implementacja nie uciekniecie. 
+
+```java
+abstract class Dog extends Animal{
+   public Dog(int weight){
+       super(weight);
+   }
 }
 ```
 
+Kiedy nam się przydzą te informacje, tak w ramach _spoiler'a_ do enkapsulacji, ale też w przypadku unikania powtórzeń. Generalnie gdy 
+przyjdzie Wam zaprojektować jakieś API (Application Programming Interface). W tajemnicy powiem, że nastąpi to znacznie szybciej niż sobie 
+wyobrażacie.  
+Tak naprawdę każda klasa ma API do funkjonalności, które sama implementuje. Pakiet ma API do komponentu, który stanowi itd.  
+No ale mniejsza z tym. Mam nadzieję, że już nie będziecie zaskoczeni metodami bez implementacji albo klasami, których nie da sie zinstancjonować. 
+
+### Dla wnikliwych - Klasy finalne
+
+Jeżeli nie chcemy pozwolić na modyfikowanie (rozszerzanie) naszej klasy to możemy zaznaczyć ten fakt poprzez dopisanie 
+modyfikatora `final`.  
+
+```java
+    final class Mule extends Animal{
+        public Mule(int weight){
+            super(weight);
+        }    
+        
+        @Override
+        String noise(){
+            //Dla bardzo, bardzo wnikliwych: https://www.youtube.com/watch?v=5fWOFFETdK4
+            return "Yyyyyyyyyyyeeeee!!!";
+        }    
+
+        @Override
+        int getWeight(){
+            return weight;
+        }
+    }
+```
+
+Jeżeli teraz spróbujecie rozszerzyć taką klasę: 
+
+```java
+class MuleWithArmor extends Mule{
+    public MuleWithArmor(int weight){
+            super(weight);
+        }    
+}
+
+//The type MuleWithArmor cannot subclass the final class Mule
+```
+to kompilator Wam na to z całą stanowczością nie pozwoli. 
+
+Podbnie można postąpić z pojedyńczymi metodami:
+
+```java
+class Snail extends Animal{
+    public Snail(int weight){
+        super(weight);
+    }
+
+    @Override
+    String noise(){
+        //Dla bardzo, bardzo wnikliwych: https://www.youtube.com/watch?v=5fWOFFETdK4
+        return "____........";
+    }    
+
+    @Override
+    int getWeight(){
+        return weight;
+    }
+
+    final String getHome(){
+        return "@";
+    }
+}
+
+Snail snail = new Snail(1);
+
+System.out.println(snail.getHome());
+// @
+```
+
+Jeżeli spróbujecie nadpisać metodę domku slimaka, to nie uda Wam się to.
+
+```java
+class SnailHomeExploit extends Snail{
+    public SnailHomeExploit(int weight){
+        super(weight);
+    }
+
+    @Override
+    String getHome(){
+        // jakies 2 krzeselka, w srodku stolik i po prawej lozeczko :)
+        return "(  # --- #  __ )";
+    }
+}
+// |  Error:
+// |  getHome() in SnailHomeExploit cannot override getHome() in Snail
+// |    overridden method is final
+// |      @Override
+// |      ^--------...
+```
+
+Dzięki zastosowaniu `final` w połączniu z dziedziczeniem, możecie chronić swój kod przed zmianami. 
+Może to się przydać np. w przypadku metod obsługujących płatności czy też inne zabezpieczenia. 
+
+### Podsumowanie
+
+Podsumowujac czego sie nauczylismy do tej pory? 
+
+* Dziedziczenie pozwala na redukcje powtarzajacego sie kodu. Poniewaz klasa dziedziczaca dziedziczy zachowania i charakterystyki nadklasy, superklasy lub przodka jak kto woli, mozecie spotkac sie z roznymi okresleniami.
+* Klasa dziedziczaca moze wprowadzic, rozszerzyc klase podstawowa o wlasne zachowania
+* Dziedziczenie wiaze sie stricte z polimorfizmem i czyli przeslanianiem sie wzajemnym metod klas.
+* Wszystkie klasy w javie dziedzicza z klasy `Object` w sposob niejawny
+* Klasy abstrakcyjne nie mogą mieć własnych instancji i służą do ich rozszerzania
+* Można zablokować dziedziczenie przy pomocy słowa kluczowego `final`
 
 ## Lekcja 2 - Animacja postaci
 
