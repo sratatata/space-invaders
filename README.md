@@ -753,7 +753,7 @@ Dzięki takiemu zabiegowi, niezależnie od czasu faktycznych obliczeń procesora
 jest wystarczająca dla naszej gry. 
 
 ```java
-TextureRegion textureRegion = animation.getKeyFrame(delta, LOOPED);
+TextureRegion textureRegion = animation.getKeyFrame(animationTime, LOOPED);
 ```
 
 Tak pozyskaną klatkę możęmy wykorzystać w trakcie renderowania, dla przykłądu:
