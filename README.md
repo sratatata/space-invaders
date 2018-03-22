@@ -760,8 +760,9 @@ Tak pozyskaną klatkę możęmy wykorzystać w trakcie renderowania, dla przyk�
 
 ```java
 public void render(SpriteBatch batch, float delta) {
-		TextureRegion textureRegion = animation.getKeyFrame(delta, LOOPED);
-		batch.draw(textureRegion, position.x, position.y);
+	animationTime += delta; // przesowamy czas o czastke delta, aby pobrac wlasciwa klatke
+	TextureRegion textureRegion = animation.getKeyFrame(animationTime, LOOPED);
+	batch.draw(textureRegion, position.x, position.y);
 }
 ```
 
