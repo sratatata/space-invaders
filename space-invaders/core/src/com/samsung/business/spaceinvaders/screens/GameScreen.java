@@ -28,6 +28,8 @@ public class GameScreen extends AbstractScreen {
     private ScoreGuiLabel scoreGuiLabel;
     private TouchInput touchInput;
 
+    private float animationTime;
+
     public GameScreen(SpaceInvaders spaceInvaders) {
         this.spaceInvaders = spaceInvaders;
         scoreGuiLabel = new ScoreGuiLabel();
@@ -93,6 +95,7 @@ public class GameScreen extends AbstractScreen {
 
     @Override
     public void render(float delta) {
+        animationTime+= delta;
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -106,10 +109,10 @@ public class GameScreen extends AbstractScreen {
         //renderowanie gry
         spaceInvaders.batch.begin();
 
-        player.render(spaceInvaders.batch, delta);
-        shootManager.render(spaceInvaders.batch, delta);
-        invasion.render(spaceInvaders.batch, delta);
-        scoreGuiLabel.render(spaceInvaders.batch, delta);
+        player.render(spaceInvaders.batch, animationTime);
+        shootManager.render(spaceInvaders.batch, animationTime);
+        invasion.render(spaceInvaders.batch, animationTime);
+        scoreGuiLabel.render(spaceInvaders.batch, animationTime);
 
         spaceInvaders.batch.end();
 
