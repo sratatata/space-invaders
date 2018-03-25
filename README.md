@@ -780,6 +780,15 @@ Enkapsulacja, inaczej hermetyzacja jest ukrywaniem szczegółów implementacji o
 stanu obiektu przez inne klasy. Gwarantuje nam, że jedynym obiektem odpowiedzialnym za zmianę stanu jest sam obiekt
 i nie ma możliwości modyfikacji jego stanu z zewnątrz. 
 
+Analogia z życia:
+
+Idziemy do apteki, chcemy kupić jakiś lek — nie bierzemy go z półki sami, tylko wywołujemy określoną
+metodę obiektu Apteka, prosząc Panią Sprzedawczynię, aby ten lek nam podała. Nie interesuje nas w jaki
+sposób ona to zrealizuje — tzn czy będzie np. musiała poczukać go w magazynie, czy też wejść na 
+stołek bo lek stoi na górnej półce. My tego sami robić nie musimy, to już nie nasz problem, leży to
+w gestii drugiego obiektu. Więcej my sami nawet nie wiemy gdzie szukać danego medykamentu i nas to nie
+powinno interesować - jest to szczegół implementacyjny klasy Apteka.
+
 Jednym z oczywistych sposobów częściowego uzyskania takiego zachowania jest stosowanie 
 modyfikatorow dostępu jak najniższego poziomu, tzn. zaczynamy pisać kod tak, że
 wszystkie pola i metody sa private i dokonujemy ich modyfikacji dopiero gdy planujemy użyć 
@@ -892,7 +901,7 @@ czeytelniejszy i bardizej przejrzysty, oraz posiada mniej zależności pomiędzy
 
 Dobrym przykładem interfejsu jest ``Screen`` z powyższego listingu. Mamy klasa `Game`, która zarządza 
 poszczególnymi ekranami, za pomocą metody ``setScreen()``, dzięki czemu mamy wydzieloną logikę każdego 
-ekranu w osobnym miejscu. Natomiast samej klasy ``Game`` nie interesuje implementacja każdego ekranu z oosbna.
+ekranu w osobnym miejscu. Natomiast samej klasy ``Game`` nie interesuje implementacja każdego ekranu z osobna.
 Jest to szczegół implementacyjny na poziomie pojedynczego ekranu.
 
 ##### Zadanie - napisać i podpiąć ekran po wygraniu gry.
@@ -900,6 +909,34 @@ Jest to szczegół implementacyjny na poziomie pojedynczego ekranu.
 
 ### Elementy libgdx
 
+
+#### TimeUtils
+
+Jest nakładką na pobieranie czasu systemowego. W aplikacji SpaceInvaders jest używany do sprawdzenia czy
+gracz lub wróg mogą oddać kolejne strzały. Jako ciekawostkę możecie zwrócić uwagę na różnicę w implementacji
+w obu podejsciach:
+* PlayerSpaceship - przechowuje informacje o czasie kiedy oddał ostatni strzal(pole `lastShotTime`) i do sprawdzenia
+używa fragmentu kodu:
+
+```java
+private boolean canShoot() {
+    return TimeUtils.nanoTime() - lastShotTime > 600 * 1000 * 1000;
+}
+```
+
+co w praktyce oznacza, że gracz może strzelać co nieco więcej niż pół sekundy.
+* EnemySpaceship - w momencie oddania strzału generuje wartość minimalnego czasu w którym będzie mógł
+strzelić ponownie (pole 'nextShotTime') i do sprawdzenia używa warunku:
+
+```java
+if (this.canShoot && TimeUtils.nanoTime() > nextShotTime) {
+```
+gdzie ``this.canShot`  jest flagą, która blokuje strzelanie jeśli wróg nie jest pierwszym widocznym 
+w danym rzędzie.
+
+#### Rectangle
+
+Dla przypomnienia punkt (0,0) jest w lewym dolnym rogu. Służy do przechowywania pozycji wszystkich encji w grze.
 
 #### BitmapFont 
 
