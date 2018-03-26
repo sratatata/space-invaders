@@ -951,29 +951,4 @@ https://github.com/libgdx/libgdx/wiki/Bitmap-fonts do pobrania nardzedzie Hiero 
 
 ##### Zadanie - podpiąć własną czcionkę do aplikacji
 
-
-## Lekcja 3 - Animacja postaci
-
-Przez postać rozumiemy rakiety, obcych ale także pociski.
-
-W naszym przykładzie wykorzystamy technike stosowaną przez naszych dziadków ;) zwaną Sprite animation. Podejście to polega na przechowywaniu grafiki w plikach typy mapa bitowa, w tym wypadku png. Kolejne klatki są zapisane w tym samym pliku w postaci kolumn i wierszy. Technika ta polega na indeksowaniu i wybieraniu kolejnych sekwencji z pliku.
-
-![Sprite z Rakieta](/space-invaders/graphics/rakieta.png)
-
-//todo wczytywanie sprite, przyklad
-
-## Lekcja 4 - Poruszanie postacią
-
-## Lekcja 5 - Strzelanie
-
-## Lekcja 6 - Wykrywanie kolizji
-
-## Lekcja 7 -
-
-# Słownik
-* Repozytorium - odnosi się do systemów kontroli wersji, w tym wypadku GIT. Repozytorium przypomina bibliotekę z wszystkimi wersjami napisanego programu.
-* TAG - znacznik wyróżniający konkretną wersję programu w repozytorium.
-
-# Bibliografia
-[1] https://pl.wikipedia.org/wiki/Android_(system_operacyjny)
-[2] Android Podręcznik Hackera: Joshua J. Drake, Pau Oliva Fora, Zach Lanier, Collin Mulliner, Stephen A. Ridley, Georg Wicherski
+Sprobujcie zastosowac swoja wlasna czcionke typu BitmapFont.
