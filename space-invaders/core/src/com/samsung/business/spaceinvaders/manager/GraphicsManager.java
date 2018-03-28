@@ -24,6 +24,7 @@ public class GraphicsManager {
         graphicsManager.addGraphics("button", Graphics.loadFromFile(Gdx.files.internal("button.png"), 1, 1));
         graphicsManager.addGraphics("stick", Graphics.loadFromFile(Gdx.files.internal("stick.png"), 1, 1));
         graphicsManager.addGraphics("stickIndicator", Graphics.loadFromFile(Gdx.files.internal("stick_indicator.png"), 1, 1));
+        graphicsManager.addGraphics("sciana", Graphics.loadFromFile(Gdx.files.internal("sciana.png"), 3, 1));
 
         return graphicsManager;
     }

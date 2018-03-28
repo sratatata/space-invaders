@@ -73,7 +73,7 @@ public class EnemySpaceship extends Spaceship {
     }
 
     private void prepareNextShot() {
-        this.nextShotTime = TimeUtils.nanoTime() + MathUtils.random(6000000000L);
+        this.nextShotTime = TimeUtils.nanoTime() + MathUtils.random(5000000000L) + 1000000000L;
     }
 
     public void prepareToShot() {

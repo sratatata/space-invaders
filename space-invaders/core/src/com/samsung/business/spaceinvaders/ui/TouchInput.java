@@ -1,7 +1,9 @@
 package com.samsung.business.spaceinvaders.ui;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.g3d.particles.ParticleShader;
 import com.badlogic.gdx.math.Vector3;
 
 /**
@@ -24,6 +26,8 @@ public class TouchInput {
             touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touchPos);
             return touchPos.x <= TERTIO_X;
+        } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+            return true;
         }
         return false;
     }
@@ -33,6 +37,8 @@ public class TouchInput {
             touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touchPos);
             return touchPos.x > 2*TERTIO_X;
+        } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            return true;
         }
         return false;
     }
@@ -42,6 +48,8 @@ public class TouchInput {
             touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touchPos);
             return touchPos.x > TERTIO_X && touchPos.x < 2 * TERTIO_X;
+        } else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+            return true;
         }
         return false;
     }
