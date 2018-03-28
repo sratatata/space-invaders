@@ -6,6 +6,7 @@ import com.samsung.business.spaceinvaders.manager.ScoreManager;
 import com.samsung.business.spaceinvaders.screens.GameOverScreen;
 import com.samsung.business.spaceinvaders.screens.GameScreen;
 import com.samsung.business.spaceinvaders.screens.MainMenuScreen;
+import com.samsung.business.spaceinvaders.screens.WinScreen;
 
 public class SpaceInvaders extends Game {
     public SpriteBatch batch;
@@ -33,6 +34,7 @@ public class SpaceInvaders extends Game {
     }
 
     public void win() {
+        this.setScreen(new WinScreen(this));
     }
 
     public ScoreManager getScore() {

@@ -4,10 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.samsung.business.spaceinvaders.SpaceInvaders;
+import com.samsung.business.spaceinvaders.entity.Brick;
 import com.samsung.business.spaceinvaders.entity.EnemySpaceship;
 import com.samsung.business.spaceinvaders.entity.Invasion;
 import com.samsung.business.spaceinvaders.entity.PlayerSpaceship;
 import com.samsung.business.spaceinvaders.entity.Spaceship;
+import com.samsung.business.spaceinvaders.entity.Walls;
 import com.samsung.business.spaceinvaders.manager.GraphicsManager;
 import com.samsung.business.spaceinvaders.manager.ShootManager;
 import com.samsung.business.spaceinvaders.ui.DisplayInfo;
@@ -23,6 +25,7 @@ public class GameScreen extends AbstractScreen {
     private GraphicsManager graphicsManager;
 
     private PlayerSpaceship player;
+    private Walls walls;
     private Invasion invasion;
 
     private ScoreGuiLabel scoreGuiLabel;
@@ -56,6 +59,15 @@ public class GameScreen extends AbstractScreen {
             }
         });
 
+        walls = Walls.build(graphicsManager);
+
+        walls.listenOnDestroyed(new Walls.OnBrickDestroyed() {
+            @Override
+            public void onBrickDestroyed(Brick brick) {
+
+            }
+        });
+
         //przygotuj raid wroga
         invasion = Invasion.raid(graphicsManager);
 
@@ -75,7 +87,7 @@ public class GameScreen extends AbstractScreen {
         });
 
         //zaladuj system zarzadzania pociskami
-        shootManager = new ShootManager(graphicsManager, player, invasion);
+        shootManager = new ShootManager(graphicsManager, player, invasion, walls);
         shootManager.onMissed(()->{
             spaceInvaders.getScore().addScore(-10);
         });
@@ -84,6 +96,7 @@ public class GameScreen extends AbstractScreen {
     private void updatGameState() {
         //zaktualizuj stan i polozenie gracza i wrogow
         player.update(camera, shootManager);
+        walls.update(camera, shootManager);
         invasion.update(camera, shootManager);
 
         //zaktualizuj stan pociskow
@@ -111,6 +124,7 @@ public class GameScreen extends AbstractScreen {
 
         player.render(spaceInvaders.batch, animationTime);
         shootManager.render(spaceInvaders.batch, animationTime);
+        walls.render(spaceInvaders.batch);
         invasion.render(spaceInvaders.batch, animationTime);
         scoreGuiLabel.render(spaceInvaders.batch, animationTime);
 
