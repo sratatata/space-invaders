@@ -955,24 +955,55 @@ https://github.com/libgdx/libgdx/wiki/Bitmap-fonts do pobrania nardzedzie Hiero 
 Sprobujcie zastosowac swoja wlasna czcionke typu BitmapFont.
 
 ## Lekcja 3 - Wzorce projektowe
+
+![Design patterns everywhere meme](https://media.makeameme.org/created/design-patterns-design.jpg)
+
 ### Wprowadzenie i systematyka
 
+Opis wzorca: 
+
+* nazwa wzorca
+* opis problemu
+* opis rozwiązania
+* konsekwencje zastosowania
+
+Kategoryzacja wzorców: 
+
+* kreacyjne (konstrukcyjne)
+* strukturalne
+* czynnościowe (behawioralne)
 
 ### Wzorce
 
+Gdzie poszukiwać informacji o wzorach projektowych? A no na wiki!  
+[Wikipedia: Wzorzec Projektowy](https://pl.wikipedia.org/wiki/Wzorzec_projektowy_(informatyka))
+
+No ale tam to taka papka trochę, więc polacam ogarnąć książki:
+* Gang 4-ch: [Design Patterns: Elements of Reusable Object-Oriented Software (Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides)](https://helion.pl/ksiazki/wzorce-projektowe-elementy-oprogramowania-obiektowego-wielokrotnego-uzytku-erich-gamma-richard-helm-ralph-johnson-john-vli,wzoelv.htm#format/d) 
+* [Head First Design Patterns: A brain frindly guide (Eric Freeman, Elisabeth Robson)](https://helion.pl/ksiazki/wzorce-projektowe-rusz-glowa-eric-freeman-bert-bates-kathy-sierra-elisabeth,wzorvv.htm#format/d)
+* [Architektura Systemów Zarządzania Przedsiębiorstwem: Wzorce Projektowe (Martin Fowler (...))](https://helion.pl/ksiazki/architektura-systemow-zarzadzania-przedsiebiorstwem-wzorce-projektowe-martin-fowler,szabko.htm#format/d)  
+  No typowe polskie tłumaczenie tytułu: Patterns of Enterprise Applications Architecture  
+  <img src="https://vignette.wikia.nocookie.net/memopedia/images/9/99/Bitch_Please.png/revision/latest?cb=20150506181815&path-prefix=pl" alt="Drawing" style="width: 200px;"/>
+
+Poniżej przytoczę kilka wyjątkowo interesujących wzorców projektowych z punktu widzenia 
+tworzonych przez Was gier. Ale oczywiści to nie znaczy, że pozostałe wzorce Wam się nie przydadzą,
+poprostu **nie chce mi się** opisywać wszystkich wzorców, o których już napisano książki.
+
+#### Singleton 
+
 #### Builder
+
+#### Factory method
+
+#### Facade
+
+#### Composite
 
 #### Proxy
 
 #### Command
 
-#### Composite
-
-#### Facade
-
 #### Visitor
-
-#### Factory method
 
 ## Lekcja 4 - Podstawy projektowania gier komputerowych (Bonus)
 
