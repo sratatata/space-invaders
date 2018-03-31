@@ -33,7 +33,8 @@ będzie nasza, odpowiednio uproszczona, interpretacja oryginalnej gry Space Inva
   * Rectangle
   * TimeUtils
   * Screen
-* Lekcja 2 - Wzorce projektowe
+* Lekcja 3 - Wzorce projektowe
+
 
 Poszczególne lekcje z wyjątkiem Lekcji 0 - będą znajdowały się na odpowiednich branchach.  
 tj. `lesson1-tutorial`, `lesson2-tutorial` i `lesson3-tutorial`.
@@ -952,3 +953,35 @@ https://github.com/libgdx/libgdx/wiki/Bitmap-fonts do pobrania nardzedzie Hiero 
 ##### Zadanie - podpiąć własną czcionkę do aplikacji
 
 Sprobujcie zastosowac swoja wlasna czcionke typu BitmapFont.
+
+## Lekcja 3 - Wzorce projektowe
+### Wprowadzenie i systematyka
+
+
+### Wzorce
+
+#### Builder
+
+#### Proxy
+
+#### Command
+
+#### Composite
+
+#### Facade
+
+#### Visitor
+
+#### Factory method
+
+## Lekcja 4 - Podstawy projektowania gier komputerowych (Bonus)
+
+### Zalozenia
+
+### Inspiracja i motywacja
+
+### Scenariusze
+
+### Efektywna implementacja
+
+### Co dalej?
