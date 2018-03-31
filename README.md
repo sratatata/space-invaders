@@ -996,6 +996,27 @@ poprostu **nie chce mi się** opisywać wszystkich wzorców, o których już nap
 #### Factory method
 
 #### Facade
+Wzorzc strukturalny
+
+Problem:  
+* Skomplikowany lub rozległy moduł wymaga dość złożonej obsługi po stronie kodu klienta. 
+* Biblioteka, która od nas niezależy powinna zostać odizolowana od naszej własnej implementacji.
+
+Rozwiązanie:  
+Dostarcza pojedyńczy i jednolity interfejs do bardziej złożonych interfejsów w module niższej warstwy.  
+Fasada definiuje interfejs wyższego rzędu (wyższej warstwy), który ułatwia wykorzystywanie podmodułu przez użytkownika.
+
+![fasada](https://www.planttext.com/plantuml/img/VLBBQiD03BphAqHE2IM1q9iF9OVIKmCb-GB5AoTBzs5MCc49-VTkdRfnMrFOaqQZ6Ors8qf9E-y0rAfZVA6Q30D0xKW4zx4BvjKU4gLyWow0-D0woZqq3-IvsckouRWOa6qdjlw9NA6b-fsEZD8T98koltnBU7vCvgtuo5zA8sJBFgQyuwASUcafHJsLeQNcyZChMSTclgZQQ8DoAb8ZjZLsc7a5-BiDBfTFamx-QHqFdQ3U-qRMuHTnkWb2L4R7ZM9i9hAlokA2vSKkONExL4-P3S1dEZX4VRPwmZwKG4vcI89XNKJMk5hTxm2muM3A5_W0)
+
+Konsekwncje:  
+* Mniej zależności pomiędzy klientem a podmodułem w związku z wprowadzeniem dodatkowej warstwy abstrakcji
+* Uproszczone (i ograniczone) wykorzystanie podmodułu w innych obszarach programu
+
+W grach:  
+Możecie wyobrazić sobie skomplikowane rysowanie postaci gracza i wrogów zsynchronizowane z dźwiękami kroków, zmianami broni itp.
+Jednak jeżeli te wszystkie skomplikowane operacje zasłonicie odpowiednio zaprojektowaną fasadą, nie będziecie musieli tymi
+wszystkimi detalami zajmować się podczas np. szlifowania rozgrywki, czy dodawaniu nowych poziomów. Będziecie korzystać 
+z abstrakcyjnych pojęć zdefiniowanych przez waszą fasadę.
 
 #### Composite
 
