@@ -983,7 +983,7 @@ No ale tam to taka papka trochę, więc polacam ogarnąć książki:
 * [Head First Design Patterns: A brain frindly guide (Eric Freeman, Elisabeth Robson)](https://helion.pl/ksiazki/wzorce-projektowe-rusz-glowa-eric-freeman-bert-bates-kathy-sierra-elisabeth,wzorvv.htm#format/d)
 * [Architektura Systemów Zarządzania Przedsiębiorstwem: Wzorce Projektowe (Martin Fowler (...))](https://helion.pl/ksiazki/architektura-systemow-zarzadzania-przedsiebiorstwem-wzorce-projektowe-martin-fowler,szabko.htm#format/d)  
   No typowe polskie tłumaczenie tytułu: Patterns of Enterprise Applications Architecture  
-  <img src="https://vignette.wikia.nocookie.net/memopedia/images/9/99/Bitch_Please.png/revision/latest?cb=20150506181815&path-prefix=pl" alt="Drawing" style="width: 200px;"/>
+  ![please](static/please.png)
 
 Poniżej przytoczę kilka wyjątkowo interesujących wzorców projektowych z punktu widzenia 
 tworzonych przez Was gier. Ale oczywiści to nie znaczy, że pozostałe wzorce Wam się nie przydadzą,
