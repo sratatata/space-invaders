@@ -992,6 +992,16 @@ poprostu **nie chce mi się** opisywać wszystkich wzorców, o których już nap
 #### Singleton 
 
 #### Builder
+Wzorzc kreacyjny
+
+Intencja:
+Oddzielenie konstrukcji skomplikowanego obiektu od jego reprezentacji w związku z czym ten sam proces konstrukcji może tworzyć inne (różne) reprezentacje.
+
+Konsekwencje:
+* Separacja konstrukcji (konfiguracji) od reprezentacji obiektu
+* zmiana implemencji Productu (tego Buildera) nie wpływa na proces tworzenia(konstrukcji).
+
+Builder dosyć często wykorzystywany jest do tworzenia struktur bazujących na wzorcu kompozycji (Composite)
 
 #### Factory method
 
@@ -1002,7 +1012,7 @@ Problem:
 * Skomplikowany lub rozległy moduł wymaga dość złożonej obsługi po stronie kodu klienta. 
 * Biblioteka, która od nas niezależy powinna zostać odizolowana od naszej własnej implementacji.
 
-Rozwiązanie:  
+Intencja:  
 Dostarcza pojedyńczy i jednolity interfejs do bardziej złożonych interfejsów w module niższej warstwy.  
 Fasada definiuje interfejs wyższego rzędu (wyższej warstwy), który ułatwia wykorzystywanie podmodułu przez użytkownika.
 
