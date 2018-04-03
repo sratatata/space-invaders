@@ -1,0 +1,48 @@
+@startuml
+
+title Builder - Class Diagram
+
+class RailwayDepot {
+  +prepareTrain()
+}
+note left: Director
+
+
+
+interface TrainBuilder {
+  +addCarrige(CarrigeType)
+}
+
+note right: Builder
+
+class TrainSimulator{
+
+}
+note left: Client
+
+class TgvTrain{
+
+}
+note bottom: Product
+
+class TgvTrainBuilder{
+  +addCarrige(CarrigeType)
+  +getTgvTrain()
+}
+note right: ConcreteBuilder
+
+RailwayDepot o-> TrainBuilder : trainBuilder
+note on link: builder
+
+TrainBuilder <|-- TgvTrainBuilder
+
+TgvTrain <.left. TgvTrainBuilder
+
+TrainSimulator -up-> RailwayDepot
+
+note "builder.buildPart()" as N1
+N1 -- RailwayDepot
+
+
+
+@enduml
