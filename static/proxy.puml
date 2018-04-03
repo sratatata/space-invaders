@@ -1,0 +1,32 @@
+@startuml
+
+title Proxy - Class Diagram
+
+class GameEngine{
+
+}
+note left: Client
+
+interface 3dModel{
+  +render()
+}
+note right: Subject
+
+
+class 3dTreeModelProxy{
+ +render()
+}
+note bottom: Proxy
+
+class 3dTreeModel{
+  +render()
+}
+note bottom: Real subject
+
+GameEngine -> 3dModel
+3dModel <|-- 3dTreeModel
+3dModel <|-- 3dTreeModelProxy
+
+3dTreeModel <- 3dTreeModelProxy : realModel
+
+@enduml
