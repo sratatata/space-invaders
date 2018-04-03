@@ -1003,6 +1003,17 @@ Konsekwencje:
 
 Builder dosyć często wykorzystywany jest do tworzenia struktur bazujących na wzorcu kompozycji (Composite)
 
+![builder](https://www.planttext.com/plantuml/img/VLBDQW8n4BxdAGPFIedWTP4YNSyYhIymxexRq6oopCwsYEsxDyQichOqbv39zvUFh7f1bg6rIeaHI_0q65iJWuRIOj_3sc33s2fLnUCp6lk1npLrNk2a01uwfWwPTep6JMVgIpal19OEKWGoKoMULLZ62V41Au887NsY1jPrYSoceMdQTyUEpc8NjJ1v3NA9CsQ9EY-c7Im6ZvFAlKjhoCaLsxn7-0srzoA-BM3BlXwgNy3azM-ySDMGZ8pRurFSqhkAIUWQEolFwyUyYGBaxdXHyWwiSMy5x4UDZBByrFfduW190rZgSnL_8RBcG0zT27EVBlK-IRRpk6_3JvdE9e0zR1Pgiu1WdfEKMf6hms_w1W00)
+
+```java
+//...
+  trainBuilder = new TgvTrainBuilder();
+  railwayDepot.setTrainBuilder(trainBuilder);
+  railwayDepot.prepareTrain();
+  tgvTrain = trainBuilder.getTgvTrain();
+//...
+```
+
 #### Factory method
 
 #### Facade
