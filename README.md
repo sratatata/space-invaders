@@ -990,6 +990,22 @@ tworzonych przez Was gier. Ale oczywiści to nie znaczy, że pozostałe wzorce W
 poprostu **nie chce mi się** opisywać wszystkich wzorców, o których już napisano książki.
 
 #### Singleton 
+Wzorzec kreacyjny
+
+Intencja:  
+Ograniczenie możliwości tworzenia obiektów danej klasy do jednej instancji oraz zapewnienie globalnego dostępu do stworzonego obiektu.
+
+Uwaga:  
+Singleton często jest __nadużywany__, należy pamiętać o tym, że zmienne globalne docelowo utrudniają właściwe strukturyzowanie kodu, jaki wprowadzają ryzyko poważnych błędów w przypadku programu wielowątkowego.  
+Często uznawany jest za anty-wzorzec.
+
+![builder](http://uml.mvnsearch.org/github/sratatata/space-invaders/blob/lesson3-tutorial/static/singleton.puml)
+
+Konsekwencje:  
+* proces lazy-loadingu obiektu singletonu jest niewidoczny dla klienta, który korzysta tylko ze statycznej metody `getInstance:Singleton`
+* klasa zaimplementowana przy pomocy singletonu, może sama kontrolować ilość swoich instancji
+* utrudnione operacje wielowątkowe, wymagające odpowiedniej implementacji singletonu
+* wprowadzenie globalnego stanu może utrudnić testy jednostkowe
 
 #### Builder
 Wzorzc kreacyjny
