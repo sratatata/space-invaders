@@ -1,0 +1,10 @@
+@startuml
+
+title Singleton - Class Diagram
+
+class Singleton {
+  -instance : Singleton = null
+  +getInstance() : Singleton
+  -Singleton():void
+}
+@enduml
