@@ -994,7 +994,7 @@ poprostu **nie chce mi się** opisywać wszystkich wzorców, o których już nap
 #### Builder
 Wzorzc kreacyjny
 
-Intencja:
+Intencja:  
 Oddzielenie konstrukcji skomplikowanego obiektu od jego reprezentacji w związku z czym ten sam proces konstrukcji może tworzyć inne (różne) reprezentacje.
 
 Konsekwencje:
@@ -1042,6 +1042,39 @@ z abstrakcyjnych pojęć zdefiniowanych przez waszą fasadę.
 #### Composite
 
 #### Proxy
+Wzorzec Strukturalny
+
+Intencja:  
+Dostarczenie obiektu zastepczego lub posredniczacego do innego obiektu w celu kontrolowania dostepu do niego.
+
+![builder](http://uml.mvnsearch.org/github/sratatata/space-invaders/blob/lesson3-tutorial/static/proxy.puml)
+
+Na powyzszym przykladzie, mozemy np. zaimplementowac VirtualProxy, ktore zapewni nam, ze obiek 3d zostanie
+zaladowany dopiero przy wywolaniu metody `render()` co efektywnie bedzie tzw. lazy loadingiem.   
+tzn. `new 3dTreeModel('old-pine.mod')` zostanie zaladowane dopiero kiedy bedzie potrzebne
+
+W naszej metodzie `3dTreeModelProxy.render()`:
+```java
+// w nomenklaturze wzorca: realSubject.request()
+
+if(realModel == null){ //jezeli obiekt dla ktorego zrobilismy proxy nie byl jeszcze zaladowany
+  realModel = new 3dTreeModel("old-pine.mod");
+}
+
+realModel.render(); //na juz zaladowanym obiekcie
+```
+Konsekwencje:  
+* Ulatwione dodawanie nowych funkcjonalnosci nie zwiazanych z domena obiektu (np. logowanie, autoryzacja itp)
+
+Przykladowe proxy:
+* Remote Proxy - lokalna reprezentacja obiektu zdalnego
+* Virtual Proxy - szkielet ciezkiego obiektu (Virtual Proxy wykorzystywane jest np. przy Lazy Loading albo np. w Springu)
+* Protection Proxy - autoryzacja dostepu do obiektu
+
+Proxy kontra podobne wzorce:
+* Adapter - zmienia interfejs istniejacego obiektu
+* Bridge - rozdziela interfejs od implementacji
+* Decorator - wzbogaca obiekt o nowe funkcjonalnosci, nie zeminiajac jednoczesnie jego interfejsu
 
 #### Command
 
