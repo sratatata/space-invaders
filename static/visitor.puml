@@ -1,0 +1,63 @@
+@startuml
+
+title Visitor - Class Diagram
+
+class StatisticsGraphs
+note left of StatisticsGraphs
+    Client
+end note
+
+
+interface Statistic {
+  + collectDataFrom(SoftwareArchitect)
+}
+note right of Statistic
+    Visitor
+    
+    visitConcreteElementA(ConcreteElementA)
+end note
+
+
+class CompanyProfitStatistic {
+  + collectDataFrom(SoftwareArchitect)
+}
+note right of CompanyProfitStatistic
+    ConcreteVisitor1
+    
+    visitConcreteElementA(ConcreteElementA)
+end note
+
+
+class CompanyStructure
+note left of CompanyStructure
+    ObjectStructure
+end note
+
+
+interface Employee {
+  + provideDataFor(Statistic)
+}
+note right of Employee
+    Element
+    
+    accept(Visitor)
+end note
+
+
+interface SoftwareArchitect {
+  + provideDataFor(Statistic)
+}
+note right of SoftwareArchitect
+    ConcreteElementA
+    
+    accept(Visitor)
+end note
+
+
+StatisticsGraphs -> Statistic
+StatisticsGraphs -down--> CompanyStructure
+Statistic <|-down- CompanyProfitStatistic
+CompanyStructure -> Employee :1..n
+Employee <|-down- SoftwareArchitect
+
+@enduml

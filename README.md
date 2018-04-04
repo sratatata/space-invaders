@@ -1149,7 +1149,24 @@ Konsekwencje:
 * Możliwość dynamicznego definiowania wyniku wywołanej akcji.
 * W łatwy sposób tworzenie możliwych do wycofania komend (np. poprzez przechowywanie w nich stanu).
 
-#### Visitor
+#### Visitor - odwiedzający
+Wzorzec Operacyjny
+
+Intencja:  
+Reprezentuje operację wykonywaną na elementach struktury obiektów. Wzorzec ten umożliwia
+zdefiniowanie nowej operacji bez zmieniania klas elementów, na których działa.
+
+![visitor](http://uml.mvnsearch.org/github/sratatata/space-invaders/blob/lesson3-tutorial/static/visitor.png)
+
+```java
+    visitor.visitConcreteElementA(this)
+```
+
+Konsekwencje:
+* W łatwy sposób dodawać nowe ConcreteVisitors; trudniej dodać nowe ConcreteElements.
+* Możliwość odwiedzenia różnych hierarchi klas.
+
+Odwiedzający może być łatwo użyty razem z wzorcem kompozytu.
 
 ## Lekcja 4 - Podstawy projektowania gier komputerowych (Bonus)
 
