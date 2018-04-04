@@ -46,7 +46,6 @@ CurrentTarget <- FireBallSpell : target
 note bottom on link: receiver  
 PlayerInterface -up-> CurrentTarget 
 PlayerInterface #.up.> FireBallSpell
-FireBallSpell #.down.  a:reveiver.action()
 
 
 @enduml
