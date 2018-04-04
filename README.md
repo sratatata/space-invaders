@@ -1149,7 +1149,24 @@ Konsekwencje:
 * Możliwość dynamicznego definiowania wyniku wywołanej akcji.
 * W łatwy sposób tworzenie możliwych do wycofania komend (np. poprzez przechowywanie w nich stanu).
 
-#### Visitor
+#### Visitor - odwiedzający
+Wzorzec Operacyjny
+
+Intencja:  
+Reprezentuje operację wykonywaną na elementach struktury obiektów. Wzorzec ten umożliwia
+zdefiniowanie nowej operacji bez zmieniania klas elementów, na których działa.
+
+![visitor](https://www.planttext.com/plantuml/img/hLDBRy8m3BxdL-JOQWA9wpHDeC9st2IatRFWGgOqhXm3Gjl--z87BJGW3OaUgiPs_3tiJZqhucrXXM335kI7yOQHv4XcLdalvqQjIHL2wFguPCN6iz7-bLIvyS8XWxIGiyGypihmPDQ0Om5k9QjY8OHn39Gh3Vq5-Hrg7wH6Qq7pNB5w8IoI9UQyLmGpqXl38PEAtmQIp7fpZbc3jVJhx_grgm8PEat0iB1G12wpP1X8J-arIZCiIkKExuIvuJlmlDolSQXbqvAVt8_zacchUKjmFgSeMs6zVNu5udtiui0MHMdn0D3wK1Bkp0fg7v2IJbOi_tYnXcg9zpgLrb1oqXgGNbcMeSatauWwdDb_jFDVj8QhBaVF9wiOPrUuTwDG4rdVhzRJJrDrRLM6Lol8RXwFa_7OYUxOzOebYscG4VxuFm00)
+
+```java
+    visitor.visitConcreteElementA(this)
+```
+
+Konsekwencje:
+* W łatwy sposób dodawać nowe ConcreteVisitors; trudniej dodać nowe ConcreteElements.
+* Możliwość odwiedzenia różnych hierarchi klas.
+
+Odwiedzający może być łatwo użyty razem z wzorcem kompozytu.
 
 ## Lekcja 4 - Podstawy projektowania gier komputerowych (Bonus)
 
