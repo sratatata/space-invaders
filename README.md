@@ -960,18 +960,84 @@ Sprobujcie zastosowac swoja wlasna czcionke typu BitmapFont.
 
 ### Wprowadzenie i systematyka
 
-Opis wzorca: 
+Co to są i dlaczego chcemy używać wzorców projektowych? Jak zauważył Christopher Alexander, znany austriacki architekt
+(taki od budowania, nie od softu), pewne problemy rozwiązywane są w kółko i na okrągło od początku. Dlaczego by więc nie 
+ułatwić sobie pracy i skatalogować pewne problemy i ich rozwiązania co by pozwoliło na ponowne wykorzystanie tak
+zmagazynowanego wysiłku intelektualnego, doprowadzając do znacznego przyśpieszenia pracy architektów. 
+No dobrze ale co mnie jakiś tam Alex, ja to giercę piszę! Taką w czołgi i z takimi helikopterami co to zrzucają zombie na 
+małe bezbronne wioski! No to, że w architekturze to się to tak średnio przyjeło, może bardziej przy budowie autostrad.
+No ale to w sofciku akurat wzorce zrobiły prawdziwą furorę. Przyczyniły się do tego różne czynniki takie jak, 
+optymalizacja czasu pracy nad projektem, jego kosztów, czyli nakładów finansowych, które co miesiąc konsumują programiści
+trzymani gdzieś w piwnicy (mowa o latach 80-tych). Oczywiście Gang Czworga (autorzy słynnej książki katalogującej pewne
+powtarzalne wzorce) podkreśla, że chodzi głównie o czysty kod, ale jak się przekonacie to chodzi o $$$.  
+Czysty kod, dobra czysta architektura, podatność na zmiane, czy czas projektowania aplikacji to wszystko docelowo
+znajduje swoje odzwierciedlenie w smutnym excel'u gdzieś w rubryce "koszty". 
 
-* nazwa wzorca
-* opis problemu
-* opis rozwiązania
-* konsekwencje zastosowania
+Tak więć jak możemy te koszty obniżyć a jednocześnie ułatwić sobie prace? (czyli wykonać ją --taniej-- szybciej)
+Możemy trenować Object Oriented programming na najlepszych uniwersytetach, zdobywać setki, tysiące godzin doświadczenia.
+Kupować albo używać darmowych najlepszych frameworków. Albo możemy uczyć się od innych, przeczytać książkę GoF (Gangu Czworga) i zacząć wykorzystywać rozwiązania problemów, które wymyślono przed nami. 
 
-Kategoryzacja wzorców: 
+Wzorce można skategoryzować w następujący sposób:
+* kreacyjne (konstrukcyjne) - opisują proces tworzenia/konfiguracji nowych obiektów
+* strukturalne - opisujące struktury powiązanych ze sobą obiektów
+* czynnościowe (behawioralne) - opisujące zachowania i interakcje kooperujących ze sobą obiektów bądź struktur obiektów
 
-* kreacyjne (konstrukcyjne)
-* strukturalne
-* czynnościowe (behawioralne)
+Jednak to nie wyczerpuje tematu wzorców, ponieważ możecie zetknąć się też z innymi rodzajami wzorców. 
+Takim zaskakującym przykładem może być wzorzec sortowania tablicy, której elementy można porównywać stosując 
+określenia takie jak _mniejszy_, _większy_, _równy_. Ale Was zakręciłem :) No chodzi o sortowanie, np. bombelkowe, 
+czyli algorytm. No algorytm to w sumie też wzorzec, nie? Tylko taki bardzo szczegółowy. 
+Wzorce możecie też znaleźć na poziomie architektonicznym jak MVC (Model View Controller) albo komunikacyjne (np. Message Queue) itd. Często też wzorce spotkacie już gotowe, zaimplementowane w postaci biblioteki czy frameworka (Spring, Hibernate, Guava).  
+Gang Czworga koncentruje się na wzorcach projektowych w kontekście obiektów i struktur, które mogą tworzyć, oraz zachowań
+i interakcji tych obiektów pomiędzy sobą.
+
+Taki najprostszy opis wzorca można zamknąć w kilku paragrafach. Aczkolwiek pełny opis wzorca zawiera znacznie więcej
+przydatnych szczegółów, które intencjonalnie pominę bo możecie o tym poczytać na [wiki](https://pl.wikipedia.org/wiki/Wzorzec_projektowy_(informatyka))
+albo w książce Gangu Czworga, którą zachecam nabyć i przeczytać. 
+
+Na potrzeby niniejszego artykułu w swoistym bryku zastosujemy następujący opis:
+* nazwa wzorca - no, nazwa poprostu, tyle, że po angielsku, to łatwiej bedzie na StackOverflow szukać:)
+* opis problemu/intencja - czyli jaki problem chcemy rozwiązać albo jakiego oczekujemy skutku
+* opis rozwiązania/diagram struktury wzorca - czyli jak taki wzorzec zaimplementowa
+* konsekwencje zastosowania - co się stanie gdy danego wzorca użyjemy
+
+W niektórych wzorcach znajdziecie, też dodatkowe informacje, które pomogą Wam zrozumieć dany wzorzec. Jednak nie 
+oszukujmy się, poniższe opisy wzorców są raczej brykiem. Jeżeli chcecie naprawdę zrozumieć i zapamiętać wzorzec, warto 
+jest sięgnąć do bardziej renomowanej literatury (no GoF oczywiście, ale może być też wiki).
+
+Polecam z przestudiowaniem poniższego grafu zależności wzorców, która to też będzie bardzo pomocna w przypadku, 
+gdybyście czuli potrzebę łączenia wzorców razem. 
+
+![please](static/patterns-relationships.png)
+
+Czy wykorzystanie wszystkich wzorców z książki pomoże nam w napisaniu idealnej aplikcaji? 
+No nie! Wzorce należy stosować tylko jeżeli pomagają wam osiągnąć wcześniej założony cel, np rozluźnienie zależności
+pomiędzy klasami, albo rozdzielenie konfiguracji obiektu od jego implementacji(zachowań). 
+Inną ważną zasadą jest, że wzorzec można dostosować do swoich potrzeb, możę być sugestią jak rozwiązać konkretnie wasz 
+problem. Tak więc uprzedzam, że prowadzenie świętych wojen o czystość implementacji _Factory Method_ nie ma sensu. 
+Wzorce są by życie sobie ułatwić nie zaś utrudnić i czasem może być przydatne troszkę je nagiąć. 
+
+Jak stosować, i nie zginąć: 
+Kiedyś próbowałem stosować wzorce dosłownie, nikt mi nie powiedział że: 
+1. Nazwy klas w strukturze wzorca służa tylko do opisywanie tejże struktury.  
+   Warto więc nazywać klasy, metody zgodnie z domeną waszych aplikacji, ewentualnie (EWENTUALNIE!) tylko dadawać  
+   Pre/Sufixy. np. `EnemyFactory`, które równie dobrze mogło by się nazywać `AlienHive`. 
+2. Wzorzec, jeżeli stosujecie go po raz pierwszy warto próbnie zaimplementować na boku, w sposób bardziej dosłowny na  
+   prostej domenie. Np wykonując Bank kata (o ćwiczeniach dla programistów kata to sobie poczytacie w googlu). 
+3. Więcej wzorców nie znaczy wcale lepiej, czasem lepiej znaczy się prościej bądź mniej.  
+   W bardzo małych projektach niektóre bardziej rozbudowane wzorce się nie opylają poprostu. Wynikać to może np. z tego
+   że dana aplikacja poprostu nie będzie tak często rozszerzana. 
+4. Lepiej nie użyć wzorca niż użyć go w złym miejscu
+
+Nie mniej jednak zachęcam do zapoznania się z pełnym katalogiem wzorców GoF, wryciem na pamięć niektórych, żeby móc na 
+rozmowie o pracę błysnąć nie tylko znajmością _Singletonu_ (docenicie ten żart później), ale też znać wzorce bardziej złożone.
+
+Kierując się wyborem wzorca należy zapoznać się z jego intencją oraz konsekwencjami. 
+W doborze odpowiedniego wzorca pomoże wam znajomość relacji pomiędzy nimi (wyżej), oraz poniższa tabelka.
+
+![please](static/design-patterns-aspects.jpg)
+
+Aczkolwiek prawdopodobnie, nieco doświadczenia mimo wszystko będziecie potrzebowali, polecam zepsuć pierwszą grę a w
+drugiej już korzystać z jednego czy dwóch prawidłowo dobranych wzorców :)
 
 ### Wzorce
 
@@ -987,7 +1053,8 @@ No ale tam to taka papka trochę, więc polacam ogarnąć książki:
 
 Poniżej przytoczę kilka wyjątkowo interesujących wzorców projektowych z punktu widzenia 
 tworzonych przez Was gier. Ale oczywiści to nie znaczy, że pozostałe wzorce Wam się nie przydadzą,
-poprostu **nie chce mi się** opisywać wszystkich wzorców, o których już napisano książki.
+poprostu **nie chce mi się** opisywać wszystkich wzorców, o których już napisano książki. Możecie też zajżeć [tutaj](https://sourcemaking.com/design_patterns) po więcej i ładniej, dodajcie do ulubionych i zaglądajcie w poszukiwaniu inspiracji.
+
 
 #### Singleton 
 Wzorzec kreacyjny
