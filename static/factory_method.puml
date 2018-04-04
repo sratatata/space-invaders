@@ -1,0 +1,42 @@
+@startuml
+
+title Factory Method - Class Diagram
+
+
+interface RiffleFactory {
+  + createRiffle()
+}
+note right of RiffleFactory
+    Creator
+    
+    factoryMethod()
+end note
+
+
+interface Riffle
+note left of Riffle
+    Product
+end note
+
+
+class MagicalRiffle
+note left of MagicalRiffle
+    ConcreteProduct
+end note
+
+
+class MagicalRiffleFactory {
+  + createRiffle()
+}
+note right of MagicalRiffleFactory
+    ConcreteCreator
+    
+    factoryMethod()
+end note
+
+MagicalRiffle <. MagicalRiffleFactory
+
+RiffleFactory <|-down- MagicalRiffleFactory
+Riffle <|-down- MagicalRiffle
+
+@enduml

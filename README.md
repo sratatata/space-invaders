@@ -1030,7 +1030,30 @@ Builder dosyć często wykorzystywany jest do tworzenia struktur bazujących na 
 //...
 ```
 
-#### Factory method
+#### Factory method - metoda szablonowa
+Wzorzec konstrukcyjny
+
+Intencja:  
+Określa interfejs do tworzenia obiektów, przy czym umożliwia podklasom wyznaczenie klasy danego
+obiektu. Metoda wytwórcza umożliwia klasom przekazanie procesu tworzenia egzemplarzy podklasom.
+
+![factory method](http://uml.mvnsearch.org/github/sratatata/space-invaders/blob/lesson3-tutorial/static/factory_method.puml)
+
+```java
+    return new ConcreteProduct
+        
+    return new MagicalRiffle
+```
+
+Konsekwencje:
+* Możliwość tworzenia różnych ConcreteProducts poprzez różne ConreteCreators.
+* W łatwy sposób można rozszerzyć Creators i Products dodając nowe typy.
+
+W pewnych przypadkach metoda szablonowa jest prostsza od fabryki abstrakcyjnej. Ta pierwsza 
+dostarcza interfejs do tworzenia pojedynczego obiektu, natomiast druga odpowiada za tworzenie 
+całych rodzin obiektów.
+
+
 
 #### Facade
 Wzorzc strukturalny
