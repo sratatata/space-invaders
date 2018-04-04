@@ -1,0 +1,52 @@
+@startuml
+
+title Command - Class Diagram
+
+class CustomButton
+note left of CustomButton
+    Invoker
+end note
+
+
+interface PlayerAction {
+  + perform()
+}
+note right of PlayerAction
+    Command
+    
+    execute()
+end note
+
+
+class FireBallSpell {
+  + perform()
+}
+note right of FireBallSpell
+    ConcreteCommand
+    
+    execute()
+end note
+
+
+class CurrentTarget
+note left of CurrentTarget
+    Receiver
+end note
+
+
+class PlayerInterface
+note left of PlayerInterface
+    Client
+end note
+
+
+CustomButton o-> PlayerAction
+PlayerAction <|-down- FireBallSpell
+CurrentTarget <- FireBallSpell : target
+note bottom on link: receiver  
+PlayerInterface -up-> CurrentTarget 
+PlayerInterface #.up.> FireBallSpell
+FireBallSpell #.down.  _:reveiver.action()
+
+
+@enduml

@@ -1130,9 +1130,24 @@ Przykladowe proxy:
 Proxy kontra podobne wzorce:
 * Adapter - zmienia interfejs istniejacego obiektu
 * Bridge - rozdziela interfejs od implementacji
-* Decorator - wzbogaca obiekt o nowe funkcjonalnosci, nie zeminiajac jednoczesnie jego interfejsu
+* Decorator - wzbogaca obiekt o nowe funkcjonalnosci, nie zmieniajac jednoczesnie jego interfejsu
 
-#### Command
+#### Command - polecenie
+Wzorzec Operacyjny
+
+Intencja:  
+Kapsułkuje żadanie w formie obiektu. Umożliwia to parametryzację klienta przy użyciu różnych żądań
+oraz umieszczanie żądań w kolejkach i dziennikach, a także zapewnia obsługę cofania operacji.
+
+![command](http://uml.mvnsearch.org/github/sratatata/space-invaders/blob/lesson3-tutorial/static/command.puml)
+
+```java
+    new FireBallSpell(currentTarget)
+```
+
+Konsekwencje:
+* Możliwość dynamicznego definiowania wyniku wywołanej akcji.
+* W łatwy sposób tworzenie możliwych do wycofania komend (np. poprzez przechowywanie w nich stanu).
 
 #### Visitor
 
