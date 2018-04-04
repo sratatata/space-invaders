@@ -1139,7 +1139,7 @@ Intencja:
 Kapsułkuje żadanie w formie obiektu. Umożliwia to parametryzację klienta przy użyciu różnych żądań
 oraz umieszczanie żądań w kolejkach i dziennikach, a także zapewnia obsługę cofania operacji.
 
-![ccommand](https://www.planttext.com/plantuml/img/bPBFIiD04CRl-nG3lIYIF40ffJOYz2RgNTPq4fVkdp2PhOhwxaus4RBn8EOGDipix_lcc-nwriJHMQNOi4MeWdFQ7w60okg-XnkZMz9EgJfzLh7duFQHENZb0oDOR1X2arT0deC_XnEIGg4DdKefuncfqJN2dTNlIDSrc-3XG_gle9DI87TngRv6Cfds9Q7dpGazcKpdzC8th2EZt9sfZOvl3U5UM_lGeRL_IcNTavQl2Hd_erb58lJygAb5NiOqBmsSUwpHdFEWHimuz-4dj1oqB2QlrWXx3ffl1KAnpRFCjh3vB8xXrHUB33B3i5cKOGqyc_8vY903eLdZJskWQJQ9RE4NYjY9dPp-gsbLngxSBXpb1bRbuBe4U5eJdfDQgTD4iXcbTXA6_DxV)
+![command](http://www.plantuml.com/plantuml/proxy?idx=0&src=https://raw.githubusercontent.com/sratatata/space-invaders/lesson3-tutorial/static/command.puml)
 
 ```java
     new FireBallSpell(currentTarget)
@@ -1156,7 +1156,7 @@ Intencja:
 Reprezentuje operację wykonywaną na elementach struktury obiektów. Wzorzec ten umożliwia
 zdefiniowanie nowej operacji bez zmieniania klas elementów, na których działa.
 
-![visitor](https://www.planttext.com/plantuml/img/hLDBRy8m3BxdL-JOQWA9wpHDeC9st2IatRFWGgOqhXm3Gjl--z87BJGW3OaUgiPs_3tiJZqhucrXXM335kI7yOQHv4XcLdalvqQjIHL2wFguPCN6iz7-bLIvyS8XWxIGiyGypihmPDQ0Om5k9QjY8OHn39Gh3Vq5-Hrg7wH6Qq7pNB5w8IoI9UQyLmGpqXl38PEAtmQIp7fpZbc3jVJhx_grgm8PEat0iB1G12wpP1X8J-arIZCiIkKExuIvuJlmlDolSQXbqvAVt8_zacchUKjmFgSeMs6zVNu5udtiui0MHMdn0D3wK1Bkp0fg7v2IJbOi_tYnXcg9zpgLrb1oqXgGNbcMeSatauWwdDb_jFDVj8QhBaVF9wiOPrUuTwDG4rdVhzRJJrDrRLM6Lol8RXwFa_7OYUxOzOebYscG4VxuFm00)
+![visitor](http://www.plantuml.com/plantuml/proxy?idx=0&src=https://raw.githubusercontent.com/sratatata/space-invaders/lesson3-tutorial/static/visitor.puml)
 
 ```java
     visitor.visitConcreteElementA(this)
