@@ -1139,7 +1139,7 @@ Intencja:
 Kapsułkuje żadanie w formie obiektu. Umożliwia to parametryzację klienta przy użyciu różnych żądań
 oraz umieszczanie żądań w kolejkach i dziennikach, a także zapewnia obsługę cofania operacji.
 
-![command](http://uml.mvnsearch.org/github/sratatata/space-invaders/blob/lesson3-tutorial/static/command.png)
+![ccommand](http://uml.mvnsearch.org/github/sratatata/space-invaders/blob/lesson3-tutorial/static/command.png)
 
 ```java
     new FireBallSpell(currentTarget)
