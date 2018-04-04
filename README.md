@@ -1139,7 +1139,7 @@ Intencja:
 Kapsułkuje żadanie w formie obiektu. Umożliwia to parametryzację klienta przy użyciu różnych żądań
 oraz umieszczanie żądań w kolejkach i dziennikach, a także zapewnia obsługę cofania operacji.
 
-![ccommand](http://uml.mvnsearch.org/github/sratatata/space-invaders/blob/lesson3-tutorial/static/command.png)
+![ccommand](https://www.planttext.com/plantuml/img/bPBFIiD04CRl-nG3lIYIF40ffJOYz2RgNTPq4fVkdp2PhOhwxaus4RBn8EOGDipix_lcc-nwriJHMQNOi4MeWdFQ7w60okg-XnkZMz9EgJfzLh7duFQHENZb0oDOR1X2arT0deC_XnEIGg4DdKefuncfqJN2dTNlIDSrc-3XG_gle9DI87TngRv6Cfds9Q7dpGazcKpdzC8th2EZt9sfZOvl3U5UM_lGeRL_IcNTavQl2Hd_erb58lJygAb5NiOqBmsSUwpHdFEWHimuz-4dj1oqB2QlrWXx3ffl1KAnpRFCjh3vB8xXrHUB33B3i5cKOGqyc_8vY903eLdZJskWQJQ9RE4NYjY9dPp-gsbLngxSBXpb1bRbuBe4U5eJdfDQgTD4iXcbTXA6_DxV)
 
 ```java
     new FireBallSpell(currentTarget)
@@ -1149,24 +1149,7 @@ Konsekwencje:
 * Możliwość dynamicznego definiowania wyniku wywołanej akcji.
 * W łatwy sposób tworzenie możliwych do wycofania komend (np. poprzez przechowywanie w nich stanu).
 
-#### Visitor - odwiedzający
-Wzorzec Operacyjny
-
-Intencja:  
-Reprezentuje operację wykonywaną na elementach struktury obiektów. Wzorzec ten umożliwia
-zdefiniowanie nowej operacji bez zmieniania klas elementów, na których działa.
-
-![visitor](http://uml.mvnsearch.org/github/sratatata/space-invaders/blob/lesson3-tutorial/static/visitor.png)
-
-```java
-    visitor.visitConcreteElementA(this)
-```
-
-Konsekwencje:
-* W łatwy sposób dodawać nowe ConcreteVisitors; trudniej dodać nowe ConcreteElements.
-* Możliwość odwiedzenia różnych hierarchi klas.
-
-Odwiedzający może być łatwo użyty razem z wzorcem kompozytu.
+#### Visitor
 
 ## Lekcja 4 - Podstawy projektowania gier komputerowych (Bonus)
 
