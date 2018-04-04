@@ -1059,12 +1059,6 @@ ten umożliwia klientom traktowanie poszczególnych obiektów i ich złożeń w 
 
 ![kompozyt](http://uml.mvnsearch.org/github/sratatata/space-invaders/blob/lesson3-tutorial/static/composite.puml)
 
-Konsekwencje:
-* Taki sam sposób działania na prostych i złożonych obiektach.
-* Przechodzenie w łatwy sposób po wszystkich kompozytach i dojście do liści.
-
-W pewnych przypadkach przechowywanie referencji do rodzica w dziecku może być pomocne. 
-
 ```java
     for child in childer
         child.operation()
@@ -1072,6 +1066,13 @@ W pewnych przypadkach przechowywanie referencji do rodzica w dziecku może być 
     for shape in shapes
         shape.scaleBy(factor)
 ```
+
+Konsekwencje:
+* Taki sam sposób działania na prostych i złożonych obiektach.
+* Przechodzenie w łatwy sposób po wszystkich kompozytach i dojście do liści.
+
+W pewnych przypadkach przechowywanie referencji do rodzica w dziecku może być pomocne. 
+
 
 #### Proxy
 Wzorzec Strukturalny
