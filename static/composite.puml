@@ -1,0 +1,54 @@
+@startuml
+
+title Composite - Class Diagram
+
+interface Drawing {
+  + scaleBy(Factor)
+  + addChild(Drawing)
+  + removeChild(Drawing)
+}
+note right of Drawing
+    Component
+    
+    operation() 
+    add(Component)
+    remove(Component)
+end note
+
+
+class ScallingTool
+note left: Client
+
+
+class Shape{
+  + scaleBy(Factor)
+}
+note left of Shape
+  Leaf
+  
+  operation
+end note
+
+
+class Shapes{
+  + scaleBy(Factor)
+  + addChild(Drawing)
+  + removeChild(Drawing)
+}
+note left of Shapes
+  Composite
+  
+  operation() 
+  add(Component)
+  remove(Component)
+end note
+
+
+ScallingTool -> Drawing
+
+Drawing <|-down- Shape
+Drawing <|-down- Shapes
+Shapes  o-down-> Drawing: shapes
+note right on link: children
+
+@enduml

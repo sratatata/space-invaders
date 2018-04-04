@@ -1049,13 +1049,29 @@ Konsekwncje:
 * Mniej zależności pomiędzy klientem a podmodułem w związku z wprowadzeniem dodatkowej warstwy abstrakcji
 * Uproszczone (i ograniczone) wykorzystanie podmodułu w innych obszarach programu
 
-W grach:  
-Możecie wyobrazić sobie skomplikowane rysowanie postaci gracza i wrogów zsynchronizowane z dźwiękami kroków, zmianami broni itp.
-Jednak jeżeli te wszystkie skomplikowane operacje zasłonicie odpowiednio zaprojektowaną fasadą, nie będziecie musieli tymi
-wszystkimi detalami zajmować się podczas np. szlifowania rozgrywki, czy dodawaniu nowych poziomów. Będziecie korzystać 
-z abstrakcyjnych pojęć zdefiniowanych przez waszą fasadę.
 
 #### Composite
+Wzorzec Strukturalny
+
+Intencja:  
+Składa obiekty w struktury drzewiaste odzwierciedlające hierarchię typu część -całość. Wzorzec
+ten umożliwia klientom traktowanie poszczególnych obiektów i ich złożeń w taki sam sposób.
+
+![kompozyt](http://uml.mvnsearch.org/github/sratatata/space-invaders/blob/lesson3-tutorial/static/composite.puml)
+
+Konsekwencje:
+* Taki sam sposób działania na prostych i złożonych obiektach.
+* Przechodzenie w łatwy sposób po wszystkich kompozytach i dojście do liści.
+
+W pewnych przypadkach przechowywanie referencji do rodzica w dziecku może być pomocne. 
+
+```java
+    for child in childer
+        child.operation()
+        
+    for shape in shapes
+        shape.scaleBy(factor)
+```
 
 #### Proxy
 Wzorzec Strukturalny
