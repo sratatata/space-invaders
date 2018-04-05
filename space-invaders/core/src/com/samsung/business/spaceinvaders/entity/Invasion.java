@@ -10,13 +10,24 @@ import com.samsung.business.spaceinvaders.ui.DisplayInfo;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Observable;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * NadzorcaGry sprawuje piecze nad warunkami zakonczenia gry.
  *
  * Created by lb_lb on 04.11.17.
  */
-public class Invasion {
+public class Invasion extends Observable {
+
+    public static final int SINUSOID = 1;
+    public static final int RANDOM = 2;
+    private static int[] SHOOTING_TYPE = {SINUSOID, RANDOM};
+    private long shootingTypeIndex = 1;
+
+    private Timer shootingTimer = new Timer();
+
     private static final int HEIGHT = DisplayInfo.getHeight();
     private static final int WIDTH = DisplayInfo.getWidth();
     private static final int PADDING_TOP = 10;
@@ -39,7 +50,26 @@ public class Invasion {
     public static Invasion raid(GraphicsManager graphicsManager) {
         Invasion invasion = new Invasion();
         invasion.enemies = prepareEnemies(invasion, graphicsManager);
+        for (EnemySpaceship enemySpaceship : invasion.enemies){
+            invasion.addObserver(enemySpaceship);
+        }
+        invasion.shootingTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                invasion.setChanged();
+                invasion.shootingTypeIndex++;
+                int index = (int) invasion.shootingTypeIndex % 2;
+                invasion.resetShooting();
+                invasion.notifyObservers(SHOOTING_TYPE[index]);
+            }
+        }, 0, 14000);
         return invasion;
+    }
+
+    private void resetShooting() {
+        for (EnemySpaceship enemySpaceship : enemies){
+            enemySpaceship.resetShooting();
+        }
     }
 
     private static List<EnemySpaceship> prepareEnemies(Invasion invasion, GraphicsManager graphicsManager) {
@@ -56,7 +86,7 @@ public class Invasion {
 
                 boolean canShoot = y == ENEMY_ROWS_COUNT - 1;
 
-                EnemySpaceship enemy = new EnemySpaceship(graphicsManager.find("wrog"), enemyRect, canShoot);
+                EnemySpaceship enemy = new EnemySpaceship(graphicsManager.find("wrog"), enemyRect, canShoot, x);
                 enemy.registerOnSpaceshipHit(new Spaceship.OnSpaceshipHit() {
                     @Override
                     public void onSpaceshipHit() {
@@ -78,10 +108,15 @@ public class Invasion {
     }
 
     public void update(OrthographicCamera camera, ShootManager shootManager) {
+
         for (EnemySpaceship enemy : enemies) {
             enemy.updateState(camera);
             enemy.shot(shootManager);
         }
+
+        setChanged();
+        int index = (int) shootingTypeIndex % 2;
+        notifyObservers(SHOOTING_TYPE[index]);
 
         if(enemies.isEmpty()){
             notifyAllOnInvasionDestroyed();
@@ -135,6 +170,10 @@ public class Invasion {
         for(OnInvasionDestroyed g: onInvasionDestroyed){
             g.onInvasionDestroyed();
         }
+    }
+
+    public void dispose(){
+        shootingTimer.cancel();
     }
 
     public interface OnEnemyDestroyed {
